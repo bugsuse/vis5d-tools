@@ -1,0 +1,12 @@
+FC = f77
+#F90 = pgf90
+
+#di r di installazione
+DESTDIR = $(HOME)/corso/local
+
+#residenza delle librerie
+libdir = $(HOME)/corso//lib
+AR = ar rc
+
+#enable for gf77 compiler only
+EXTRAOBJ_HIBU = math_func.o

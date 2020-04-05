@@ -1,0 +1,129 @@
+!+ Global definitions for model_to_vis5d
+! 
+MODULE V5D_DEFINITIONS
+ 
+! 
+! Description: 
+!   Global variables (most of which namelist-read), global constants
+!   and function prototypes for model_to_vis5d are defined here.
+!   Some of the namelist variables are initialised to a default value.
+! 
+! Current Code Owner: Davide Cesari
+! 
+! History: 
+!  
+! Version   Date     Comment 
+! -------   ----     ------- 
+! <version> <date>   Original code. <Your name> 
+! 
+! Code Description: 
+!   Language:           Fortran 90. 
+!   Software Standards: "European Standards for Writing and  
+!     Documenting Exchangeable Fortran 90 Code". 
+! 
+ 
+IMPLICIT NONE
+
+! Global (i.e. public) Declarations: 
+! Global Parameters: 
+INTEGER, PARAMETER :: maxvars=15, maxtimes=100, maxrows=400, &
+ maxcolumns=400, maxlevels=100, &  ! 5-D grid limits, must match those in v5d.h
+ imissing=-987654, &               ! INTEGER missing value
+ nlfreeatm = 6, &                  ! Number of free atmosphere grib levels known
+ nlsurf = 3 , &                    ! Number of (near) surface grib levels known
+ nmatch = 6 , &                    ! Number of fields to be matched in grib
+! rkind = selected_real_kind(10,40)  ! Kind for REAL
+ rkind = selected_real_kind(5,20)  ! Kind for REAL
+REAL (rkind), PARAMETER :: missing=1.0E35  ! REAL missing value
+
+
+! Function prototypes.
+INTEGER, EXTERNAL :: v5dcreate, v5dcreatesimple, v5dwrite, v5dmcfile, &
+     v5dclose, v5dsetlowlev, getvertlev, write_topo
+
+! Global Scalars:
+INTEGER :: redfact=1, &  ! Reduction factor for the grid
+ numtimes = imissing, &  ! Number of time levels
+ numvars = imissing, &   ! Number of variables
+ compressmode = 1, &     ! Vis5d compress mode (number of bytes per datum)
+ typel = imissing, &     ! Input grib vertical level type for upper air fields
+ vctype = -1, &          ! Input vertical hybrid coordinate type
+ vertical = 2, &         ! Vertical output coordinate type 2=absolute height in km
+ fixedfth = -1, &        ! If <0 run in variable forecast time mode,
+                         ! If >=0 run in variable initial date mode
+ itt = 0, &              ! Position of temperature in variables list
+ iqq = 0, &              ! Position of specific humidity in variables list
+ ivu = 0, &              ! Position of u wind in variables list
+ ivv = 0, &              ! Position of v wind in variables list
+ ivw = 0, &              ! Position of w vind in variables list
+ ips = 0, &              ! Position of surface pressure in variables list
+ ipt = 0, &              ! Position of top of atm. pressure in variables list
+ ipp = 0, &              ! Position of pressure in variables list
+ ipd = 0, &              ! Position of pressure deviation in variables list
+ igo = 0, &              ! Position of orography height or geop. in variables list
+ izh = 0, &              ! Position of height of half levels in variables list
+ izf = 0, &              ! Position of height of full levels in variables list
+ ire = 0                 ! Position of reciprocal of sigma in variables list
+
+REAL (rkind):: ptdef=10000.     ! Default ptop if missing and needed
+
+! Global Arrays: 
+INTEGER :: &
+ tabvar (maxvars) = imissing,  & ! Grib parameter indicator
+ tab2ver (maxvars) = -1,       & ! Grib table 2 version
+ tabftd (maxtimes) = imissing, & ! Forecast times in days
+ tabfth (maxtimes) = imissing, & ! Forecast times in hours
+ tabftm (maxtimes) = 0, &        ! Forecast times in minutes
+ lowlev (maxvars), &             ! /Lowest input/output level -1           \
+ lowzlev (maxvars) = -1, &       ! \for each variable respectively         /
+ nl (maxvars), &                 ! /Number of input/output  vertical levels\
+ nzlev (maxvars) = -1, &         ! \for each variable respectively         /
+ gridtype (maxvars) = 0, &       ! Type of C-grid point (0=H, 1=U, 2=V)
+ cumulate (maxvars) = 0, &       ! >0 for cumulating, <0 for subtracting in time
+ tablev (maxlevels+1) = 0, &     ! Input vertical levels coordinate values
+ typelev (maxvars) = imissing, & ! Grib vertical level code for each variable
+ lfreeatm (nlfreeatm) =  &       ! Free atmosphere grib levels known
+ (/100, 103, 107, 109, 110, 119/), &
+ lsurf (nlsurf) = &              ! Surface grib levels known
+ (/1, 102, 105/)
+REAL (rkind) :: &
+ vert_args (maxlevels+1) = missing ! Values of output vertical levels
+LOGICAL :: &
+ const (maxvars) = .FALSE., &    ! Which variables are constant in time
+ input (maxvars) = .TRUE., &     ! Which variables are to be read
+ output (maxvars) = .TRUE., &    ! Which variables are to be written
+ fill_below = .TRUE., &          ! Fill surface fields below orography
+ noproj = .FALSE., &             ! Do not use geographic projection
+ invertl = .TRUE., &             ! Invert order of level search in file for speed
+ sounding = .FALSE.              ! Enable soundings files output
+
+CHARACTER (len=10) :: varname (maxvars) = ''  ! Variable names for Vis5d
+
+NAMELIST / config / numtimes, numvars, compressmode, typel, vctype, vertical, &
+ redfact, fixedfth, itt, iqq, ivu, ivv, ivw, ips, ipt, ipp, ipd, igo, izh, izf,  ire, ptdef, &
+ varname, tabvar, tab2ver, lowlev, nl, lowzlev, nzlev, gridtype, cumulate, &
+ typelev, tablev, vert_args, tabftd, tabfth, tabftm, const, input, output, &
+ fill_below, noproj, invertl,sounding
+
+! Global structures
+TYPE :: lm_vcoord_struct
+  SEQUENCE
+  REAL (rkind):: p0sl   ! Standard atmosphere sea level pressure (Pa)
+  REAL (rkind):: t0sl   ! atmosphere sea level temperature (K)
+  REAL (rkind):: dt0lp  ! Standard atmosphere lapse rate dt/dln(p) (K)
+  REAL (rkind):: vcflat ! Coordinate value at which hybrid levels become flat
+!  REAL (rkind):: etahy (maxlevels) ! Hybrid coordinate levels values
+END TYPE
+
+TYPE (lm_vcoord_struct) :: lm_vcoord &
+ = lm_vcoord_struct( 100000., 288.15, 42., 0.22)
+
+  REAL (rkind):: etaa (maxlevels), etab (maxlevels) ! Hybrid coordinate levels values
+
+! Local Declarations:
+! Local Scalars:
+INTEGER, PRIVATE :: i
+
+END MODULE V5D_DEFINITIONS
+
+!- End of module header

@@ -1,0 +1,70 @@
+<HTML><HEAD><TITLE>
+ QUACON
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quacon</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quacon.f">/disk3/patruno/lib/mega/quacon.f</A> <HR>
+<PRE>
+	SUBROUTINE QUACON(PARA,MESE,ISTAZ,XXX,NUMSTAZ,GOODYN,IER)
+
+********************************************************************
+ Questa routine effettua un controllo di qualita' sui dati di temperatura
+ massima minima e media giornaliera sull'area dell'Emilia Romagna
+ di tipo:
+ climatologico: il dato deve essere comparabile a meno di 3*sigma
+                con un valore climatologico approssimato calcolato
+                in funzione del mese, della latitudine,longitudine e
+                altezza della stazione.
+ areale       : il dato deve essere comparabile a meno di 3*sigma
+                con un valore climatologico approssimato calcolato
+                in funzione del mese, della latitudine,longitudine e
+                altezza della stazione piu' lo scarto medio di tutte
+                le altre stazioni dalla loro climatologia.
+ Il dato viene considerato errato se tutte le due ipotesi non sono
+ verificate. Il dato errato quindi deve discostare di molto dal suo
+ valore piu` probabile climatologico ed in piu` le altre stazioni
+ dell'area non devono essere concordi mediamente con lo scarto dalla
+ climatologia.
+ Documentazione rispetto alla funzione per ricostruire la climatologia
+ piu' essere ricavata riferendosi all'analisi della temperatura.
+ I valori di sigma mensili sono stati calcolati mediando i valori interpolati
+ sulle 15 stazioni presenti sul territorio da un grigliato regolare (vedi
+ analisi di temperatura)
+
+	INGRESSO
+	PARA	INTEGER	*4	
+		PARAMETRO DA CONTROLLARE (1=MAX, 2=MIN, 3=MED)
+
+	MESE	INTEGER*4
+		MESE
+
+	ISTAZ(NUMSTAZ)	INTEGER*4
+	 	CODICE WMO STAZIONI
+
+	XXX(NUMSTAZ)	REAL
+		VALORI DI TEMPERATURA MAX/MIN/MED
+
+
+	NUMSTAZ	INTEGER*4
+		NUMERO DI STAZIONI   (MAX=50)
+
+	IN USCITA
+
+	GOODYN(NUMSTAZ)	LOGICAL
+		TABELLA LOGICA DEI DATI ESAMINATI (VERO DOVE DATO VALIDO)
+
+	IER=1	scelta parametro errata
+	IER=2	errore apertura files
+	IER=3	errore nel mese
+	IER=4	le coordinate delle stazioni escono dalla finestra ammessa
+		o i dati della stazione non sono stati trovati(manca altezza)
+		anche per record locked da altro utente.
+	IER=5	numero di stazioni troppo grande
+
+	COMMON /CONTRO/CONTRO		CONTRO(15) CONTIENE L'UNITA` UTILIZZATA
+					PER LA LETTURA DA FILE (DEFAULT=75)
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

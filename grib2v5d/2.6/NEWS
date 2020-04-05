@@ -1,0 +1,8 @@
+Version 2.1
+-nzlev doesn't need to be specified in the namelist now
+-added the -mi flag to handle multiple input grib files
+-added the chance to produce formatted vertical profiles on selected
+ points with the sounding flag in the namelist
+-added the chance to output the height of half and full model levels
+-improved the configuration scripts and makefiles
+-general bug fixes

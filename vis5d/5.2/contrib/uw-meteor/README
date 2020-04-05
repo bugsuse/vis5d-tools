@@ -1,0 +1,52 @@
+
+The files in this directory can be used to write VIS format files and
+then convert a sequence of these files into a .v5d file.
+
+
+viswrite_unix.f - This file contains FORTRAN subroutines that will write 
+                  VIS format files on a generic unix platform. This has 
+                  been tested on an SGI personal iris, and should work on 
+                  any 32 bit unix machine, although some of the bit 
+                  manipulation subroutines (intrshft, intlshft, intand, intor) 
+                  may need to be modified for a particular machine.  There 
+                  is one subroutine (READROUTINE) which must be supplied by 
+                  the user to fill an array with the appropriate values.
+
+viswrite_cray.f - This file contains FORTRAN subroutines that will write 
+                  VIS format files on a CRAY YMP/864 running unicos.  This 
+                  has been tested on the CRAY YMP/864 at NCAR.  There is 
+                  one subroutine (READROUTINE) which must be supplied by the 
+                  user to fill an array with the appropriate values.
+
+driver.f        - A sample call to VISWRITE that was used to test the 
+                  subroutines on the various platforms.
+
+
+vis_to_v5d.c	- This program converts NMS VIS files to .v5d format.
+
+		  To compile it type make.  
+
+		  Example:  To convert VIS.1, VIS.2, and VIS.3 to a .v5d
+			file, you'd type:
+
+			vis_to_v5d VIS.1 VIS.2 VIS.3 mydata.v5d
+    
+		  If the VIS format files have the 3 wind components 
+		  as variables U, V, and W, then a speed flag may be
+		  used to generate SPEED from the components as:
+
+			vis_to_v5d +spd VIS.1 VIS.2 VIS.3 mydata.v5d
+
+ 
+Questions about viswrite should be directed to:
+
+       Pete Pokrandt 
+       (608)262-8954
+       poker@java.meteor.wisc.edu 
+
+       
+Questions about vis_to_v5d should be directed to 
+
+       Brian Paul
+       brianp@ssec.wisc.edu
+

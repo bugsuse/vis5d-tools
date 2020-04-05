@@ -1,0 +1,11 @@
+
+This directory contains user written analysis functions.
+
+The following files should also be present:
+
+compile - the script used to compile external functions
+
+compile_all - a script used to compile all external functions
+
+compile.m - makefile for compiling external functions called by externf
+

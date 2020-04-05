@@ -1,0 +1,56 @@
+<HTML><HEAD><TITLE>
+ CLIMA_TEMP_MAX_MIN
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">clima_temp_max_min</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/qualocalclim.f">/disk3/patruno/lib/mega/qualocalclim.f</A> <HR>
+<PRE>
+	SUBROUTINE CLIMA_TEMP_MAX_MIN
+	1	(ALAT,ALON,HH,IMESE,IGIORNO,IORA,VAL
+	1	,SIGMAX,SIGMIN,SIGMED,IER)
+
+	Restituisce un valore climatico di temperatura valido nella
+	Regione Emilia Romagna per una data latitudine, longitudine e altezza
+	per una specifica data e ora del giorno. E` stata utilizzata la
+	funzione ricavata nello studio della analisi dellatemperatura max
+	min e med in Emilia Romagna di Carlo Cacciamani (SMR) per ottenere
+	i valori di temperatura max e min medi mensili sul territorio regionale
+	I valori relativi a due mesi sono stati interpolati linearmente sulla
+	data specificata in modo da eliminare discontinuita`. E` stata
+	utilizzata una serie di Fourier con due armoniche ricavata dai dati
+	orari di S. Pietro Capofiume (anni 85-91) che ricostruisce il ciclo
+	giornaliero per ciascun mese dell'anno per ottenere un valore climatico
+	per ciscuna ora del giorno (Alberoni-Patruno).
+
+	input:
+
+	ALAT		R*4	latitudine in centesimale
+	ALON		R*4	longitudine in centesimale
+	HH		R*4	altezza in metri
+	IMESE		I*4	mese
+	IGIORNO		I*4	giorno
+	IORA		I*4	ora (00/23) (UTM)
+
+	output:
+
+	VAL		R*4	temperatura climatica in gradi centigradi
+				per il mese, giorno, ora e luogo specificato
+	SIGMAX		R*4	sigma mensile per temperatura max giornaliera
+	SIGMIN		R*4	sigma mensile per temperatura min giornaliera
+	SIGMED		R*4	sigma mensile per temperatura med giornaliera
+
+	IER		i*4	condizione di errore
+				ier=0 tutto O.K.
+
+			errori dovuti alla routine CLIMA_TEM_NORM
+				ier=100 errore allocazione unita` per lettura
+				ier=100+iostat  (codice errore apertura file)
+
+			errori dovuti alla routine CLIMA_TEMP_MAX_MIN
+				ier=200 errore allocazione unita` per lettura
+				ier=200+iostat  (codice errore apertura file)
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

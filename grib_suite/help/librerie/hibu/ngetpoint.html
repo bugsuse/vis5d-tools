@@ -1,0 +1,128 @@
+<HTML><HEAD><TITLE>
+ ngetpoint
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">ngetpoint</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/hibu/ngetpoint.f">/disk3/patruno/lib/hibu/ngetpoint.f</A> <HR>
+<PRE>
+
+	subroutine ngetpoint (rlonstaz,rlatstaz
+	1	,u,v,rlsm,imjm,imhv
+	1	,jmhv,alo11,ala11,dxhi,dyhi
+	1	,igrid,ija
+	1	,tlm0d,tph0d
+	1	,wind,imod,ls
+	1	,urt,vrt
+	1	,ier)
+
+
+	corretta per interpolazione in imod=0 su gligle ija&lt;&gt;0 il 5/12/97
+
+	rlonstaz,rlatstaz	longitudine e latitudine (gradi.decimi....) del
+				punto su cui si vule interpolare
+
+	u(imjm)			matrice dei dati che si vogliono interpolare;
+				campo scalare o componente u del vento
+				risolta relativamente al grid definito
+				nel verso di x e y crescenti
+
+	v(imjm)			matrice dei dati che si vogliono interpolare;
+				componente v del vento
+				risolta relativamente al grid definito
+				nel verso di x e y crescenti
+				(utilizzata solo se (wind.eq.true)
+
+	rlsm(imjm)		maschera mare terra (0.=mare; 1.=terra)
+				corrispondente esattamente al vettore u
+
+	imjm			dimensione dei vettori dati
+
+	imhv,jmhv		numero dei punti in x e y della matrice u
+				comunque considerata regolare (destaggherata)
+
+	alo11,ala11		coordinate (longitudine e latitudine in
+				gradi.decimi...) del punto u(1,1)
+
+	dxhi,dyhi		passo di griglia (longitudine e latitudine in
+				gradi.decimi...) del grigliato condiderato
+				regolare
+
+	igrid			indicatore del tipo di grigliato
+				1	grigliato E staggherato punti H
+				2	grigliato E staggherato punti V
+				0	grigliato regolare (destaggherato)
+				-1	grigliato E staggherato punti H
+					con valori mancanti
+				-2	grigliato E staggherato punti V
+					con valori mancanti
+
+		i grigliati posso essere ruotati o no (dipende da tlm0d,tph0d)
+
+	ija		indicatore del modo di scansione
+			puo` essere espresso :
+			1) tre cifre binarie (0/1) indicanti il bit 1,2,3
+				 (es. ija=110)
+			2) numero decimale che imposta correttamente i bit
+				della variabile (es. ija=128)
+			bit 1	0	scansione dei punti nella direzione +i
+				1	scansione dei punti nella direzione -i
+			bit 2	0	scansione dei punti nella direzione -j
+				1	scansione dei punti nella direzione +j
+			bit 3	0	i punti adiacenti nella direzione i
+					sono consecutivi
+			bit 3	1	i punti adiacenti nella direzione j
+					sono consecutivi
+			direzione i: da Owest a Est lungo un parallelo
+			direzione j: da Sud a Nord lungo un meridiano
+
+	tlm0d,tph0d		longitudine e latitudine dell'equatore di
+				rotazione (gradi.decimi...)
+				impostati a zero se non c'e` rotazione
+
+	imod			indicatore del tipo di interpolazione
+				0	punto piu` vicino
+				1	bilineare se ls&lt;0
+					pesato    se ls=&gt;0
+				-1	ripete l'interpolazione
+                                       tenendo costanti TUTTI i parametri
+                                       in input ( salvo u e v )
+	wind	&lt;logical&gt;	true se in input sono state fornite le
+				componenti u e v del vento
+
+	ls			indicatore utilizzo maschera mare terra
+				&lt;0	ignora maswchera mare terra
+				0	utilizza solo punti di mare
+				1	utilizza solo punti di terra
+
+	urt,vrt			valori interpolati ed eventualmente
+				ricalcolate le componenti vettoriali
+				secondo le direzioni verso Est e verso Nord
+				(vrt restituita solo se wind.eq.true)
+
+	ier			condizione di errore:
+				0	tutto O.K.
+				1	parametri in ingresso errati
+				2	interpolazione fuori dal dominio dati
+				3	nei grigliati E i dxhi e dyhi non sono
+					uguali
+				4	tutti i punti intorno alla coordinata
+					d'interpolazione sono di tipo opposto
+					a quello richiesto (mare/terra)
+
+       i common:
+	common /point/ij1,ij2,ij3,ij4
+       integer ij1,ij2,ij3,ij4
+       riporta gli indici relativi ai 4 punti piu' vicini utilizzati per
+       l'interpolazione.
+
+	common /pesir/p1,p2,p3,p4,repeat
+       real p1,p2,p3,p4
+       logical repeat
+       riporta i pesi utilizzati per l'interpolazione in hbilin e ninterpmask
+       repeat segnala una ripetizione con i pesi gia' calcolati
+
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

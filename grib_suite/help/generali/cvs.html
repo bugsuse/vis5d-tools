@@ -1,0 +1,84 @@
+<HTML><HEAD><TITLE>
+ cvs
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">cvs</H2> <HR>
+ estrema sintesi dei comandi cvs <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/cesari/helpdoc/cvs.txt">/disk3/cesari/helpdoc/cvs.txt</A> <HR>
+<PRE>
+
+     12/10/1999
+
+
+ premesse:
+ cvs deve essere in path
+ CVSROOT deve essere exportato
+
+ comandi:
+
+ cvs init		inizializza CVS (una tantum nella vita)
+ cvs import		importa nuovo software nel deposito. es:
+			(nel direttorio corrente)
+			cvs import lib librerie prima
+
+		importa sotto l'albero lib il software chiamato &quot;librerie&quot;
+		con la versione taggata &quot;prima&quot; tutto il software nel dir
+		corrente
+
+ cvs import -I! -W &quot;*.grb -k 'b'&quot; directory vendortag reltag
+			per importare file binari (solo i file grb)
+
+ cvs export		exporta il software per l'uso
+
+ cvs watch		tiene sotto controllo le possibilita' di editing
+
+ cvs checkout	&lt;modulo&gt;	rende disponibile i file per l'editing
+				ultima versione
+ cvs checkout -r &lt;tag&gt; &lt;modulo&gt;	rende disponibile i file per l'editing
+				della versione taggata
+
+ cvs history -T			fornisce la storia dei Tag (versioni modello)
+ cvs log &lt;modulo&gt;               fornisce la storia dei moduli
+ cvs status &lt;modulo&gt;            fornisce lo stato  dei moduli
+ cvs diff -r 1.3 -r 1.1 prelambo.F   fornisce le differenze tra le due versioni
+
+ i moduli sono (per ora):
+
+   tutto   lambo
+   data    lambo/data
+   src     lambo/src
+   job     lambo/job
+   jobcase -d job lambo/job profilelambo startlambo.job \
+        lambo_compila.job case_go.job
+   jobope  -d job lambo/job profilelambo00 profilelambo12 \
+        startlambo.job \
+        lambo_compila.job lambo_go lambo_go12
+   namlinc lambo/namlinc
+   doc     lambo/doc
+
+
+ cvs edit		rende editabili i file sotto watch
+ cvs release		conclude una fase di editing dopo un checkout
+			specialmente sotto watch abbandonando
+			le modifiche fatte senza un commit
+ cvs update		upgrada i file correnti (checkout) con gli ultimi
+			disponibili nel deposito
+ cvs add		aggiunge un file a cvs
+ cvs remove		rimuove un file da cvs
+
+ cvs commit		riporta le modifiche fatte definitivamente nel deposito
+
+ cvs rtag		specifica un tag simbolico nel deposito
+
+
+                       DEFINIZIONE DEI MODULI (a cura del gestore)
+
+ cvs checkout CVSROOT/modules	 estrae file di definizione dei moduli
+ emacs CVSROOT/modules           editing
+ cvs commit CVSROOT/modules	
+ cvs release -d CVSROOT
+
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

@@ -1,0 +1,386 @@
+      SUBROUTINE MAIN0
+C
+C gg3d program for resampling 3D gridded data sets
+C Copyright (C) 1990  Bill Hibbard and Dave Santek
+C
+C This program is free software; you can redistribute it and/or modify
+C it under the terms of the GNU General Public License as published by
+C the Free Software Foundation; either version 1, or (at your option)
+C any later version.
+C
+C This program is distributed in the hope that it will be useful,
+C but WITHOUT ANY WARRANTY; without even the implied warranty of
+C MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+C GNU General Public License for more details.
+C
+C You should have received a copy of the GNU General Public License
+C along with this program; if not, write to the Free Software
+C Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+C
+C ? GG3D -- 3-D Grid resample   (WLH)
+C ?      GG3D AVE file_soure grid_source file_dest grid_dest
+C ?      GG3D SAM file_soure grid_source file_dest grid_dest
+C *** ?      GG3D MAX file_soure grid_source file_dest grid_dest
+C ? Parameters:
+C ?      file_source | source grid file number
+C ?      grid_source | source grid number
+C ?      file_dest   | destination grid file number
+C ?      grid_dest   | destination grid number
+C ? Keywords:
+C ?     -LAT latsouth latnorth    Latitude extents (def from source grid)
+C ?     -LON loneast lonwest      Longitude extents (def from source grid)
+C ?     -HGT hgtbot hgttop        Height extents (def from source grid)
+C ?     -SIZE nlats nlons nhgts   Grid size (def from source grid)
+C ?     -GR3DF 3-D-gridfile-number
+C *** ?     -GLEV grid-level-for-adjustment
+C
+C
+      PARAMETER (MAXWDS=1000000)
+      CHARACTER*3 COPT
+      CHARACTER*12 CPP
+      CHARACTER*8 FILNAM
+      REAL*8 DKWP,DKWPLL
+      REAL*4 GA(MAXWDS),GB(MAXWDS),GC(MAXWDS),XNULL
+      COMMON/GRIDXX/GA,GB,GC
+      COMMON/X/XLATN,XLATS,XLONW,XLONE,XHGTB,XHGTT,XLATIN,XLONIN,XHGTIN
+      COMMON/Y/YLATN,YLATS,YLONW,YLONE,YHGTB,YHGTT,YLATIN,YLONIN,YHGTIN
+      INTEGER TABLE(64),TABLE2(64),ID(8)
+      DATA HEDSIZ/64/,XNULL/1.E35/
+      DATA ENDMRK/'80808080'X/
+C
+      IGFS=IPP(2,0)
+      IGRIDS=IPP(3,0)
+      IGFD=IPP(4,0)
+      IGRIDD=IPP(5,0)
+C
+      COPT=CPP(1,' ')
+      IF(IGGT3D(IGFS,IGRIDS,MAXWDS,GA,NR,NC,NL,TABLE) .EQ. 0) GO TO 15
+      CALL EDEST('CANNOT GET GRID #',IGRIDS)
+      RETURN
+C
+15    ITYPE=TABLE(22)
+      IF(ITYPE .EQ. 1 .OR. ITYPE .EQ. 4) GO TO 20
+      CALL EDEST('GRID MUST BE PSUEDO MERCATOR ',0)
+      RETURN
+20    XLATN=TABLE(23)/10000.0
+      XLONW=TABLE(24)/10000.0
+      XLATIN=TABLE(25)/10000.0
+      XLONIN=XLATIN
+      IF(ITYPE .EQ. 4) XLONIN=TABLE(26)/10000.0
+      IF(TABLE(31) .EQ. 1) GO TO 30
+      CALL EDEST('VERTICAL MUST BE HEIGHT ',0)
+      RETURN
+30    XHGTT=TABLE(32)
+      XHGTIN=TABLE(33)
+      XLATS=XLATN-XLATIN*(NR-1)
+      XLONE=XLONW-XLONIN*(NC-1)
+      XHGTB=XHGTT-XHGTIN*(NL-1)
+C
+      YLATS=DKWPLL('LAT',1,DBLE(XLATS))
+      YLATN=DKWPLL('LAT',2,DBLE(XLATN))
+      YLONE=DKWPLL('LON',1,DBLE(XLONE))
+      YLONW=DKWPLL('LON',2,DBLE(XLONW))
+      YHGTB=1000.0*DKWP('HGT',1,DBLE(XHGTB/1000.0))
+      YHGTT=1000.0*DKWP('HGT',2,DBLE(XHGTT/1000.0))
+      MR=IKWP('SIZE',1,NR)
+      MC=IKWP('SIZE',2,NC)
+      ML=IKWP('SIZE',3,NL)
+      YLATIN=(YLATN-YLATS)/(MR-1)
+      YLONIN=(YLONW-YLONE)/(MC-1)
+      YHGTIN=(YHGTT-YHGTB)/(ML-1)
+C
+      IF(NR*NC*NL .GT. MAXWDS) GO TO 990
+      IF(MR*MC*ML .GT. MAXWDS) GO TO 990
+C
+      DO 40 I=1,64
+40    TABLE2(I)=TABLE(I)
+      TABLE2(22)=4
+      TABLE2(23)=YLATN*10000.0
+      TABLE2(24)=YLONW*10000.0
+      TABLE2(25)=YLATIN*10000.0
+      TABLE2(26)=YLONIN*10000.0
+      TABLE2(32)=YHGTT
+      TABLE2(33)=YHGTIN
+C
+      IF(COPT .EQ. 'SAM') GO TO 50
+      IF(COPT .EQ. 'AVE') GO TO 60
+      IF(COPT .EQ. 'MAX') GO TO 70
+      CALL EDEST('BAD OPTION '//COPT,0)
+      RETURN
+50    CALL REG(GA,NR,NC,NL,GB,MR,MC,ML)
+      GO TO 100
+60    IF(MR*NC*NL .GT. MAXWDS) GO TO 990
+      IF(MR*MC*NL .GT. MAXWDS) GO TO 990
+      CALL ROW(GA,NR,NC,NL,GB,MR)
+      CALL COL(GB,MR,NC,NL,GC,MC)
+      CALL LEV(GC,MR,MC,NL,GB,ML)
+      GO TO 100
+70    CALL REGMAX(GA,NR,NC,NL,GB,MR,MC,ML)
+C
+100   IF(IGOP3D(IGFD,FILNAM) .EQ. 0) GO TO 120
+      DO 110 I=1,8
+110   ID(I)=LIT('    ')
+      CALL IGMK3D(IGFD, ID, MR*MC*ML)
+120   CONTINUE
+C
+      IF(IGPT3D(IGFD,-IGRIDD,GB,MR,MC,ML,TABLE2,IGNO) .EQ. 0) GO TO 1000
+      CALL EDEST('UNABLE TO CREATE GRID ',IGRIDD)
+      RETURN
+1000  CALL SDEST('GRID FILED # ',IGNO)
+      RETURN
+990   CALL EDEST('GRIDS TOO LARGE ',0)
+      RETURN
+      END
+C
+      SUBROUTINE REG(GA,NR,NC,NL,GB,MR,MC,ML)
+      REAL*4 GA(NR,NC,NL),GB(MR,MC,ML)
+      COMMON/X/XLATN,XLATS,XLONW,XLONE,XHGTB,XHGTT,XLATIN,XLONIN,XHGTIN
+      COMMON/Y/YLATN,YLATS,YLONW,YLONE,YHGTB,YHGTT,YLATIN,YLONIN,YHGTIN
+      DATA XTEST/1.E30/,XNULL/1.E35/
+C
+      QR=NR
+      QC=NC
+      QL=NL
+      DO 200 IR=1,MR
+      ZLAT=YLATN-YLATIN*(IR-1)
+      ZR=1.0+(XLATN-ZLAT)/XLATIN
+      WR=ZR
+      IF(WR .GT. 0.9 .AND. WR .LT. 1.0001) WR=1.0
+      IF(WR .GT. QR-0.0001 .AND. WR .LT. QR+0.1) WR=QR-0.0001
+      JR=WR
+      BR=ZR-JR
+      AR=1.0-BR
+      DO 200 IC=1,MC
+      ZLON=YLONW-YLONIN*(IC-1)
+      ZC=1.0+(XLONW-ZLON)/XLONIN
+      WC=ZC
+      IF(WC .GT. 0.9 .AND. WC .LT. 1.0001) WC=1.0
+      IF(WC .GT. QC-0.0001 .AND. WC .LT. QC+0.1) WC=QC-0.0001
+      JC=WC
+      BC=ZC-JC
+      AC=1.0-BC
+      ZAA=AR*AC
+      ZAB=AR*BC
+      ZBA=BR*AC
+      ZBB=BR*BC
+      DO 200 IL=1,ML
+      ZHGT=YHGTB+YHGTIN*(IL-1)
+      ZL=1.0+(ZHGT-XHGTB)/XHGTIN
+      WL=ZL
+      IF(WL .GT. 0.9 .AND. WL .LT. 1.0001) WL=1.0
+      IF(WL .GT. QL-0.0001 .AND. WL .LT. QL+0.1) WL=QL-0.0001
+      JL=WL
+      BL=ZL-JL
+      AL=1.0-BL
+      IF(JR .LT. 1 .OR. JR .GE. NR) GO TO 180
+      IF(JC .LT. 1 .OR. JC .GE. NC) GO TO 180
+      IF(JL .LT. 1 .OR. JL .GE. NL) GO TO 180
+      IF(GA(JR,JC,JL).GT.XTEST.OR.GA(JR,JC+1,JL).GT.XTEST.OR.
+     *GA(JR+1,JC,JL).GT.XTEST.OR.GA(JR+1,JC+1,JL).GT.XTEST.OR.
+     *GA(JR,JC,JL+1).GT.XTEST.OR.GA(JR,JC+1,JL+1).GT.XTEST.OR.
+     *GA(JR+1,JC,JL+1).GT.XTEST.OR.GA(JR+1,JC+1,JL+1).GT.XTEST) GOTO 180
+C
+      GB(IR,IC,IL)=AL*(ZAA*GA(JR,JC,JL)+ZAB*GA(JR,JC+1,JL)+
+     +ZBA*GA(JR+1,JC,JL)+ZBB*GA(JR+1,JC+1,JL))+BL*(ZAA*GA(JR,JC,JL+1)+
+     +ZAB*GA(JR,JC+1,JL+1)+ZBA*GA(JR+1,JC,JL+1)+ZBB*GA(JR+1,JC+1,JL+1))
+      GO TO 200
+180   GB(IR,IC,IL)=XNULL
+200   CONTINUE
+      RETURN
+      END
+C
+      SUBROUTINE REGMAX(GA,NR,NC,NL,GB,MR,MC,ML)
+      REAL*4 GA(NR,NC,NL),GB(MR,MC,ML)
+      COMMON/X/XLATN,XLATS,XLONW,XLONE,XHGTB,XHGTT,XLATIN,XLONIN,XHGTIN
+      COMMON/Y/YLATN,YLATS,YLONW,YLONE,YHGTB,YHGTT,YLATIN,YLONIN,YHGTIN
+      DATA XTEST/1.E30/,XNULL/1.E35/
+C
+      DO 200 IR=1,MR
+      ZLAT=YLATN-YLATIN*(IR-1)
+      ZR=1.0+(XLATN-ZLAT)/XLATIN
+      JR=ZR
+      DO 200 IC=1,MC
+      ZLON=YLONW-YLONIN*(IC-1)
+      ZC=1.0+(XLONW-ZLON)/XLONIN
+      JC=ZC
+      DO 200 IL=1,ML
+      ZHGT=YHGTB+YHGTIN*(IL-1)
+      ZL=1.0+(ZHGT-XHGTB)/XHGTIN
+      JL=ZL
+      IF(JR .LT. 1 .OR. JR .GE. NR) GO TO 180
+      IF(JC .LT. 1 .OR. JC .GE. NC) GO TO 180
+      IF(JL .LT. 1 .OR. JL .GE. NL) GO TO 180
+      IF(GA(JR,JC,JL).GT.XTEST.OR.GA(JR,JC+1,JL).GT.XTEST.OR.
+     *GA(JR+1,JC,JL).GT.XTEST.OR.GA(JR+1,JC+1,JL).GT.XTEST.OR.
+     *GA(JR,JC,JL+1).GT.XTEST.OR.GA(JR,JC+1,JL+1).GT.XTEST.OR.
+     *GA(JR+1,JC,JL+1).GT.XTEST.OR.GA(JR+1,JC+1,JL+1).GT.XTEST) GOTO 180
+      GG=GA(JR,JC,JL)
+      IF(GG .LT. GA(JR,JC,JL+1)) GG=GA(JR,JC,JL+1)
+      IF(GG .LT. GA(JR,JC+1,JL)) GG=GA(JR,JC+1,JL)
+      IF(GG .LT. GA(JR,JC+1,JL+1)) GG=GA(JR,JC+1,JL+1)
+      IF(GG .LT. GA(JR+1,JC,JL)) GG=GA(JR+1,JC,JL)
+      IF(GG .LT. GA(JR+1,JC,JL+1)) GG=GA(JR+1,JC,JL+1)
+      IF(GG .LT. GA(JR+1,JC+1,JL)) GG=GA(JR+1,JC+1,JL)
+      IF(GG .LT. GA(JR+1,JC+1,JL+1)) GG=GA(JR+1,JC+1,JL+1)
+      GB(IR,IC,IL)=GG
+      GO TO 200
+180   GB(IR,IC,IL)=XNULL
+200   CONTINUE
+      RETURN
+      END
+C
+      SUBROUTINE ROW(GA,NR,NC,NL,GB,MR)
+      REAL*4 GA(NR,NC,NL),GB(MR,NC,NL)
+      COMMON/X/XLATN,XLATS,XLONW,XLONE,XHGTB,XHGTT,XLATIN,XLONIN,XHGTIN
+      COMMON/Y/YLATN,YLATS,YLONW,YLONE,YHGTB,YHGTT,YLATIN,YLONIN,YHGTIN
+      DATA XTEST/1.E30/,XNULL/1.E35/
+C
+      YVARB=YLATN
+      YVARIN=YLATIN
+      XVARB=XLATN
+      XVARIN=XLATIN
+      DO 200 IR=1,MR
+      YVAR=YVARB-YVARIN*(IR-1)
+      YMIN=YVAR-0.5*YVARIN
+      YMAX=YVAR+0.5*YVARIN
+      JMAX=1.0+(XVARB-(YMIN-0.5*XVARIN))/XVARIN
+      JMIN=1.0+(XVARB-(YMAX+0.5*XVARIN))/XVARIN
+      IF(JMAX .GT. NR) JMAX=NR
+      IF(JMIN .LT. 1) JMIN=1
+      IF(JMIN .GT. JMAX) GO TO 160
+      DO 20 IC=1,NC
+      DO 20 IL=1,NL
+20    GB(IR,IC,IL)=0.0
+      ASUM=0.0
+      DO 60 JR=JMIN,JMAX
+      XVAR=XVARB-XVARIN*(JR-1)
+      XMIN=XVAR-0.5*XVARIN
+      XMAX=XVAR+0.5*XVARIN
+      IF(YMIN .GT. XMIN) XMIN=YMIN
+      IF(YMAX .LT. XMAX) XMAX=YMAX
+      ALPHA=(XMAX-XMIN)/XVARIN
+      IF(ALPHA .LT. 0.0) ALPHA=0.0
+      ASUM=ASUM+ALPHA
+      DO 50 IC=1,NC
+      DO 50 IL=1,NL
+      IF(GB(IR,IC,IL).GT.XTEST.OR.GA(JR,IC,IL).GT.XTEST) GO TO 40
+      GB(IR,IC,IL)=GB(IR,IC,IL)+ALPHA*GA(JR,IC,IL)
+      GO TO 50
+40    GB(IR,IC,IL)=XNULL
+50    CONTINUE
+60    CONTINUE
+      IF(ASUM .LT. 0.0001) GO TO 160
+      DO 80 IC=1,NC
+      DO 80 IL=1,NL
+80    IF(GB(IR,IC,IL).LT.XTEST) GB(IR,IC,IL)=GB(IR,IC,IL)/ASUM
+      GO TO 200
+160   DO 180 IC=1,NC
+      DO 180 IL=1,NL
+180   GB(IR,IC,IL)=XNULL
+200   CONTINUE
+      RETURN
+      END
+C
+      SUBROUTINE COL(GA,NR,NC,NL,GB,MC)
+      REAL*4 GA(NR,NC,NL),GB(NR,MC,NL)
+      COMMON/X/XLATN,XLATS,XLONW,XLONE,XHGTB,XHGTT,XLATIN,XLONIN,XHGTIN
+      COMMON/Y/YLATN,YLATS,YLONW,YLONE,YHGTB,YHGTT,YLATIN,YLONIN,YHGTIN
+      DATA XTEST/1.E30/,XNULL/1.E35/
+C
+      YVARB=YLONW
+      YVARIN=YLONIN
+      XVARB=XLONW
+      XVARIN=XLONIN
+      DO 200 IC=1,MC
+      YVAR=YVARB-YVARIN*(IC-1)
+      YMIN=YVAR-0.5*YVARIN
+      YMAX=YVAR+0.5*YVARIN
+      JMAX=1.0+(XVARB-(YMIN-0.5*XVARIN))/XVARIN
+      JMIN=1.0+(XVARB-(YMAX+0.5*XVARIN))/XVARIN
+      IF(JMAX .GT. NC) JMAX=NC
+      IF(JMIN .LT. 1) JMIN=1
+      IF(JMIN .GT. JMAX) GO TO 160
+      DO 20 IR=1,NR
+      DO 20 IL=1,NL
+20    GB(IR,IC,IL)=0.0
+      ASUM=0.0
+      DO 60 JC=JMIN,JMAX
+      XVAR=XVARB-XVARIN*(JC-1)
+      XMIN=XVAR-0.5*XVARIN
+      XMAX=XVAR+0.5*XVARIN
+      IF(YMIN .GT. XMIN) XMIN=YMIN
+      IF(YMAX .LT. XMAX) XMAX=YMAX
+      ALPHA=(XMAX-XMIN)/XVARIN
+      IF(ALPHA .LT. 0.0) ALPHA=0.0
+      ASUM=ASUM+ALPHA
+      DO 50 IR=1,NR
+      DO 50 IL=1,NL
+      IF(GB(IR,IC,IL).GT.XTEST.OR.GA(IR,JC,IL).GT.XTEST) GO TO 40
+      GB(IR,IC,IL)=GB(IR,IC,IL)+ALPHA*GA(IR,JC,IL)
+      GO TO 50
+40    GB(IR,IC,IL)=XNULL
+50    CONTINUE
+60    CONTINUE
+      IF(ASUM .LT. 0.0001) GO TO 160
+      DO 80 IR=1,NR
+      DO 80 IL=1,NL
+80    IF(GB(IR,IC,IL).LT.XTEST) GB(IR,IC,IL)=GB(IR,IC,IL)/ASUM
+      GO TO 200
+160   DO 180 IR=1,NR
+      DO 180 IL=1,NL
+180   GB(IR,IC,IL)=XNULL
+200   CONTINUE
+      RETURN
+      END
+C
+      SUBROUTINE LEV(GA,NR,NC,NL,GB,ML)
+      REAL*4 GA(NR,NC,NL),GB(NR,NC,ML)
+      COMMON/X/XLATN,XLATS,XLONW,XLONE,XHGTB,XHGTT,XLATIN,XLONIN,XHGTIN
+      COMMON/Y/YLATN,YLATS,YLONW,YLONE,YHGTB,YHGTT,YLATIN,YLONIN,YHGTIN
+      DATA XTEST/1.E30/,XNULL/1.E35/
+C
+      YVARB=YHGTB
+      YVARIN=YHGTIN
+      XVARB=XHGTB
+      XVARIN=XHGTIN
+      DO 200 IL=1,ML
+      YVAR=YVARB+YVARIN*(IL-1)
+      YMIN=YVAR-0.5*YVARIN
+      YMAX=YVAR+0.5*YVARIN
+      JMAX=1.0+((YMAX+0.5*XVARIN)-XVARB)/XVARIN
+      JMIN=1.0+((YMIN-0.5*XVARIN)-XVARB)/XVARIN
+      IF(JMAX .GT. NL) JMAX=NL
+      IF(JMIN .LT. 1) JMIN=1
+      IF(JMIN .GT. JMAX) GO TO 160
+      DO 20 IR=1,NR
+      DO 20 IC=1,NC
+20    GB(IR,IC,IL)=0.0
+      ASUM=0.0
+      DO 60 JL=JMIN,JMAX
+      XVAR=XVARB+XVARIN*(JL-1)
+      XMIN=XVAR-0.5*XVARIN
+      XMAX=XVAR+0.5*XVARIN
+      IF(YMIN .GT. XMIN) XMIN=YMIN
+      IF(YMAX .LT. XMAX) XMAX=YMAX
+      ALPHA=(XMAX-XMIN)/XVARIN
+      IF(ALPHA .LT. 0.0) ALPHA=0.0
+      ASUM=ASUM+ALPHA
+      DO 50 IR=1,NR
+      DO 50 IC=1,NC
+      IF(GB(IR,IC,IL).GT.XTEST.OR.GA(IR,IC,JL).GT.XTEST) GO TO 40
+      GB(IR,IC,IL)=GB(IR,IC,IL)+ALPHA*GA(IR,IC,JL)
+      GO TO 50
+40    GB(IR,IC,IL)=XNULL
+50    CONTINUE
+60    CONTINUE
+      IF(ASUM .LT. 0.0001) GO TO 160
+      DO 80 IR=1,NR
+      DO 80 IC=1,NC
+80    IF(GB(IR,IC,IL).LT.XTEST) GB(IR,IC,IL)=GB(IR,IC,IL)/ASUM
+      GO TO 200
+160   DO 180 IR=1,NR
+      DO 180 IC=1,NC
+180   GB(IR,IC,IL)=XNULL
+200   CONTINUE
+      RETURN
+      END

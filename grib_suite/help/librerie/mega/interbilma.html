@@ -1,0 +1,73 @@
+<HTML><HEAD><TITLE>
+ INTERBILMA
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">interbilma</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/interbilma.f">/disk3/patruno/lib/mega/interbilma.f</A> <HR>
+<PRE>
+
+      SUBROUTINE INTERBILMA(RT,ALONMIN,ALONMAX,ALATMIN,ALATMAX,DLAT,
+     *DLON,
+     *          VALB    ,NPX, NPY, U   , V   , VAL, IER)
+
+
+========================================================================
+	CACCIAMANI CARLO
+       SMR/BOLOGNA  OTTOBRE 1988;  REVISED M.M.MARUCA SEPT. '92
+------------------------------------------------------------------------
+
+   esegue una interpolazione bilineare su un punto definito all'interno
+   di una area geografica utilizzando i 4 punti di griglia piu' vicini
+   di una matrice di valori definita su un reticolato regolare, il cui
+   primo elemento corrisponde al punto in basso a sx.
+
+      PARAMETRI IN INPUT    ............
+    --------------------------------------------------------------
+       RT             =  RAGGIO TERRESTRE            (    Km.   )
+	ALONMIN	       =  LONGITUDINE MINIMA          (GRADI CEN.)
+	ALONMAX        =  LONGITUDINE MASSIMA	        &quot;     &quot;
+       ALATMIN        =  LATITUDINE MINIMA             &quot;     &quot;
+       ALATMAX        =  LATITIDINE MASSIMA            &quot;     &quot;
+       DLAT           =  PASSO DI GRIGLIA LATITUDINE   &quot;     &quot;
+       DLON           =  PASSO DI GRIGLIA LONGITUDINE  &quot;     &quot;
+       VALB(NPY,NPX)  =  MATRICE DEI VALORI  DI INTERPOLAZIONE
+       NPX            =  MAX.PUNTI GRIGLIA IN LONGITUDINE
+       NPY            =  MAX   &quot;      &quot;       LATITUDINE
+       U              =  LONGITUDINE PUNTO INTERPOLATO (GRADI CENT.)
+       V              =  LATITUDINE     &quot;      &quot;       &quot;     &quot;
+
+      PARAMETRI IN OUTPUT
+    --------------------------------------------------------------
+
+        VAL = VALORE VARIABILE INTERPOLATA SUL PUNTO (UR,VR)
+        IER =-1 IL PUNTO SU CUI SI INTERPOLA E' ESTERNO
+               ALL'AREA GEOGRAFICA
+
+------------------------------------------------------------------------
+
+	definizione di un sistema di riferimento cartesiano
+	con origine nel punto (inx,iny),il piu' basso a sinistra del
+	punto osservazione
+
+   asse y   |
+   ------   |
+            |
+ (INX,INY+1)|                         (INX+1,INY+1)
+   (x4,y4)  |..........................(x3,y3)
+            |                         :
+            |       (xp,yp)           :
+   (x5,y5)  |---------*---------------:(x6,y6)
+            |      (pt.oss.)          :
+            |                         :
+            |                         :
+            |                         :            asse x
+            |___________________________________________________
+           (x1,y1)                (x2,y2)
+          (INX,INY)            (INX+1,INY)
+
+------------------------------------------------------------------------
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

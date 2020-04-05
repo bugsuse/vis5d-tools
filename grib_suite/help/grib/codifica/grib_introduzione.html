@@ -1,0 +1,382 @@
+<HTML><HEAD><TITLE>
+ grib_introduzione
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">grib_introduzione</H2> <HR>
+ documentazione codifica grib <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/cesari/helpdoc/grib/gribdoc.txt">/disk3/cesari/helpdoc/grib/gribdoc.txt</A> <HR>
+<PRE>
+
+                                   i
+
+
+
+
+
+
+
+
+                                A GUIDE
+
+
+                                  TO
+
+
+                              G  R  I  B
+
+
+
+                              (Edition 1)
+
+
+
+
+                            THE WMO FORMAT
+
+                                  FOR
+
+              THE STORAGE OF WEATHER PRODUCT INFORMATION
+
+                                  AND
+
+               THE EXCHANGE OF WEATHER PRODUCT MESSAGES
+
+                        IN GRIDDED BINARY FORM
+
+
+
+
+                           John D. Stackpole
+                          Automation Division
+                    National Meteorological Center
+                       National Weather Service
+                                 NOAA
+
+
+
+
+                           February 18, 1994
+
+                            GRIB Edition 1
+
+
+
+INTRODUCTION
+
+     The World Meteorological Organization (WMO) Commission for Basic
+Systems (CBS) Extraordinary Meeting Number VIII (1985) approved a
+general purpose, bit-oriented data exchange format, designated FM 92-
+VIII Ext. GRIB (GRIdded Binary).  It is an efficient vehicle for
+transmitting large volumes of gridded data to automated centers over
+high speed telecommunication lines using modern protocols.  By packing
+information into the GRIB code, messages (or records - the terms are
+synonymous in this context) can be made more compact than character
+oriented bulletins, which will produce faster computer-to-computer
+transmissions.  GRIB can equally well serve as a data storage format,
+generating the same efficiencies relative to information storage and
+retrieval devices.
+
+     Changes and extensions to GRIB were approved at the regular
+meeting of the WMO/CBS in February, 1988; additional changes were
+introduced at the CBS/WGDM/Sub-Group on Data Representation (SGDR)
+meetings in May 1989 and in October 1990.  The 1990 changes were of
+such structural magnitude as to require a new Edition of GRIB, Edition
+1, which this document describes.  Further augmentations and
+interpretations were made by the SGDR in September 1993, with approval
+by the WGDM in February 1994. These changes did not result in a new
+Edition to GRIB, but did change some of the Tables, resulting a new
+Version number for them.  This brings us now to Table Version 2.  The
+changes from Version 1 were mainly additions of new parameters or more
+precise definition of existing ones.
+
+     It is not anticipated that there will be any large-scale
+structural changes to GRIB for at least four to five years, or more.
+The SGDR is undertaking a thorough review of the present and future
+requirements that GRIB is supposed to satisfy.  The plan is to design a
+major revision of GRIB capable of accommodating these requirements and
+more, without &quot;straining&quot; the structure of the data representation
+form.  Some things are getting a little strained even now.  See below.
+
+     Note: the Edition number is placed in the same location, relative
+to the start of the GRIB message, for all Editions. Thus, decoding
+programs can detect which Edition was used to construct a particular
+GRIB message and behave accordingly.  This is useful for archives of
+messages encoded in earlier Editions or during transition periods.  Of
+course, this requires that data centers retain copies of older editions
+of the code, and older versions of the parameter tables.
+
+     Each GRIB record intended for either transmission or storage
+contains a single parameter with values located at an array of grid
+points, or represented as a set of spectral coefficients, for a single
+level (or layer), encoded as a continuous bit stream.  Logical
+divisions of the record are designated as &quot;sections&quot;, each of which
+provides control information and/or data.  A GRIB record consists of
+six sections, two of which are optional:
+
+               (0) Indicator Section
+
+               (1) Product Definition Section (PDS)
+
+               (2) Grid Description Section (GDS) -  optional
+
+               (3) Bit Map Section (BMS)          -  optional
+
+               (4) Binary Data Section (BDS)
+
+               (5) '7777' (ASCII Characters)
+
+     Although the Grid Description Section is indicated as optional, it
+is highly desirable that it be included in all messages.  That way
+there will be no question about just what is the &quot;correct&quot; geographical
+grid for a particular field.
+
+     In this documentation, certain symbols are used to clarify the
+contents of octets (groups of eight consecutive binary bits).  If
+unadorned letters are used, they are symbolic and their meanings are
+described in the text; a decimal number is simply printed as is; a
+character or string of characters is represented inside single quote
+marks.  International Alphabet No. 5, which is identical in its
+essential elements to the U.S. National Standard 7-bit ASCII, is used
+for character representation in the GRIB code.
+
+     Octets are numbered consecutively from the start of each section;
+bits within an octet are also numbered from left (the most significant
+bit) to right (the least significant bit).  Thus an octet with bit 8
+set to the value 1 would have the integer value 1; bit 7 set to one
+would have a value of 2, etc.
+
+     The numbering of Tables in the following text corresponds to the
+description of GRIB in the WMO Manual on Codes&lt;1&gt;.  Some additional
+tables not found in the WMO Manual are indicated by letters.  These,
+generally, contain information unique to a particular processing
+center.
+
+     A caveat:  The Official International Documentation for GRIB is
+the just referenced Manual on Codes.  This document is, in part,
+intended to be a guide to the use of GRIB and may not include all of
+the features currently found in the Manual.  The features described
+here are intended to be a completely consistent sub-set of the full WMO
+documentation; if there are any discrepancies the Manual on Codes is
+the final authority.
+
+
+DATA PACKING METHODS.
+
+     The code form represents numeric data as a series of binary digits
+(bits).  Such data representation is independent of any particular
+machine representation; by convention data lengths are measured in
+octets.  Data are coded as binary integers using the minimum number of
+bits required for the desired precision.  Numeric values, with units as
+shown in Table 2, may first be scaled by a power of ten to achieve an
+appropriate decimal precision, a reference value is subtracted from
+them to reduce redundancy and eliminate negative values, and they may
+then be further scaled by a power of two to pack them into a pre-
+selected word length.  The two scaling operations are independent;
+which, or both, are used in any given case depends upon choices made as
+to the method of packing.  See below.
+
+     The representation of a single value is such that:
+
+                        Y * 10D = R + (X * 2E)
+
+     where
+
+     Y = original or unpacked value; units as in Table 2;
+     D = decimal scale factor, to achieve desired precision
+               (sign bit, followed by a 15-bit integer);
+     R = reference value (32 bits);
+     X = internal value (No. of bits varies for each record);
+     E = binary scale factor for variable bit word length packing
+               (sign bit, followed by a 15-bit integer).
+
+
+     The reference value (R) is the minimum value of the (possibly)
+decimally scaled data that is being encoded.
+
+     R is placed in the Binary Data Section in four octets as a single
+precision floating-point number:
+
+                  sAAAAAAA BBBBBBBB BBBBBBBB BBBBBBBB
+
+          where s = sign bit, encoded as   0 =&gt; positive
+                                           1 =&gt; negative
+                A = 7-bit binary integer, the characteristic
+                B = 24-bit binary integer, the mantissa.
+
+     The appropriate formula to recover the value of R is:
+
+                   R = (-1)s * 2(-24) * B * 16(A-64)
+
+     This formula is the standard IBM representation for a single
+precision (real) floating point number.  (Consideration is being given
+to using the IEEE floating point representation in the future, in a
+later Edition of GRIB.)
+
+     If second order (or &quot;complex&quot;) packing is used (see the
+description of that later on) the internal value, X, will be made up of
+two values, a &quot;local minimum value&quot;, Xi, and a &quot;second order packed
+value&quot;, Xj.  There will be one Xj for each grid point and a variable
+number of Xi values.  This will all come clear later on when we get to
+the description of second-order packing.
+
+     What follows is a description, slightly simplified, of the process
+that one would go through to pack a (meteorological) field into a GRIB
+message, using &quot;simple packing&quot;.  It includes some explanations of why
+certain steps are taken, some of the consequences, and what choices
+have to be made.  Some of the choices are interrelated; the
+relationships should be clear when the explanation is done.  The
+additional features of complex or &quot;second order&quot; packing will be dealt
+with in a later section.
+
+     Give that a full field is available, the first step, if necessary,
+is to convert the units of the parameter into those shown in Table 2,
+the SI standard units, also known as the mks system.  Some of the units
+may seem a little peculiar (kg/m2, for example, for precipitation - 1
+kg/m2 is equivalent to a water depth of 1 mm); others may seem
+inappropriate (Pa for pressure, for example, implies substantially
+greater precision than is typical in meteorological usage; inverse
+seconds are not nearly precise enough for divergence and vorticity) but
+they are all self consistent.  The precision of the parameters, as
+actually packed in a message, can be set to any desired degree through
+the appropriate use of the power-of-10 (&quot;D&quot;) scaling and the power-of-2
+(&quot;E&quot;) scaling.  Just how this comes about will be described
+momentarily.
+
+     At this point there is a choice to be made.  If it is desired to
+use a pre-selected bit word length for the packed variables, then just
+proceed on to the next step.  However, if a variable bit word length is
+to be used, where the word length is adjusted to accommodate the data
+values, then it is necessary to undertake the power-of-ten scaling.
+The D value should be selected such that, when the original data, in
+the SI units of Table 2, is multiplied by 10D, the integer part of the
+result will have enough precision to contain all the appropriate
+information of the variable.  Anticipating things a little bit, the
+(scaled) value will be rounded to an integer as a part of the packing
+process; thus the &quot;significant part&quot; of the value of the variable has
+to be moved to the left of the decimal point prior to the rounding.
+Temperature might be scaled with D=1, thus changing the units to deci-
+degrees; pressure, on the other hand, might be scaled with D=-2, thus
+actually reducing the precision to hectoPascals (mb), a more reasonable
+meteorological precision; vorticity would be scaled up by D=8, and so
+on.
+
+     The second step in the packing operation is to scan through the
+field, which may or may not have been &quot;D-scaled&quot; at this point, find
+the minimum value of the parameter, and subtract that minimum - the
+reference value, R - from all the data points, leaving a residual of
+non-negative numbers.  This step has two benefits.  The first of these
+is convenience -  making all the data points non-negative bypasses
+problems with different computer hardware that represent negatives in
+various ways: 1's complement, 2's complement, signed positive integers,
+whatever.  The GRIB message is rendered just that much more machine
+independent by being non-negative throughout.
+
+     The second benefit is more consequential:  it can result in a
+substantial compression of the bulletin size without any loss of
+information content.  If a field has an appreciable bias away from
+zero, the residuals formed by the minimum removal operation will all be
+much smaller numbers than otherwise.  Thus they will need fewer bits to
+contain them when they are, eventually, packed as integers.
+
+     The third step is simply to scan through the field of residuals
+and find the maximum value.
+
+     At this point another choice must be made, similar to the one made
+previously.  This time, if a variable bit word length is to be used,
+then it is necessary to calculate how many bits (per word or per data
+gridpoint) are going to be needed to contain that largest data value,
+when the latter has been rounded to an integer.  Recall that at the
+previous decision point, the variables were power-of-ten (&quot;D&quot;) scaled
+such that a rounding operation will preserve all the significant part
+of the information.  Discovering how many bits are needed is a simple
+scan through a table of powers of two, of course.  The power-of-two-
+scaling is not employed and E is set equal to 0.  Then go on to the
+fourth step.
+
+     If, alternatively, it is desired to use a pre-selected bit word
+length for the packed variables, the data must now be scaled, this time
+by a power of two (the &quot;E&quot; scaling), sufficient to either reduce the
+maximum value down to just fit into the available number of bits, or
+enlarge the value to just fit.  This latter step takes care of the
+problem of small numbers where the precision is all in the fractional
+part of the number.  How much precision is retained, for the eventual
+rounding, is a function of the preselected bit word length and the
+&quot;typical&quot; range, or maximum value with the minimum removed, of the
+particular variable.  The choice of bit word length, which is made
+ahead of time, must be made with full knowledge of the characteristics
+of the particular variable that is to be packed and a prior assumption
+of how much precision needs to be retained for the largest likely
+value.
+
+     The fourth step is then to round all the values to integers, now
+that they have all been scaled to appropriate units, and pack them in
+the specified bit length words.
+
+     The last step is then to set up the various identification fields
+and put the GRIB bulletin in proper form.  We shall turn to this
+&quot;proper form&quot; in the next section.
+
+     We have ended up with two alternate ways to construct a GRIB
+messages:  a fixed bit word length method and a variable bit word
+length method. What are the relative advantages or disadvantages, or at
+least the differences, of one with respect to the other?
+
+     Message length: the fixed word length bulletins are always the
+same length, for a given parameter; the variable word length bulletins
+are, naturally, variable.  The variation is driven by the range of the
+value of the parameter over the field (or the maximum value) which can
+change from day to day.  Whether variations in message length is a
+problem or not depends on the computer systems used to work with the
+GRIB records.
+
+     Precision:  The variable word length bulletins have a fixed and
+unchanging precision, determined by the &quot;D&quot; scaling.  This assures that
+the same information content is available day after day.  It is
+straightforward to change the precision in a familiar manner, that is,
+simply by orders of magnitude, just by altering the D value.  This
+comes at a cost, of course; increasing the precision by a power of 10
+adds about 3.3 bits (average) to each data point in the message.
+
+     The fixed word length bulletins show a variable precision which is
+case by case data driven and is determined by the &quot;E&quot; (power-of-two)
+scaling that was used to fit the numbers into the available space.
+This can happen even with the same data, on the same date, but at
+adjacent grid areas.  If one area shows a low variability and the
+neighboring one a high variability such that a different power-of-two
+scaling is needed in the two areas, then, unfortunately, the values on
+a common boundary will not be exactly equal after they are unpacked.
+This can be disconcerting and a cause for confusion.  It will not
+happen if D-scaling (only) is employed.  On the other hand, the
+variable precision can be viewed as a strength:  a data field with a
+low variability will be encoded at a higher precision, thus preserving
+the character of the field; a high variability field will be
+represented with less precision, but that is not a problem as the
+small, and possibly lost, variations will not matter in the presence of
+the large ones.  The precision of the encoded field can be increased by
+adding bits to the fixed word length, but the degree of change (a power
+of 2 for each bit) may not be as easy to deal with (or explain to
+people) as the simple order of magnitude change afforded by the &quot;D&quot;
+scaling method.
+
+     No mater which packing method was employed, a proper GRIB decoding
+program, that took account of the transmitted values of both &quot;D&quot; and
+&quot;E&quot;, would return the correct unpacked numbers, regardless of which
+packing method was employed.  It would be transparent to the user
+except for the questions of precision outlined above.
+
+
+GRIB CODE FORM.
+
+     With the exception of the first four octets of the Indicator
+Section, and the End Section, all octets contain binary values.  All
+sections contain an even number of octets; the variable length sections
+are padded with zero values as necessary.  These extra bits must be
+accounted for in finding one's way through the sections; their content
+should be ignored.
+
+</PRE>
+Vedi anche:
+<a href="grib_refrence.html ">grib_refrence</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

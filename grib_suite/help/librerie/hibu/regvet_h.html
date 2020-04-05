@@ -1,0 +1,46 @@
+<HTML><HEAD><TITLE>
+ REGVET_H
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">regvet_h</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/hibu/conv_rout_new.f">/disk3/patruno/lib/hibu/conv_rout_new.f</A> <HR>
+<PRE>
+	SUBROUTINE  REGvet_H(AIN,AOUT,IMJM,IMHV,JMHV)
+
+	INPUT:
+	AIN(IMJM)	REAL	MATRICE ENTRANTE
+	IMJM		INTEGER	
+	IMHV		INTEGER	
+	JMHV		INTEGER	
+
+	OUTPUT:
+	AOUT(imhv,jmhv)
+C=======================================================================
+
+	Spacchetta la matrice entrante nell'indice j: ricordiamo
+	che sulla griglia E-Arakawa staggered:
+
+      	         h   u,v   h   u,v   h   ...  u,v   h
+	j=jmt
+	        u,v   h   u,v   h   u,v  ...   h   u,v
+	        ...  ...  ...  ...  ...  ...  ...  ...
+	j
+	        ...  ...  ...  ...  ...  ...  ...  ...
+	        u,v   h   u,v   h   u,v  ...   h   u,v
+	j=2
+                h   u,v   h   u,v   h   ...  u,v   h
+
+
+	        u,v   h   u,v   h   u,v  ...   h   u,v
+	j=1
+                h   u,v   h   u,v   h   ...  u,v   h
+
+
+	       i=1   i=2  i=3  i=4  i=5   i       i=imt
+
+-----------------------------------------------------------------------
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

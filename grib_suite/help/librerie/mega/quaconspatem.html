@@ -1,0 +1,77 @@
+<HTML><HEAD><TITLE>
+ QUACONSPATEM
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quaconspatem</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quaconspatem.f">/disk3/patruno/lib/mega/quaconspatem.f</A> <HR>
+<PRE>
+
+	SUBROUTINE QUACONSPAtem (K,IVAL,aLAT,aLON,hhpoz,data,ora,
+	1	ISOGLIA,GRADMAX,IN,IB,FLAG,IER)
+
+	Questa subroutine effettua un controllo spaziale dei dati  di
+	temperatura su stazioni che devono essere il piu` possibile
+	equidistribuite nello spazio.
+
+	Funziona solamente per stazioni all'interno del territorio regionale
+	(lat. min.= 43.4, lat. max.= 45.1, lon. min.= 9.1, lon. max.= 12.5),
+	e la cui altezza sia superiore a -100 metri.
+	Nel caso venga trovata anche una sola stazione che non soddisfa queste
+	richieste il controllo non viene effettuato e la flag di errore (IER)
+	viene posta a -1.
+
+	Per ogni stazione viene analizzata l'anomalia dal clima, definito dalla
+	routine CLIMA_TEMP_MAX_MIN utilizzata anche per il controllo
+	climatologico.
+
+	Dopo che e` stata calcolata l'anomalia per ogni stazione viene chiamata
+	la routine QUACONSPA (vedi documentazione propria).
+
+	Nella versione attuale e` consentito al massimo il controllo di
+	2000 stazioni, se il numero di stazioni da testare e` superiore la flag
+	di errore viene posta a 1.
+
+===============================================================================
+	INPUT:
+
+	K		I*4	Numero di stazioni da testare.
+	IVAL(K)	     	I*4	Valori misurati nelle stazioni espressi in C/10.
+	ALAT(K)      REAL*4	Latitudine delle stazioni in centesimale.
+	ALON(K)      REAL*4	Longitudine delle stazioni in centesimale.
+	HHPOZ(K)     REAL*4	Altezza della stazione in metri.
+	DATA(3)	        I*4	Data relativa alle osservazioni (gg/mm/aa).
+	ORA(2)		I*4	Ora relativa alle osservazioni (hh/mm).
+	ISOGLIA		I*4	Tolleranza tra due stazioni espressa in C/10.
+	GRADMAX      REAL*4	Gradiente orrizzontale massimo consentito
+				espresso in C/10/Km.
+
+===============================================================================
+	OUTPUT :
+
+	IN		I*4	Numero di stazioni errate.
+	IB		I*4	Numero di stazioni buone.
+	FLAG(K)	       BYTE	Vettore di flag associate ai dati da testare.
+	IER		I*4	condizione di errore della routine:
+				-80 errore allocazione virtual memory
+				-3 due o piu` stazioni con le stesse coordinate
+				   la coppia di stazioni non viene esaminata
+				-2 solo due stazioni, non si puo` triangolare
+				-1 Anagrafica stazione errata
+					fuori dalla regione o
+					altezza sbagliata
+				   non viene controllata nessuna stazione.
+				0  Nessuna errore dalla routine, tutto OK.
+				1   Numero di stazioni da testare &gt; di 2000.
+				
+			errori dovuti alla routine CLIM_TEM_NORM
+				ier=100 errore allocazione unita` per lettura
+				ier=100+iostat  (codice errore apertura file)
+
+			errori dovuti alla routine CLIM_TEMP_MAX_MIN
+				ier=200 errore allocazione unita` per lettura
+				ier=200+iostat  (codice errore apertura file)
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

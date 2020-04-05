@@ -1,0 +1,122 @@
+                       README.HDF
+		       
+		       hdftovis program
+
+ Karen A. Butler, New Technology INC./ES44, Marshall Space Flight Center,AL
+ mail: butler@geosim.msfc.nasa.gov
+
+ Paul J. Meyer, NASA/ES44, Marshall Space Flight Center,AL
+ mail: pmeyer@rimeice.msfc.nasa.gov
+
+  The Hierarchical Data Format (HDF) is a flexible format developed by
+NCSA (National Center for Supercomputing Applications) at the University
+of Illinois at Urbana-Champaign.  HDF is available through anonymous
+ftp at ftp.ncsa.uiuc.edu or 141.142.20.50.
+
+  The program, hdftovis.F, (which is a modification of COMP5D) converts
+hdf(3.1 or above) formatted files to vis5d compressed files.
+
+Files necesary are: hdftovis.F, args.c, hdftovis.m, libdf.a
+
+  To create the command hdftovis, go to the "contrib" subdirectory under
+vis5d, and type:
+
+make -f hdftovis.m
+
+  To run hdftovis type:
+
+  hdftovis <hdf file> <compressed file>
+
+  where:
+    <hdf file> = the file in hdf format (input)
+    <compressed file> = the vis5d compressed file (output)
+
+
+ The following sequence of HDF calls are needed in the program which
+ generates the HDF file:
+
+ DFSDsetdims - sets the dimensions (grid sizes): example: 20 by 20 by 15
+ DFSDsetdimstrs - sets the labels for the dimensions: example x,y,z or
+                   lat,long,hgt.
+                   note: a call is needed for each dimension
+ DFSDsetdatastrs - sets the labels for each of the parameters: example temp
+                   note: a call is needed for each parameter
+ DFSDputdata or DFSDadddata - writes the actual grid or sds(scientific dataset)
+
+ DFSDsetdimscale - sets up grids in the x,y,z directions
+  
+ An example program:
+ 
+***************************************************************
+
+      integer DFSDsetdims,DFSDsetdimstrs,DFSDsetdatastrs
+      integer DFSDputdata,DFSDadddata,DFSDsetdimscale,iret,ishape(3)
+      real points(20,30,15),points2(20,30,15)
+      real lon(20),lat(30),hgt(15)
+c create some example data
+      do i=1,20
+      do j=1,30
+      do k=1,15
+	  points(i,j,k) = float(i*j*k)
+	  points2(i,j,k) = points(i,j,k)/2.0
+      enddo
+      enddo
+      enddo
+c set up sample grid
+      do i=1,20
+	  lon(i)=i
+      enddo
+      do i=1,30
+	  lat(i)=i
+      enddo
+      do i=1,15
+	  hgt(i)=i
+      enddo
+c x dimension
+      ishape(1)=20
+c y dimension
+      ishape(2)=30
+c z dimension
+      ishape(3)=15
+c set the dimensions
+      iret=DFSDsetdims(3,ishape)
+c set up grid
+      ret=DFSDsetdimscale(1,ishape(1),lon)
+      ret=DFSDsetdimscale(2,ishape(2),lat)
+      ret=DFSDsetdimscale(3,ishape(3),hgt)
+c specify the order in which data is stored
+      iret=DFSDsetdimstrs(1,'x','cm','e15.9')
+      iret=DFSDsetdimstrs(2,'y','cm','e15.9')
+      iret=DFSDsetdimstrs(3,'z','cm','e15.9')
+c write out units
+      iret=DFSDsetdatastrs('ijk','degs','e15.9',' ')
+c write out data
+      iret=DFSDputdata('SAMPLE.HDF',3,ishape,points)
+c write out another parameter
+      iret=DFSDsetdatastrs('ijkh','degs','e15.9',' ')
+      iret=DFSDadddata('SAMPLE.HDF',3,ishape,points2)
+      stop
+      end
+
+***************************************************************
+
+NOTE: the setdatastrs routine only needs to be called for the
+first occurrence of a parameter, for multiple times, simply write
+using DFSDaddata.
+
+
+The following is the "make" file for the above program:
+
+***************************************************************
+
+# makefile for FORTRAN hdfex.f program
+
+FFLAGS = -g -c
+LIBS = -ldf -L.
+
+../hdfex: hdfex.o  libmain.a
+	f77 hdfex.o $(LIBS)  -o $@
+
+hdfex.o: hdfex.F
+	f77 $(FFLAGS) hdfex.F 
+***************************************************************

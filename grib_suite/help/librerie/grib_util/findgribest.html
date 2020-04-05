@@ -1,0 +1,50 @@
+<HTML><HEAD><TITLE>
+ findgribest
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">findgribest</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/grib_util/findgribest.f">/disk3/patruno/lib/grib_util/findgribest.f</A> <HR>
+<PRE>
+	subroutine findgribest(iug,grib,idimg
+	1	,data,ora,scad,level,var,est,ier)
+
+
+	Ricerca all'interno di un file aperto con PBOPEN i grib
+	specificati dalla chiave data,ora,scad,level,var.
+
+	input:
+
+	iug		I	unita` restituita da PBOPEN
+	data(1)		I	giorno		)	
+	data(2)		I	mese		)
+	data(3)		I	anno			)  emissione
+	ora(1)		I	ora		)
+	ora(2)		I	minuti		)
+	scad(1)		I	indicator of unit of time range	(table 4)
+	scad(2)		I	periodo di tempo 1
+	scad(3)		I	periodo di tempo 2
+	scad(4)		I	time range indicator 		(table 5)
+	level(1)	I	indicator of type of level	(table 3)
+	level(2)	I	height, pressure etc. of levels
+	level(3)	I	height, pressure etc. of levels
+	var(1)		I	identification of originating/generating
+				 centre  (table 0)
+	var(2)		I	table 2 version number
+	var(3)		I	parameter			(table 2)
+
+       est(1)          I       table 20 value 37
+       est(2)          I       table 20 value 39
+       est(3)          I       table 20 value 42
+
+	output:
+
+	grib(idimg)	I	buffer di debosito del grib estratto	
+	ier		I	codice errore
+				=0 tutto o.k.
+				=-1 grib not found
+				altri &gt; vedi errori 	getinfo
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

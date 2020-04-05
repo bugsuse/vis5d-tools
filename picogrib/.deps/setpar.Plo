@@ -1,0 +1,5 @@
+setpar.lo: setpar.c config.h struct.h
+
+config.h:
+
+struct.h:

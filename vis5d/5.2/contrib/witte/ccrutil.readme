@@ -1,0 +1,97 @@
+Some utilities for using results of the Community Climate Model simulation
+results, as obtained with the CCR-MENU program from the Center of Climatic
+Reasearch of the University of Wisconsin - Madison.
+
+Utilities were written for my own use only, NO WARRANTY whatsoever
+is made.
+
+Henk Witte
+Hugo de Vries Laboratory
+University of Amsterdam
+Kruislaan 318
+1098 SM Amsterdam                           email: henk_witte @ sara.nl
+The Netherlands
+
+1. CCM_TO_V5D
+A program to convert CCM output obtained with CCR-MENU (from the 
+Center for Climatic Research, University of Wisconsin - Madison) to 
+Vis5D format.
+
+usage: ccm_to_v5d mode header datain dataout (-i)
+  mode = 1, faster search if data ordered by [timestep][variable][level]
+  header = description of CCR-MENU file content
+  datain = CCR-MENU file
+  dataout = Vis5d file
+  (-i) = interactive off
+
+There are options for extracting a subarea from the original data, to 
+set the northern and southern boundaries and to set the [row] and 
+[col] increments. I use a datacompression to 1 byte, a rectilinear 
+lat/lon (cylindrical equidistant) projection (Projection = 1) and an 
+unequally spaced verical scale. The vertical scale is converted from 
+pressure fields to height in km in a very simple way:
+surface, 0.9910 or 1013.000 is set at 0 km.
+850mb is set to 1.2 km
+500mb is set to 5 km
+250mb is set to 10 km.
+
+Levels (in the header file) should be given by increasing altitude
+(unless you want another order in Vis5D).
+
+Note that Vis5D follows the McIdas convention:the western boundary is
+a positive coordinate, and the eastern boundary negative.
+Moreover, the first line of data is displayed at the northernmost limit
+(and the first column of data at the westernmost).
+I set northbound to 87.75 (90 - 0.5*4.5) and westbound to 176.25
+(180 - 0.5 * 7.5).
+
+2. EXTRCCR
+A program to extract a certain area from a CCR-MENU file.
+The area is specified by column and row ranges, not by coordinates.
+
+usage: extrccr mode header datain dataout (-i)
+  mode = 1, faster search if data ordered by [timestep][variable][level]
+  header = description of CCR-MENU file content
+  datain = CCR-MENU file
+  dataout = Result file (in CCR-MENU format)
+  (-i) = interactive off
+
+3. DIFFCCR
+A program that calculates the difference between the fields of two 
+CCR-MENU files.
+
+usage: diffccr mode header datain1 datain2 dataout (-i)
+  mode = 1, faster search if data ordered by [timestep][variable][level]
+  header = description of CCR-MENU file content
+  datain = CCR-MENU file 1
+  datain = CCR-MENU file 2
+  dataout = Result file (in CCR-MENU format)
+  (-i) = interactive off
+
+4. SCANCCR
+A program that lists all timesteps, variables and levels in a CCR-MENU file.
+
+usage: scanccr datain
+  datain = CCR-MENU file
+
+The "header", used by (1) (2) and (3), file describes the CCR-MENU file,
+it has the following format: 
+
+#to_vis5d
+number_of_variables maximum_number_of_levels number_of_timesteps number_of_rows 
+number_of_columns
+variable_name[1] number_of_levels_var[1]
+variable_name[2] number_of_levels_var[2]
+
+variable_name[n] number_of_levels_var[n]
+level_name[1]
+level_name[2]
+
+level_name[n]
+timestep_name[1] value_for_timestep[1]
+timestep_name[2] value_for_timestep[2]
+
+timestep_name[n] value_for_timestep[n]
+
+If the datafile is ordered by time_steps you can use a mode of 1, which 
+doesn't rewind the input file between searches. 

@@ -1,0 +1,14 @@
+###########################################################
+# IBM
+FFOPTS=	 -O4 -qipa=partition=large -qstrict -qnohot -L/cineca/lib/mass -lmass
+
+FC = f77
+F90= f90
+
+INSTALLCMD = cp
+
+
+DESTDIR=$(HOME)/pat1/bin
+LIBDIR = $(USOHOME)/lib
+
+###########################################################

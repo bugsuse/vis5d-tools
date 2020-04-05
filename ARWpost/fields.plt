@@ -1,0 +1,2 @@
+ALBEDO
+RAIN

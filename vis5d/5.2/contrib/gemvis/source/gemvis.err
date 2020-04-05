@@ -1,0 +1,17 @@
+!	GEMVIS error file
+!
+  1	! Function name is blank.
+ -1	! Fatal error initializing TAE.
+ -2	! Fatal error reading TAE parameters.
+ -3	! Invalid GVCORD input.
+ -4	! GDFILE could not be opened.
+ -5	! Invalid name for file of GFUNCs.
+ -6     ! Invalid GDATTIM input.
+ -7	! Invalid LEVELS input.
+ -8	! Invalid GAREA input.
+ -9	! Invalid DELTAX input.
+-10	! Could not open FNL_ file.
+-11	! Error converting forecast time to YYMMDDHH.
+-12	! GEMPAK grid navigation error.
+-13	! Un-interpolated grid is too big.
+-14	! Cannot verify on un-interpolated grid.

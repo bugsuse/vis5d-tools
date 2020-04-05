@@ -1,0 +1,169 @@
+<HTML><HEAD><TITLE>
+ autoaiuto
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">autoaiuto</H2> <HR>
+ descrive questo sistema di help <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/cesari/helpdoc/autoaiuto.doc">/disk3/cesari/helpdoc/autoaiuto.doc</A> <HR>
+<PRE>
+
+	AUTOAIUTO: UN SISTEMA DI HELP AUTOMATIZZATO
+
+Davide Cesari e Paolo Patruno          SMR 1999
+
+Questo  e' il sistema automatizzato di  help sviluppato al SMR.  e' in
+grado  di rilevare alcuni   particolari    tag all'interno dei    file
+normalmente utilizzati  per il lavoro e di  organizzarli in  alberi di
+documentazione  in formato HTML per essere  poi  consultati tramite un
+qualsiasi Browser.
+
+La generazione dell'help avviene tramite  la definizione di un file di
+configurazione e  due procedure   di generazione.   L'utente abilitato
+alla generazione e' fisici  su metgranew e i  file che dovranno essere
+presi in considerazione devono essere leggibili da questo utente.  Una
+procedura automatica provvede  alla generazione quotidiana  e notturna
+dell'help aggiornato.
+
+DESCRIZIONE DEL FILE DI CONFIGURAZIONE:
+---------------------------------------
+
+Il file di configurazione e' situato in ~fisici/.helpdir
+
+Ogni riga  del file corrisponde ad una  definizione.  Il primo campo a
+sinistra  corrisponde ad un  direttorio  da prendere in considerazione
+per la ricerca  dei file sorgente  della documentazione  e deve essere
+terminato con due punti (&quot;:&quot;). Seguono, senza spazi e separati da &quot;:&quot;,
+le voci dell'help  a cui possono  essere  destinati i file  generati a
+partire dai file del  direttorio sorgente; la prima  di queste voci  &egrave;
+considerata quella di default.
+
+esempio:
+
+    /disco12/fisici/helpdoc:generali
+    /disco12/fisici/helpdoc/xgrib:xgrib
+    /disco11/eps/src/f77/prg:eps:eps/cluster_analysis:eps/statistical_analysis
+
+in questo esempio vengono definiti tre direttori di ricerca
+
+    /disco12/fisici/helpdoc
+    /disco12/fisici/helpdoc/xgrib
+    /disco11/eps/src/f77/prg
+
+i primi due  corrispondono ad un'unica voce di  help  di primo livello
+mentre il terzo definisce una voce di primo livello
+
+    eps
+
+e due voci di secondo livello
+
+    eps/cluster_analysis
+    eps/statistical_analysis
+
+Bisogna tenere conto che la definizione  della voce a primo livello e'
+obbligatoria anche se contiene solamente sottovoci.
+
+Le voci   dell'help cos&igrave; definite  sono  le uniche ammesse e  tutte le
+definizioni non coerenti verranno escluse con una segnalazione in fase
+di costruzione.
+
+
+FORMATO DEI FILE DI DOCUMENTAZIONE
+----------------------------------
+
+I file presi attualmente in considerazione  da autoaiuto sono: *.f *.F
+*.f90  *.c *.txt *.doc *.sh  *.pro.  All'interno di  questi file viene
+fatta la ricerca di particolari parole chiave.
+
+Unica eccezione  sono i file *.html,  che vengono  riportati cos&igrave; come
+sono nella  voce  di  default  per il direttorio   sorgente  in cui si
+trovano ed attribuiti  alla voce dell'help derivata  dal nome del file
+html troncato del suffisso .html,  e i file *.gif, *.jpeg, e *.css che
+vengono semplicemente ricopiati cosi' come sono.
+
+Ecco le parole chiave:
+
+    COMSTART (voce_help) [(voce_albero)]
+    CIDX (documentazione sintetizzata in una riga)
+    CVEDI (voce_riferimento) [(voce_riferimento2)] [(voce_riferimento3)] ...
+    COMEND
+
+devono essere inserite  in colonna 1.  La C  in colonna 1  puo' essere
+sostituita con un qualsiasi carattere che solitamente corrisponde a un
+carattere di commento  nel  linguaggio di  programmazione  che si  sta
+usando  (la C  corrisponde per  esempio  al Fortran).  Nel caso di IDL
+bisognera' utilizzare:
+
+    ;OMSTART
+    ;OMEND
+
+Per il  linguaggio C &egrave;  sufficiente  racchiudere il  testo  di help in
+un'area di commento  (tra  /* e  */) usando un  carattere qualsiasi in
+prima colonna per le  parole chiave al  posto  della C (vedi  anche il
+paragrafo successivo).
+
+USO DELLE PAROLE CHIAVE
+------------------------
+
+    COMSTART [(voce_ramo_albero)] (voce_help)
+
+definisce l'inizio del  testo da inserire nell'help attribuendogli una
+voce di  help.  E'  possibile  definire  in quale  &quot;ramo&quot;  dell'albero
+dell'help deve essere inserita la voce. Tale ramo deve essere definito
+nel file di  configurazione.  Se (voce_ramo_albero) non viene definito
+verra' attributa la voce di default per tale direttorio, cio&egrave; la prima
+voce definita nel file di configurazione.
+
+
+    CIDX (documentazione sintetizzata in una riga)
+
+definisce una descrizione   estremamente sintetica della  voce di help
+utilizzata  per costruire    la  voce  indice_generale    del  sistema
+autoaiuto.
+
+
+    CVEDI (voce_riferimento) [(voce_riferimento2)] [(voce_riferimento3)] ...
+
+definisce uno  o  piu' link   simbolici ad  una qualsiasi  altra  voce
+presente nel sistema  autoaiuto e le ricerca  automaticamente; possono
+essere presenti pi&ugrave; linee con questa parola chiave
+
+
+    COMEND
+
+definisce la posizione  finale  del testo da  includere nella  voce di
+help.
+
+Tutto il testo compreso tra COMSTART e COMEND sara' incluso nella voce
+di  help.  Se  la riga  successiva al  COMSTART (escluse le  righe con
+parole   chiave) contiene in   prima  colonna  lo stesso carattere  di
+commento    della riga di COMSTART,  allora    la prima colonna  viene
+considerata un commento  ed  eliminata  in  tutto  il testo, in   caso
+contrario essa viene copiata nel testo  dell'help; quest'ultimo caso &egrave;
+utile per i file di  testo e per i  programmi C in  cui i commenti non
+richiedono un carattere chiave in ogni riga.
+
+
+
+ACCESSIBILITA' DELLA DOCUMENTAZIONE
+-----------------------------------
+
+Tutta la documentazione   generata e' accessibile tramite   un browser
+accedendo al file su metgranew ~fisici/help/index.html
+
+Il comando:
+    guida
+del gruppo fisici attiva il browser lynx puntando a questo direttorio.
+
+Per problemi di accessibilita' e privilegi e' attivo anche un server
+http in intranet accessibile puntando a:
+
+    http://172.20.1.129
+
+oppure per chi ha definito l'alias
+
+    http://ciao
+
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

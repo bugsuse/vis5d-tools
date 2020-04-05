@@ -1,0 +1,44 @@
+From:    IN%"henk_witte@sara.nl"
+To:      whibbard@macc.wisc.edu
+Lines:   50
+Time:    21-APR-1995 06:43:14.49
+Folder:  MAIL
+Replied: No
+
+Dear Bill,
+Last week I uploaded the following files, I hope they are useful:
+ 
+Make_map      make for the vector to vis5dmap utility
+Make_tov5d    make for the to vis5d data conversion
+Make_ccrutil  make for extra utilities
+ccm_to_v5d.c  source of the dataconversion program
+scanccr.c     source of a program that lists the variables/levels/timesteps
+              in a ccr file
+extrccr.c     source of a program to extract an area of the ccr output
+diffccr.c     source of a program that calculates differences between
+              two ccr files
+ccrutil.h     include file for the ccm_to_v5d.c program and other utilities
+ccmheader     example header used by the ccm_to_v5d program and other utilities
+vec_to_map.c  source of the vector to vis5dmap program
+ccrutil.readme  readme file for dataconversion program and other utilities
+vectomap.readme readme file for the vec_to_map program
+ 
+I also have a program to convert the CCM landmasks to vector format, but
+the masks need to be manipulated first by hand. Also, although the program
+works with all masks I have tried until now, I do not think it is ready
+for use by others. I am willing however to see if I can "vectorise" masks
+if needed. Also I can send the maps I have of the CCM simulations
+to Rich Selin.
+ 
+Hope it all works!
+Best, Henk.
+ 
+===============================================================
+ Dr. Henk J.L. Witte
+ Hugo de Vries-Laboratorium
+ Universiteit van Amsterdam
+ Kruislaan 318                       Tel.: +31 (0)20 5257950
+ 1098 SM Amsterdam                   Fax.: +31 (0)20 5257662
+ The Netherlands                    Email: henk_witte @ sara.nl
+===============================================================
+

@@ -1,0 +1,352 @@
+<HTML><HEAD><TITLE>
+ QUASYNOPCONS
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quasynopcons</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quasynopcons_noflag.f">/disk3/patruno/lib/mega/quasynopcons_noflag.f</A> <HR>
+<PRE>
+	SUBROUTINE QUASYNOPCONS(FLAG,IER)
+
+	controllo di qualita` sulla consistenza internain un report synop.
+	OGNI VARIABILE SYNOP VIENE CONFRONTATA CON le altre variabili presenti
+	nel report; ogni accoppiamento deve veder soddisfatte alcune condizioni
+	fisiche o inerenti la cifratura.
+
+	FLAG(43)	BYTE	incrementato di uno per ogni accoppiamento
+				tra le 43 variabili synop che ha segnalato
+				un errore
+	IER		I*4	condizione di errore
+			IER=1	tipo messaggio errato
+			IER=-1	non trovo i dati anagrafici della stazione
+				e quindi faccio controlli piu` blandi.
+
+	COMMON /RRW/RRW
+	RRW(50)		I*2	RRW(50) per passare i dati synop come dichiarato
+				in met$inc:synop.inc
+	COMMON /CODER/CODER	
+	CODER(10)	BYTE	BIT MAP per la segnalazione dell'esito
+				di ogni specifico confronto. In questi otto
+				byte ogni bit e` associato a un particolare
+				accoppiamento tra variabili. Il bit settato
+				a 0 significa che non c'e` stata nessuna
+				segnalazione di errore. Il bit settato
+				a 1 significa che quell'accoppiamento di
+				variabili ha segnalato errore. La posizione
+				del bit da testare e` di seguito descritta.
+				Si consiglia di utilizzare la routine
+				BITR appositamente scritta (vedi propria
+				documentazione).
+
+	Per indirizzare il vettore FLAG alla variabile interessata si puo`
+	utilizzare, includendo nel proprio programma, il file
+	megainc$dir:quasynop.inc ed utilizzare come indici del vettore le
+	variabili che hanno lo stesso nome della variabile (meteodata)
+	preceduto da 'IN'. Ad esempio:
+	per la temperatura        FLAG(INTATA)
+
+	I principi generali su cui sono basati questi controlli di qualita`
+	sono stati ricavati con alcuni adattamenti da:
+
+    1) W.W.W. PLANNING REPORT N.26  'QUALITY CONTROL PROCEDURES
+       FOR METEOROLOGICAL DATA'
+
+    2) technical note  E.C.M.W.F.- operations department-
+       'quality control checks applied to observational data'
+
+    3) AERONAUTICA MILITARE ITALIANA REGOLAMENTO DI SERVIZIO N.5
+       'MESSAGGI METEOROLOGICI' MET RS 5  FM 12-VIII SYNOP
+
+	OGNI VARIABILE VIENE CONFRONTATA CON UNA O PIU` VARIABILI PRESENTI
+	NELLO STESSO REPORT PER VERIFICARNE LA VALIDITA`.
+
+POSIZIONE	VARIABILE	VARIABILI
+NELLA BIT MAP	DA CONTROLLARE	DI CONFRONTO
+
+   1		TATA		TETE
+   2		TATA		TEMPRS
+   3		TATA		TDTD
+   4		TDTD		TETE
+   5		TDTD		TATA
+   6		TDTD		TEMPRS-TATA
+   7		DD		FF
+   8		FF 		DD
+   9		FF 		TEMPRS
+  10		PRES 		P0P0
+  11		P0P0 		PRES
+  12		VIS  		TEMPRS
+  13		TEND 		CART
+  14		PRECI  		TEMPRS
+  15		PRECI  		TEMPAS
+  16		TEMPRS 		NTOT
+  17		TEMPRS 		VIS
+  18		TEMPRS 		TATA  		
+  19		TEMPRS 		TATA-TDTD-UMID 	
+  20		NTOT 		NH  		
+  21		NTOT 		NH-CH  		
+  22		NTOT 		NH-CM-CH  	
+  23		NTOT 		NH-HH 		
+  24		NTOT 		CL  		
+  25		NTOT 		CM  		
+  26		NTOT 		CM-CH-CL  	
+  27		NTOT 		CH  		
+  28		NTOT 		8 GRUPS		
+  29		NTOT 		TEMPRS		
+  30		NTOT	 	NSS  		
+  31		NTOT 		VIS 		
+  32		NTOT 		HH  		
+  33		TETE   		TATA    	
+  34		TETE   		TDTD    	
+  35		TATA   		TDTD  TEMPRS		
+  36		VIS		NTOT		
+  37		TEMPRS		FF		
+  38		TEMPRS		PRECI		
+  39		TEMPAS		PRECI		
+  40	 	TR		ORA REPORT	
+  41	  	GEOP		P0P0		
+  42	  	CL		8GRUPS		
+  43 		CL		NH		
+  44  		CL		CM NH		
+  45		CL		CH NTOT NH	
+  46		CL		CM CH		
+  47		CM		CH		
+  48		CM		CH NTOT NH		
+  49		CM		CL 8GRUPS	
+  50		CM		NH		
+  51		CM		8GRUPS		
+  52		CH		NTOT		
+  53		CH		CM CL 8GROUPS	
+  54		CH		8GROUP		
+  55		CART		TEND		
+  56		NH		NTOT
+  57		NH		NTOT CH
+  58		P0P0		GEOP
+  59		NH		CL
+  60		NH		CL CM
+  61		CL		HH CM
+  62		NH		CM
+  63		CM		NH CL
+  64		CM		HH CL		
+  65		HH		VIS		
+  66		VIS		HH		
+  67		HH		NTOT		
+  68		HH		NH		
+  69		HH		CL CM		
+  70		NH		CH		
+  71		NH		HH		
+  72		NH		8 GRUPS		
+
+VARIABILE	CONFRONTO	CONDIZIONE DI ERRORE
+
+TATA		TETE		TATA&gt;TETE 	ORE 18
+				TATA&lt;TETE	ORE 06
+		TEMPRS		TATA&lt;-20	TEMPRS=20,21,25 		PRECIPITAZIONI LIQUIDE ORA PRECEDENTE
+				TATA&lt;-20	TEMPRS=50-55,58-65,80-82,91,92 	PRECIPITAZIONI LIQUIDE
+			TATA&gt;60 O TATA&lt;-70	TEMPRS=23,24 			PIOVIGGINE O PIOGGIA MISTA A NEVE O CONGELENTESI
+											ORA PRECEDENTE
+			TATA&gt;60 O TATA&lt;-70	TEMPRS=56,57,66,67,68,69,83,84	PIOVIGGINE O PIOGGIA CONGELANTESI O
+											PIOGGIA O ROVESCIO MISTO A NEVE
+				TATA&gt;60		TEMPRS=22,26			NEVE ORA PRECEDENTE
+				TATA&gt;60		TEMPRS=70-79,85-88		NEVE
+				TATA&gt;40		TEMPRS=48,49			NEBBIA CHE FORMA UNO STRATO DI GHIACCIO
+				TATA&gt;40		TEMPRS=36-39			SCACCIANEVE
+				TATA&lt;40		TEMPRS=30-35			TEMPESTA DI SABBIA
+				TATA&lt;-70	TEMPRS=17,91-99			TEMPORALE
+				TATA&lt;-70	TEMPRS=27,89,90			GRANDINE
+
+		TDTD		TATA&lt;TDTD	
+
+		TDTD-TEMPRS	TATA&gt;TDTD+45	TEMPRS=40,41,50-97,99
+				TATA&gt;TDTD+10	TEMPRS=42-49
+
+TDTD		TETE		TDTD&gt;TETE 	ORE 18
+		TATA		TATA&lt;TDTD
+		TEMPRS-TATA	TATA&gt;TDTD+45	TEMPRS=40,41,50-97,99
+				TATA&gt;TDTD+10	TEMPRS=42-49
+
+DD		FF		C'E` DD E NON C'E` FF
+				DD= 0		FF&lt;&gt;0
+				DD&lt;&gt;0		FF= 0
+				DD=999		FF&gt;6
+
+FF		DD		C'E` FF E NON C'E` DD
+				FF&lt;&gt;0		DD= 0
+				FF= 0		DD&lt;&gt;0
+				FF&gt;6		DD=999
+		TEMPRS		FF&lt;10		TEMPRS=09,30-39
+
+PRES		P0P0		PRES+10&lt;P0P0
+				PRES+10&lt;P	CON P RICALCOLATO CON P0P0 TATA
+				PRES-10&gt;P	E ALTEZZA STAZIONE
+
+P0P0		PRES		PRES+10&lt;P0P0
+				PRES+10&lt;P	CON P RICALCOLATO CON P0P0 TATA
+				PRES-10&gt;P	E ALTEZZA STAZIONE
+
+		GEOP TATA	GEOP+5&lt;G	CON G RICALCOLATO CON P0P0 TATA
+				GEOP-5&gt;G	ALTEZZA STAZ. E LIVELLO STANDARD
+
+GEOP		P0P0 TATA	GEOP+5&lt;G	CON G RICALCOLATO CON P0P0 TATA
+				GEOP-5&gt;G	ALTEZZA STAZ. E LIVELLO STANDARD
+
+VIS		TEMPRS		TEMPRS=00-03	VIS&lt;10
+				05,29,40
+				TEMPRS=41-49,	VIS&gt;10
+				TEMPRS=74,75	VIS&gt;20
+				TEMPRS=10	VIS&gt;100
+
+		NTOT		VIS=&gt;10		NTOT=9
+
+		HH		VIS&gt;100		HH&lt;100
+
+CART		TEND		CART=4		TEND&lt;&gt;0
+				CART=1,2,3,6,
+					7,8	TEND=0
+
+TEND		CART		TEND&lt;&gt;0		CART=4
+				TEND=0		CART=1,2,3,6,7,8
+
+PRECI		TEMPRS		PRECI=0		TEMPRS=20-27,99,50-75,80-97
+
+		TEMPAS          PRECI=0         TEMPAS=5,6,7,8
+
+TR		ORA REPORT	TR&lt;&gt;12		ORA REPORT=06,18
+				TR&lt;&gt;6		ORA REPORT=00,12
+
+TEMPRS		NTOT		TEMPRES=03,	NTOT=0
+				14-17,
+				50-75,77-99
+				TEMPRS=43,45,	NTOT&lt;&gt;9
+				47,49
+				TEMPRS=0-29,	NTOT=9
+				40,42,44,46,48
+		VIS		TEMPRS=00-03	VIS&lt;10
+				05,29,40
+				TEMPRS=41-49,	VIS&gt;10
+				TEMPRS=74,75	VIS&gt;20
+				TEMPRS=10	VIS&gt;100
+
+		TATA		TATA&lt;-20	TEMPRS=20,21,25 		PRECIPITAZIONI LIQUIDE ORA PRECEDENTE
+				TATA&lt;-20	TEMPRS=50-55,58-65,80-82,91,92 	PRECIPITAZIONI LIQUIDE
+			TATA&gt;60 O TATA&lt;-70	TEMPRS=23,24 			PIOVIGGINE O PIOGGIA MISTA A NEVE O CONGELENTESI
+											ORA PRECEDENTE
+			TATA&gt;60 O TATA&lt;-70	TEMPRS=56,57,66,67,68,69,83,84	PIOVIGGINE O PIOGGIA CONGELANTESI O
+											PIOGGIA O ROVESCIO MISTO A NEVE
+				TATA&gt;60		TEMPRS=22,26			NEVE ORA PRECEDENTE
+				TATA&gt;60		TEMPRS=70-79,85-88		NEVE
+				TATA&gt;40		TEMPRS=48,49			NEBBIA CHE FORMA UNO STRATO DI GHIACCIO
+				TATA&gt;40		TEMPRS=36-39			SCACCIANEVE
+				TATA&lt;40		TEMPRS=30-35			TEMPESTA DI SABBIA
+				TATA&lt;-70	TEMPRS=17,91-99			TEMPORALE
+				TATA&lt;-70	TEMPRS=27,89,90			GRANDINE
+		TATA-TDTD/UMID  TEMPRS=40,41,	(TATA-TDTD)&gt;45/UMID&lt;85
+				50,97,99
+				TEMPRS=42-49,	(TATA-TDTD)&gt;10/UMID&lt;95
+		FF		TEMPRS=09,30-39	FF&lt;10
+		PRECI		PRECI=0		TEMPRS=20-27,99,50-75,80-97
+
+TEMPAS		PRECI		TEMPAS=5,6,7,8	PRECI=0
+
+TETE		TATA		TATA&gt;TETE 	ORE 18
+				TATA&lt;TETE	ORE 06
+		TDTD		TDTD&gt;TETE	ORE 18
+
+NTOT		NH		NTOT&lt;NH
+				NTOT=9		NH&lt;9
+
+		NH-CH		NTOT&gt;0 		NH=0, CH=0
+
+		NH-CM-CH	NTOT&gt;NH		CM=0,CH=0
+				NTOT=8		NH&lt;8, CM=CH=MANCANTE
+
+		NH-HH		NTOT&lt;&gt;0		NH=0, HH&lt;2500
+
+		CL		NTOT=0 		CL&gt;0
+				NTOT=9		0&lt;= CL &lt;=9
+
+		CM		NTOT=0 		CM&gt;0
+				NTOT=9 		0&lt;= CM &lt;=9
+
+		CM-CH-CL	NTOT&gt;0		CL=0,CM=0,CH=0
+
+		CH		NTOT=0 		CH&gt;0
+				NTOT=9 		0&lt;= CH &lt;=9
+
+		8 GRUPS		NTOT=0  	8 GRUPS PRESENTI
+
+		TEMPRES		NTOT=0 		TEMPRES=03,14-17,
+				     		50-75,77-99
+				NTOT&lt;&gt;9		TEMPRS=43,45,47,49
+				NTOT=9		TEMPRS=0-29,40,42,
+						44,46,48
+
+		NSS		NTOT=9		NSS&lt;&gt;9
+				NTOT&lt;&gt;9		NSS=9
+				NTOT&lt;NSS
+
+		VIS		NTOT=9		VIS=&gt;10
+
+		HH		NTOT=0		HH&lt;2500
+				NTOT&lt;&gt;9		HH=MANCANTE
+				
+HH		VIS		HH&lt;100		VIS&gt;100
+
+		NTOT		HH=MANCANTE	NTOT&lt;&gt;9
+				HH&lt;2500		NTOT=0
+
+		NH		HH&lt;2500		NH=0
+
+		CL-CM		HH&lt;2500		CL=0, CM=0
+
+
+NH		NTOT		NH&gt;NTOT
+				NH&lt;9		NTOT=9
+
+		NTOT-CH		NH=0		NTOT&gt;0, CH=0
+
+		CL		NH&lt;&gt;9		CL=MANCANTE
+				NH=0		CL&lt;&gt;0
+		CL-CM		NH&lt;&gt;0		CL=0, CM=0
+				NH=8		1=&lt; CL =&lt;9, CM&lt;&gt; MANCANTE
+
+		CM		NH=0		CM&lt;&gt;0
+
+		CH		NH=8		CH&lt;&gt;MANCANTE
+
+		HH		NH=0		HH&lt;2500
+				NH&lt;&gt;9		HH=MANCANTE
+
+		8 GRUPS		NH=0		8 GRUPS PRESENTI  (SOLO SE E` VERO CHE LE NUBI ALTE NON VENGONO CIFRATE NEI GRUPPI 8 ????????
+				1=&lt;NH=&lt;8	8 GRUPS MANCANTI
+
+
+CL		CSS(1-4)	CL=0		CSS(1-4)=&gt;6 IN ALMENO UN GRUPPO
+				CL=3,9		NESSUN CSS(1-4)=9
+		CSS(1)		CL&lt;&gt;0		CSS(1)&lt; 6
+		CM-NH		CL=CM=0		NH&lt;&gt;0
+				1=&lt; CL =&lt;9	NH=9, CM &lt;&gt;MANCANTE
+		NH		CL&lt;&gt;0		NH=0
+		CM-CH		CL=MANCANTE	CM E CH &lt;&gt;MANCANTE	
+		CH-NTOT-NH	CL=CH=0		NTOT&lt;&gt;NH
+		CM-HH		CL=0		CM=0, HH&lt;2500
+
+CM		NH		CM&lt;&gt;0		NH=0
+		CH		CM=MANCANTE	CH&lt;&gt;MANCANTE
+		CL-CSS(1-4)	CM=CL=0		CSS(1-4)=&gt;3 IN ALMENO UN GRUPPO
+		CSS(1-4)	CM=0,MANCANTE	6&gt;CSS(1-4)&gt;2
+		CL-CSS(1)	CM=1-9		CL=0 ,CSS(1)&lt;3 OR CSS(1)&gt;5
+		CH-NTOT-NH	CM=CH=0		NTOT&lt;&gt;NH
+		CL-HH		CM=0		CL=0, HH&lt;2500
+
+CH		CM-CL-CSS(1-4)	CH=CM=CL=0	GRUPPI 8 PRESENTI
+		CSS(1-4)	CH=0,MANCANTE	CSS(1-4)&lt;3
+				CH=1-4		CSS(1-4)&lt;&gt;0 IN TUTTI I GRUPPI
+				CH=5-8		CSS(1-4)&lt;&gt;2 IN TUTTI I GRUPPI
+				CH=9		CSS(1-4)&lt;&gt;1 IN TUTTI I GRUPPI
+		NTOT		CH=7		NTOT&lt;&gt;8
+		CL-CM-CSS(1)    CH=1-9 CL=CM=0  CSS(1)&gt;2
+		
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

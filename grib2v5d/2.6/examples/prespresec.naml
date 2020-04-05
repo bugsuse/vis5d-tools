@@ -1,0 +1,18 @@
+&config
+ typel = 100,
+ redfact = 2,
+ fixedfth = 0,
+ varname  =   "T",  "U",  "V",  "Q",  "Z", "TS",
+ tab2ver  =   128,  128,  128,  128,  128,  128,
+ tabvar   =   130,  131,  132,  133,  129,  139,
+ lowlev   =     1,    1,    1,    1,    1,    0,
+ nl       =    11,   11,   11,   11,   11,    1,
+ tablev   = 0, 1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100,
+ tabfth = 0,6,12,18,
+/
+
+&names
+ inname = '/disco10/analisi/casi/parigi/GRIBANAFOR.GRB'
+ outname = 'presec.v5d'
+/
+

@@ -1,0 +1,48 @@
+<HTML><HEAD><TITLE>
+ RLTLWD
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">rltlwd</H2> <HR>
+ trasforma le componenti del vento dal sistema ruotato al sistema geografico <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/hibu/rltlwd.f">/disk3/patruno/lib/hibu/rltlwd.f</A> <HR>
+<PRE>
+
+ SUBROUTINE RLTLWD(ALMD,APHD,TPUS,TPVS,TLM0D,CTPH0,STPH0,PUS,PVS)
+
+
+ Trasforma le componeti u,v espresse nel sistema ruotato tipico dei modelli
+ meteo LAMBO e LOKAL a componenti u,v espresse nel sistema geografico
+
+ input:
+
+  ALMD       real      longitudine sistema geografico (rapp. decimale)
+  APHD       real      latitudine sistema geografico (rapp. decimale)
+
+  tpus       real      componente u nel sistema ruotato
+  tpvs       real      componente v nel sistema ruotato
+
+  TLM0D      real      longitudine del punto intercetto del meridiano di
+                       Greenwich con l'equatore del sistema ruotato, nel
+                       sistema geografico
+
+  CTPH0      real      coseno della latitudine del punto intercetto del
+                       meridiano di Greenwich con l'equatore del sistema
+                       ruotato nel sistema geografico (rapp. decimale)
+  STPH0      real      seno della latitudine del punto intercetto del
+                       meridiano di Greenwich con l'equatore del sistema
+                       ruotato nel sistema geografico
+
+ output:
+
+  pus          real     componente u nel sistema geografico
+  pvs          real     componente v nel sistema geografico
+
+</PRE>
+Vedi anche:
+<a href="ltlwd.html ">ltlwd</a>
+<a href="tlld.html ">tlld</a>
+<a href="rtlld.html ">rtlld</a>
+<a href="rot_grib_lambo.html ">rot_grib_lambo</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

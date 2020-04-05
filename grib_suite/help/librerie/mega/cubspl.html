@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>
+ CUBSPL
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">cubspl</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/spline1_lib.f">/disk3/patruno/lib/mega/spline1_lib.f</A> <HR>
+<PRE>
+	SUBROUTINE CUBSPL(X,Y,S,N,IEND,A)
+
+  Questa routine calcola la matrice per trovare i coefficienti
+  di una spline cubica attraverso i dati.
+  Il sistema e' risolto per ottenere i valori delle derivate
+  seconde. I parametri sono:
+   X,Y    :	vettori x e y da fittare
+   S      :	vettore delle derivate seconde nei punti
+   N	   :    numero di elementi 	
+   IEND   :	tipo di condizione al contorno da usare per S(1) e S(N)
+   IEND=1     	S(1)=S(N)=0.
+   IEND=2     	S(1)=S(2),  S(N)=S(N-1)
+   IEND=3     	finale cubico
+   A      :   	matrice dei coefficienti e dei termini noti per trovare S
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

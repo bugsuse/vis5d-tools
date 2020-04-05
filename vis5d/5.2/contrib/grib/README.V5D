@@ -1,0 +1,82 @@
+GRIB5D converts a series of gribfiles to VIS5D gridfile format.  The VIS5D
+format is intended for use with the VIS5D program which displays 3_dimension
+grids over time.  Each 3_d grid contains data of one type (temperature) for one
+time peroid, the data being in three dimensions.
+  This gribfile to VIS5D gridfile converter uses an ascii command file to
+designate the structure of the 3_d gridfile and the gribfiles to build it from.
+
+An example of the command file follows:
+
+93207 00 3
+Z T
+11 15 5
+50. 100. 2.
+0  1000
+/u2/gmc/nmctest/GR3D0001
+test of grib to VIS5D          x
+00 105 /u2/ftp/arc/etx00.93267.00
+06 105 /u2/ftp/arc/etx06.93267.00
+12 105 /u2/ftp/arc/etx12.93267.00
+
+A description of each line follows (free format):
+
+# 1. (YYDDD) (HR) (debug level 0-3)
+     give the year of century and day of year and hour of the earliest data.
+     This is probably not used so its accuracy is not important.
+     The debug level gives the amount of print given, most of this is for
+     debugging use.  Zero is the level of least printout.
+# 2. (list of display variables)
+     This list contains the variables to unpack from the gribfile and convert
+     to 3_d.  The first variable must be Z (in caps).  Other recognized
+     variables are T (temperature) and U and V (wind components.  Max in list
+     is 5.
+# 3. output: (number of rows) (no. cols) (no vert)
+     This is the size of the 3_d grid.  Rows are north south.
+# 4. North west corner (latitude) (longitude) (incriment)
+     latitude is +90Nto 0W, longitude is +180W to 0W, incriment is positive.
+     These values can be real or floating point.
+     Problems of wraparound have not been addressed yet.
+# 5. (Base lowest height level) (height incriment)
+     This is the bottom level of the vertical structure, 0 is MSLP.  The
+     incriment is in meters.
+# 6. output file name (the 3d gridfile)
+     The UNIX file name for the output 3_d gridfile.  It can be a fully
+     qualified path.  If the file already exists it will be overwritten.
+# 7. title for 3d gridfile (32 characters)
+     This is a string included at the beginning of the file for identification.
+# 8. (hour of file) (projection type) (name of file initial time)
+# .. repeat for next file (sequential in time)
+     Each input gribfile is on its own line.  The path is optional, use the UNIX
+     convention for finding files.
+
+NOTES:
+
+1. The gribfiles must be on pressure surfaces.
+
+2. A makefile is included with the source package, type in
+   >make grib5d
+   to build the executable.  The source should all be in the current directory.
+   Create a subdirectory with name 'obj'.
+
+3. Wind components (u & v) area not reoriented between two different
+   projections.  Example the u & v wind vector on a polar stereographic grid
+   are not transformed to a latitude-longitude grid.  This should be fixed,
+   if there is a demand, it will be a priority item.
+
+4. Array dimension checking is not compleate.  This means that input grib size
+   of out grid dimensions are not check for compatibility with the 'hardwired'
+   program dimensions.  However, all program arrays should be dimensioned with
+   define preprocessor directives located in header files.  This means that a
+   change to one line of code will affect the entire program.  For the present
+   if grid dimensions are increased and the program terminates with a
+   segmentation error, try smaller dimensions.  The input grids are stored, one
+   at a time, in an array of dimensions given on control line 4.
+
+5. projection type as found on lines 8...
+     This is type of grid found in the Product Definition Section.  Normally it
+     is the NMC "ktype' of 255 to indicate that there is a Grid Descriptor
+     Section.  This information is needed because some NMC gribfiles have the
+     same gridded data in different projections.
+
+Geary Callan            gearyc@ssec.wisc.edu
+

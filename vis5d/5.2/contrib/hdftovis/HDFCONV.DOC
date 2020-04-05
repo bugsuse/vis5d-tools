@@ -1,0 +1,67 @@
+
+Dawn Smith (DASMITH@smtpgate.tnrcc.state.tx.us) contributed the following
+information about using the HDF-to-Vis5D converter on HP systems.
+
+
+------------------- HDFCONV.DOC follows --------------------
+My problems with the HDF to vis5d converting to HP
+
+MAKEFILE
+
+compal.f is no longer available with vis5d.  Karen Butler 
+(butler@geosim.msfc.nasa.gov) supplied it very promptly (I hope this is her
+current internet address).
+
+[NOTE: compal.c is the file needed and is now included.  -Brian]
+
+
+the HP chose to ignore the compile option of -k and got very nasty about the
+libdf.a from a SGI.  The libdf.a was probably also HDF 3.2.
+The libraries are available at ftp.ncsa.uiuc.edu  in /HDF/HDF4.0r1/BIN.  
+Change the 4.0r1 to whatever version you prefer.  I am using 3.3r4.  The HP HDF
+library was built for a 755, but it seemed to be OK on my 715.  I have since 
+built it on the 715, with no apparent difference in operation.
+
+The HP did not seem affected by changing the .F to .f though they do have 
+different meanings.  Unfortunately I dont have access to SGI manuals to see if
+there were any differences there.
+
+For reasons unknown, args.o refused to be recognized in the build, so to reduce
+the number of unknowns, I put the command line handling in the hdftovis.F 
+program.
+
+SOURCE CODE : HDFTOVIS
+
+INTEGER*1 is not in the HP FORTRAN compiler.  I replaced it with BYTE which is 
+defined to range from -128 to +127.  LOGICAL*1 may also work, but I could not
+find a convincing definition.  
+
+The biggest problem I had, was the uncertainty of making a lot of changes
+without knowing if they were correct.  What caused almost all of my problems
+turned out to result from over zealous removal of HDF C function declarations
+which(with some other things) were causing dozens of warnings on the HP.
+Although there are a full set of FORTRAN function names, the C declarations 
+do work in FORTRAN.
+The HDF functions must be declared because they start with "D" but return
+integers.   As I have probably never coded a FORTRAN function call, I did not
+think of the typical FORTRAN default to float applying to functions.  
+
+There may be more small changes, but because of the number of small changes 
+I made to get rid of the warnings, a "diff" has turned out to be surprisingly 
+hard to follow.
+
+TEST DATA         
+
+The test data file generator in the README.HDF file only demonstrated a single 
+time step.  I did one which shows a trivial change over time for the two 
+variables.  I would be glad to send it.
+
+RESULTS
+
+Unfortunately, I now have the dubious distinction of being the local HP FORTRAN
+expert.  I still dont know enough about HDF to do what I set out to do.
+Karen Butler was wonderful about answering my strange questions which, 
+of course, had nothing to do with the real problem--my removing ALL of the 
+HDF declarations.
+
+

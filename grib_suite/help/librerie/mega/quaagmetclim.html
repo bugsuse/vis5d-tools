@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>
+ QUAAGMETCLIM
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quaagmetclim</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quaagmetclim.f">/disk3/patruno/lib/mega/quaagmetclim.f</A> <HR>
+<PRE>
+	FLAG(21)	BYTE	incrementato di uno se verificato errore
+				per le 21 variabili agrometeo con soglie
+				climatiche strette, oppure incrementato di
+				tre su soglie larghe.
+	IER		I*4	condizione di errore
+			IER=1	tipo messaggio errato
+				(ossia tipo&lt;&gt;12,13,14)
+			IER=-1	non trovo i dati anagrafici della stazione
+				e quindi faccio controlli piu` blandi.
+			IER=-2  errore climaumidita` o climatemperatura
+				relativo controllo piu` blando
+			ier=100 troppe unita` logiche aperte
+			IER&gt;100	codice iostat fortran+100
+
+	n.b.
+	tipo report deve essere 12 (biorarie ora solare), 13 (orarie ora Z),
+	oppure 14 (biorarie ora Z)
+
+	COMMON /RRW/RRW	I*2	RRW(28) per passare i dati synop come dichiarato
+				in loc$inc:agrmet_120.inc
+
+	Per indirizzare il vettore FLAG alla variabile interessata si puo`
+	utilizzare, includendo nel proprio programma, il file
+	megainc$dir:quaagmet.inc ed utilizzare come indici del; vettore le
+	variabili che hanno lo stesso nome della variabile (meteodata)
+	preceduto da 'IN'. Ad esempio:
+	per la temperatura        FLAG(INT180)
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

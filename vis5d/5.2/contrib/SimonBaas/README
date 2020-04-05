@@ -1,0 +1,227 @@
+
+1. Introduction
+===============
+ 
+This document describes the following enhancements to
+VIS-5D (available in version 3.3):
+    1. Simultaneous display of physical variables with a
+       different number of levels,
+    2. Use of pressure (or other) instead of height as the
+       vertical coordinate. 
+ 
+It is advised to use both enhancements even if only one of
+them is desired. Only one new file format has been provided
+which contains extra information for both enhancements.
+ 
+ 
+2. Description of the enhancements
+==================================
+ 
+2.1 Variable number of levels
+=============================
+ 
+The purpose of this enhancement is to make VIS-5D capable
+of handling physical variables with a different number of
+levels simultaneously. Previously, VIS-5D could only
+handle input files containing data grids with the same
+number of grid points in all three dimensions, including
+height ie. the number of levels.
+VIS-5D is now also capable of handling data grids consisting
+of only one level.
+ 
+The following restrictions apply:
+ - All data grids must still have the same number of rows
+   and columns, and each must still be at least 2.
+ - The levels are still supposed to be equidistant.
+ - The same number of levels of a physical variable must
+   be available in every timestep,
+ - 'Floating' data grids are not allowed. All data grids are
+   supposed to be placed on the surface of the earth. This
+   implies that single-level fields are always surface
+   fields.
+ 
+ 
+2.2 Vertical coordinate systems
+===============================
+ 
+VIS-5D version 3.2 is restricted to height as the vertical
+coordinate. When other vertical coordinate units are
+used it is necessary for VIS-5D to know about the particular
+unit used. This is especially true when using pressure
+as the vertical coordinate system. Interpolation between
+(equidistant) pressure levels must be done using the
+logarithm of the pressure levels, because pressure decreases
+exponentially with height.
+ 
+ 
+3. Use of the enhancements
+==========================
+ 
+3.1 Enabling
+============
+ 
+Compile VIS-5D using the extra C compiler flags 'VARIABLE_NL'
+and 'LEVELTYPES' by editing the makefile appropriate for
+your hardware in the vis5d/src directory.
+For example, when compiling on an IBM hardware platform, the
+line
+ 
+    CFLAGS = -c -Dibm -w -O
+ 
+should be changed to
+    
+    CFLAGS = -c -Dibm -w -O -DVARIABLE_NL -DLEVELTYPES
+ 
+Also note, that a new utility varNLcomp5d is provided in the
+vis5d/util directory, which can convert a new format GRID
+file to a new format COMP file (the new file formats are
+described in section 3.2).
+ 
+ 
+3.2 New file formats
+====================
+ 
+After successful compilation using the extra flags as described
+above, VIS-5D is ready to import the enhanced data files. To
+create these new format data files it is possible to first create
+a new format GRID file and convert this file to a new format
+COMP file with the new utility varNLcomp5d or to create a new
+format COMP file directly.
+ 
+ 
+3.2.1 Creating a new format GRID file
+=====================================
+ 
+A new format GRID file has only one difference with respect to the
+old McIDAS format. The last pad[] array field in the grid info
+structure
+ 
+    int pad4[31]
+    
+is replaced by
+ 
+    int leveltype
+    int pad4[30]
+    
+The leveltype variable is used to store the vertical coordinate
+unit and at present the following values are valid:
+ 
+  - HEIGHT_LEVELS (105)    Default leveltype (km is the vertical
+                           coordinate unit).
+  - PRESSURE_LEVELS (100)  Equidistant pressure levels (Pa is the
+                           vertical coordinate unit). For this
+                           leveltype, vertical interpolation is
+                           done using the logarithm of the pressure
+                           levels.
+ 
+The values used above to indicate the vertical coordinate unit are
+taken from the GRIB file format as described in FM 92-IX Ext.--GRIB
+Volume B of publication WMO - No. 9.
+ 
+If pressure levels are used, the 'top' and 'topinc' variables in the
+grid info structures should contain the pressure of the top level
+of the grid (unit Pa) multiplied by 1000, and the difference
+between the levels in Pa multiplied by 1000, respectively.
+ 
+Since the dimensions of every grid in a GRID file are already
+stored separately, a change to the GRID file format for the variable
+number of levels enhancement is not necessary.
+ 
+ 
+3.2.3 Converting new format GRID to new format COMP files
+=========================================================
+ 
+Using the new utility varNLcomp5d, the new format GRID files
+are converted to new format COMP files. The syntax is the
+same as for the original comp5d utility.
+ 
+ 
+3.2.4 Creating a new format COMP file directly
+==============================================
+ 
+VIS-5D can still read the old COMP file formats as usual,
+the information not present in old files is substituted with
+appropriate default values.
+A new format is supported with ID 0x80808085. This new
+format consists of the old format 0x80808083 (compression layer
+by layer, read on demand), with the following extra information:
+ 
+  - Number of levels for every parameter, instead of just one,
+  - Leveltype, the unit of the vertical coordinate system.
+         
+The exact format looks like follows (modifications with respect
+to the format with ID 0x80808083 are marked by -->):
+ 
+ -->int ID (0x80808085)
+    int GRIDTIMES               Maximum number of time steps.
+    int NumTimes                Number of time steps.
+    int NumParms                Number of parameters.
+    int Nr                      Number of rows for all grids.
+    int Nc                      Number of columns for all grids.
+ -->int NL[NumParms]            A number of levels for every parameter
+                                in the file.
+    float LatInc, LonInc        Horizontal grid increments in latitude and
+                                longitude  direction.
+ -->int   LevelType             Type of vertical coordinate.
+    float Height[Nl]            Levelvalues (unit depends on leveltype).
+                                km for HEIGHT_LEVELS (105),
+                                Pa for PRESSURE_LEVELS (100).
+    char ParmName[GRIDPARMS][8] Names of parameters.
+    float MinVal[NumParms]      Minimum values of parameters.
+    float MaxVal[NumParms]      Maximum values of parameters.
+    int   TimeStamp[GRIDTIMES]  Timestamp of time steps.
+    int   DayStamp[GRIDTIMES]   Daystamp of time steps.
+    float NorthLat[GRIDTIMES]   North latitude of domain.
+    float WestLon[GRIDTIMES]    West longitude of domain.
+ 
+    The data grids vary in size. The size can be calculated using
+    the NL values from the array and are rounded up to a multiple
+    of four.
+ 
+    for each time step:
+     for each parameter:
+      int McFile         McIDAS GRID file number with original data.
+      int McGrid         Grid number in GRID file.
+      float ga[NL[ip]]
+      float gb[NL[ip]]   Decompression values for each level. ip is 
+                         the parameter index.
+      float griddata[*]  Data for this grid consisting of Nr*Nc*NL[ip] 
+                         floats rounded up the nearest multiple of 4.
+                         
+ 
+3.2.5 Using the enhancements
+============================
+ 
+After a new format COMP file is created, it can be read by
+VIS-5D in the usual manner. VIS-5D automatically performs
+the correct type of interpolation, restricts slice movement,
+disables iso-surfaces and vertical slices for single-level
+fields, etc.
+ 
+ 
+3.2.6 Future work
+=================
+ 
+- Logaritmic interpolation of vertical slices. This has not been
+  implemented yet. VIS-5D extracts a vertical slice with data values
+  for every real level of data in the grid. A solution to introduce
+  the logarithmic interpolation could be to calculate extra levels
+  in between the existing ones by logarithmic interpolation.
+ 
+------------------------------------------------------------
+I can be contacted at (snail mail):
+ 
+Simon Baas
+Korte Kruisweg 7
+2676XK Maasdijk
+Holland
+ 
+My e-mail address will probably be removed in the near future
+(baas@sthp.wi.leidenuniv.nl).
+ 
+Special thanks go to Hans de Jong (jongj@sthp.wi.leidenuniv.nl)
+for his efforts put into the project.
+The enhancements described in this document are part of a
+graduation project executed at Leiden University for the 
+Department of Computer Science.
+------------------------------------------------------------

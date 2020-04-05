@@ -1,0 +1,14 @@
+#!/bin/csh
+$GEMPAK/install/setup_links
+fcompile -c *.f
+/bin/rm main.o
+ar rv gemvis_hp.a *.o
+/bin/rm *.o
+fcompile -o ../gemvis_hp.x main.f gemvis_hp.a \
+     $GEMOLB/gemlib.a \
+     /export/hp20/ddapp/source/vis5d/vis5d-3.3/util/libmain.a \
+     $GEMOLB/gemlib.a  $GEMOLB/appl.a $GEMOLB/syslib.a \
+     $GEMOLB/gemlib.a
+strip ../gemvis_hp.x
+$GEMPAK/install/remove_links
+/bin/rm *.o

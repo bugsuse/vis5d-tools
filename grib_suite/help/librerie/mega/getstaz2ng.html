@@ -1,0 +1,44 @@
+<HTML><HEAD><TITLE>
+ GETSTAZ2NG
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">getstaz2ng</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/getstaz.f">/disk3/patruno/lib/mega/getstaz.f</A> <HR>
+<PRE>
+	SUBROUTINE GETSTAZ2NG(IWMO,ANOME,HHSLM,HHPOZ,ALAT,ALON,IER)
+	
+	Serve ad associare ad una stazione i relativi parametri anagrafici
+	Letti nell' archivio meteodata.
+	La ricerca viene effettuata in modo sequenziale restituendo ad
+	ogni chiamata una stazione, dalla prima all'ultima.
+	Se il record risulta allocato da un altro utente restituisce il
+	controllo al programma chiamante comunicando la condizione.
+
+	Output	:	IWMO	= I*4	Codice W.M.O. stazione
+			ANOME   = C*24	Nome della stazione
+			HHSLM	= R*4	Altezza stazione S.L.M.(m.)
+			HHPOZ	= R*4   Altezza del pozzetto (m.)
+			ALAT	= R*4	Latitudine ( Gradi,primi)
+			ALON	= R*4	Longitudine (Gradi,primi)
+			IER	= I*4	0=O.K.; &gt;0=errore fatale;
+					&lt;0=segnalazione errore triviale
+
+	Chiamate 		: nessuna
+	COMMON	Utilizzati	: /CONTRO/	CONTRO(12) CONTIENE IL NUMERO DI
+						UNITA` DA UTILIZZARE
+				  /ESTRASTAZ/	SEZ2 CON TUTTI I DATI ANAGRAFICI
+						DELLA STAZIONE CORRETTI SOLO SE
+						SONO STATI TROVATI E LETTI
+
+	Torna con HHSLM,HHPOZ,ALAT,ALON = -9999.9 se non recupera la stazione
+	IER=-1	errore accesso record perche` il record risulta locked da
+		un altro utente (attendere e riprovare)
+	IER=0	tutto O.K.
+	IER=1	errore apertura file archivio stazioni
+	IER=2	fine file
+	IER=3	altri errori su lettura record
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

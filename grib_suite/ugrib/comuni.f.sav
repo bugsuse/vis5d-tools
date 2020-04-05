@@ -1,0 +1,1416 @@
+        subroutine print (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+c	print*,'eseguo print',np
+c	ier=1
+c	if (np.lt.1)return
+	
+	do i=1,np
+		print*,par(i)
+	end do
+	ier=0
+
+99	return
+	end
+
+	subroutine gestexit (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+c	print*,'eseguo gestexit'
+
+	ier=0
+	if(np.eq.0)then
+		call exit(0)
+		goto 99
+	end if
+
+	ier=1
+	if (np.gt.1)goto 99
+
+	ier=2
+	read (par(1),*,err=99)ierr
+
+	ier=0
+	call exit (ierr)
+
+99	return
+	end
+
+	subroutine goto (par,np,nl,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+c	print*,'eseguo goto'
+
+	ier=1
+	if(np.gt.1)goto 99
+
+	ier=2
+	read (par(1),*,err=99)nl
+	nl=nl-1
+
+	ier=0
+
+99	return
+	end
+
+	subroutine onerrorgoto (par,np,nl,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+c	print*,'eseguo onerrorgoto'
+
+	ierr=0
+	if (ier.le.0)goto 99
+
+	ierr=1
+	if(np.lt.1)goto 99
+
+	ierr=1
+	if(np.lt.ier)ier=np
+
+	ierr=2
+	read (par(ier),*,err=99)nl
+	nl=nl-1
+	ierr=0
+
+99	ier=ierr
+	return
+	end
+
+	subroutine gosub (par,np,nl,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+	common /gosubstack/nlold(10),idnl
+
+
+	ier=1
+	if(np.ne.1)goto 99
+
+	ier=2
+	if (idnl.ge.10)goto 99
+	idnl=idnl+1	
+	nlold(idnl)=nl
+
+	ier=3
+	read (par(1),*,err=99)nl
+	nl=nl-1
+
+	ier=0
+
+99	return
+	end
+
+	subroutine return (par,np,nl,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+	common /gosubstack/nlold(10),idnl
+
+
+	ier=1
+	if(np.ne.0)goto 99
+	ier=2
+	if (idnl.lt.1)goto 99
+	nl=nlold(idnl)
+	idnl=idnl-1
+	ier=0
+
+99	return
+	end
+
+
+	subroutine spezzavirgole(riga,word,ier)
+	logical trace
+	common /debug/trace
+
+c	ier=0 spezzato
+c	ier=1 commentata
+c	ier=2 vuota
+
+
+	character riga*(*),word*(*)
+	ier=1
+	if (riga(1:1).eq.'#')return
+	if (riga(1:1).eq.'!')return
+
+	ier=2
+	id=index(riga,',')
+	if(id.eq.0)then
+	  do i=1,len(riga)
+	    if (riga(i:i).ne.' ')id=i+1			
+	  end do
+	  if (id.eq.0) return
+	end if
+
+	ier=0
+	word=riga(1:(id-1))
+	riga=riga(id+1:)
+c	print*,word
+
+	return
+	end
+
+
+
+	subroutine spezza(riga,word,ier)
+	logical trace
+	common /debug/trace
+
+c	ier=0 spezzato
+c	ier=1 commentata
+c	ier=2 vuota
+
+	character riga*(*),word*(*)
+
+	ier=2
+	do i=1,len(riga)
+	    if (riga(i:i).ne.' ')goto 10			
+	end do
+	return
+
+10	ier=1
+	if (riga(1:1).eq.'#')return
+	if (riga(1:1).eq.'!')return
+
+	id=index(riga,' ')
+	if(id.eq.1)then
+		riga=riga(2:)
+		goto 10
+	end if
+
+	ier=0
+	word=riga(1:(id-1))
+	riga=riga(id+1:)
+c	print*,word
+
+	return
+	end
+
+
+
+	subroutine open (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+c	da includere
+	parameter (maxiu=10,maxgb=10,maxlen=400000)
+	integer kunit(maxiu),ncampi(maxgb)
+	logical opened(maxiu)
+	byte grib(maxlen,maxgb)
+	common /grib/kunit,opened,grib,ncampi
+c
+
+	character mode*1,filein*80
+	integer idunit
+c	data idunit,mode,filein/1,'r','grib.intera'/
+	common /openclose/idunit,mode,filein
+
+	ier=11
+	if (np.gt.3)goto 300
+
+	ifin=index(par(np),' ')-1
+	if (ifin.eq.-1) ifin=len(par(np))
+	if(np.ge.1)filein=par(np)
+	if(np.ge.2)mode=par(np-1)
+	ier=12
+	if(np.eq.3)read (par(np-2),*,err=300)idunit
+	ier=13
+	if (idunit.lt.1.or.idunit.gt.maxiu)goto 300
+	ier=4
+	if (opened(idunit)) goto 300
+
+c       bisogna aggiungere un nul dopo mode se non costante per
+c       le routine stupide di ecmwf
+	call pbopen(kunit(idunit),filein(:ifin),mode//char(0),kret)
+
+	ier=0
+	if (kret.eq.0)then
+		opened(idunit)=.true.
+		goto 300
+	else
+		opened(idunit)=.false.
+		ier=abs(kret)
+		goto 300
+	end if
+
+300	return
+	end
+
+
+	subroutine close (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+c	da includere
+	parameter (maxiu=10,maxgb=10,maxlen=400000)
+	integer kunit(maxiu),ncampi(maxgb)
+	logical opened(maxiu)
+	byte grib(maxlen,maxgb)
+	common /grib/kunit,opened,grib,ncampi
+c
+
+	character mode*1,filein*80
+	integer idunit
+c	data idunit,mode,filein/1,'r','grib.intera'/
+	common /openclose/idunit,mode,filein
+
+	ier=11
+	if (np.gt.1)goto 300
+
+	ier=12
+	if(np.eq.1)read (par(np),*,err=300)idunit
+	ier=13
+	if (idunit.lt.1.or.idunit.gt.maxiu)goto 300
+	ier=4
+	if (.not.opened(idunit)) goto 300
+	
+	call pbclose(kunit(idunit),kret)
+	ier=0
+	if (kret.eq.0)then
+		opened(idunit)=.false.
+		goto 300
+	else
+		ier=abs(kret)
+		goto 300
+	end if
+
+300	return
+	end
+
+
+	subroutine read (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+c	da includere
+	parameter (maxiu=10,maxgb=10,maxlen=400000)
+	integer kunit(maxiu),ncampi(maxgb)
+	logical opened(maxiu)
+	byte grib(maxlen,maxgb)
+	common /grib/kunit,opened,grib,ncampi
+c
+
+	character mode*1,filein*80
+	integer idunit
+c	data idunit,mode,filein/1,'r','grib.intera'/
+	common /openclose/idunit,mode,filein
+
+	integer data(3),ora(2),level(3),scad(4),var(3)
+
+	CALL SETPAR (KBIT,KNEG,KPR)     !get machine dependent parameters
+	idimg=maxlen/(kbit/8)		!dimensione in word
+
+	ier=11
+	if (np.gt.2)goto 300
+
+	ier=12
+	ngb=1
+	if(np.ge.1)then 
+c		read (par(np  ),*,err=300)ngb
+		call letter(par(np),ngb,ierr)
+		if (ierr.ne.0)goto 300
+	end if
+	ier=13
+	if (ngb.lt.1.or.ngb.gt.maxgb)goto 300
+
+	ier=14
+	if(np.eq.2)read (par(np-1),*,err=300)idunit
+	ier=15
+	if (idunit.lt.1.or.idunit.gt.maxiu)goto 300
+	ier=4
+	if (.not.opened(idunit)) goto 300
+
+	call getinfo (kunit(idunit),grib(1,ngb),idimg,data,
+     1       ora,scad,level,var,
+     1       ala1,ala2,alo1,alo2,nj,ni,dj,di,idrt
+     1       ,alarot,alorot,rot,ija,kret)
+
+c	print*,'letto',data,ora
+c	print*,'     ',scad
+c	print*,'     ',level
+c	print*,'     ',var
+
+	ier=0
+	if (kret.eq.0)then
+	        ncampi(ngb)=1
+		goto 300
+	else
+	        ncampi(ngb)=0
+		ier=abs(kret)
+		goto 300
+	end if
+
+300	continue
+c	print *,'read codice errore',ier
+	return
+	end
+
+
+	subroutine write (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+c	da includere
+	parameter (maxiu=10,maxgb=10,maxlen=400000)
+	integer kunit(maxiu),ncampi(maxgb)
+	logical opened(maxiu)
+	byte grib(maxlen,maxgb)
+	common /grib/kunit,opened,grib,ncampi
+c
+
+	character mode*1,filein*80
+	integer idunit
+c	data idunit,mode,filein/1,'r','grib.intera'/
+	common /openclose/idunit,mode,filein
+
+
+	CALL SETPAR (KBIT,KNEG,KPR)     !get machine dependent parameters
+	idimg=maxlen/(kbit/8)		!dimensione in word
+
+	ier=11
+	if (np.gt.2)goto 300
+
+	ier=12
+	ngb=1
+	if(np.ge.1)then 
+c		read (par(np  ),*,err=300)ngb
+		call letter(par(np),ngb,ierr)
+		if (ierr.ne.0)goto 300
+	end if
+
+	ier=13
+
+	ier=14
+	if(np.eq.2)read (par(np-1),*,err=300)idunit
+	ier=15
+	if (idunit.lt.1.or.idunit.gt.maxiu)goto 300
+	ier=4
+	if (.not.opened(idunit)) goto 300
+
+	call write_grib (kunit(idunit),grib(1,ngb),idimg,kret)
+
+	ier=0
+	if (kret.eq.0)then
+		goto 300
+	else
+		ier=abs(kret)
+		goto 300
+	end if
+
+300	continue
+c	print *,'write codice errore',ier
+	return
+	end
+
+
+	subroutine write_grib (kunit,grib,idimg,ier)
+	logical trace
+	common /debug/trace
+
+	dimension grib(idimg),isec0(2)
+
+	ier=0
+
+	IERR = 1
+	CALL GRIBEX (ISEC0,ISEC1,ISEC2,ZSEC2,ISEC3,ZSEC3,ISEC4,
+     $       field,klenp,grib,idimg,kWORD,'L',IERR)
+c	print*,'errore gribex=',ierr,' lunghezza',isec0(1)
+	if (ierr.ne.0)then
+		ier=abs(ierr)
+		goto 300
+	end if
+
+	call pbwrite(kunit,grib,isec0(1),kret)
+c	print*,'errore pbwrite=',kret
+
+	if (kret.ge.0)then
+		goto 300
+	else
+		ier=abs(kret)
+		goto 300
+	end if
+
+300	return
+
+	end
+
+
+	subroutine setkey (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+	character*40 tmppar
+
+	integer key(15)
+c	data key/15*-1/
+	common /keyc/key
+
+	character*80 skey
+	character*20 doslv(5)
+	dimension ki(5),kf(5)
+	data ki,kf/	1,4,6,10,13,
+     $       3,5,9,12,15/
+	data doslv/'data','ora','scadenza','livello','variabile'/
+
+c	print*,'par=',np,' >',(par(i),i=1,np)
+
+
+	ier=11
+	if (np.gt.5)goto 300
+
+	ier=0
+	if (np.eq.0)then
+	  do i=1,15
+		key(i)=-1
+	  end do
+	end if
+	do id =1,np
+
+	  ier=12
+	  ip=index(par(id),':')
+	  if (ip.eq.0)goto 300
+	  skey=par(id)(1:ip-1)
+c	  print*,skey
+	  tmppar=par(id)(ip+1:)
+
+	  ier=13
+	  do ik=1,5
+	    if (skey(:ip-1).eq.doslv(ik)(:ip-1)) then
+		read (tmppar,*,err=300)(key(i),i=ki(ik),kf(ik))
+		goto 200
+	    end if	
+	  end do
+	    goto 300
+200	end do
+
+	ier=0
+
+300	continue
+c	print*, key
+	return
+
+	end
+
+
+	subroutine find (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+c	da includere
+	parameter (maxiu=10,maxgb=10,maxlen=400000)
+	integer kunit(maxiu),ncampi(maxgb)
+	logical opened(maxiu)
+	byte grib(maxlen,maxgb)
+	common /grib/kunit,opened,grib,ncampi
+c
+	integer key(15)
+c	data key/15*-1/
+	common /keyc/key
+c
+	character mode*1,filein*80
+	integer idunit
+c	data idunit,mode,filein/1,'r','grib.intera'/
+	common /openclose/idunit,mode,filein
+c
+	CALL SETPAR (KBIT,KNEG,KPR)     !get machine dependent parameters
+	idimg=maxlen/(kbit/8)		!dimensione in word
+
+	ier=11
+	if (np.gt.2)goto 300
+
+	ier=12
+	ngb=1
+	if(np.ge.1)then 
+c		read (par(np  ),*,err=300)ngb
+		call letter(par(np),ngb,ierr)
+		if (ierr.ne.0)goto 300
+	end if
+
+	ier=13
+	if (ngb.lt.1.or.ngb.gt.maxgb)goto 300
+
+	ier=14
+	if(np.eq.2)read (par(np-1),*,err=300)idunit
+	ier=15
+	if (idunit.lt.1.or.idunit.gt.maxiu)goto 300
+	ier=4
+	if (.not.opened(idunit)) goto 300
+
+	call findgrib (kunit(idunit),grib(1,ngb),idimg
+     $       ,key(1),key(4),key(6),key(10),key(13),kret)
+
+c	print*,'find kret=',kret
+
+	ier=0
+	if (kret.eq.0)then
+	        ncampi(ngb)=1
+		goto 300
+	else
+	        ncampi(ngb)=0
+		ier=abs(kret)
+		goto 300
+	end if
+
+300	continue
+c	print *,'find codice errore',ier
+	return
+	end
+
+	subroutine let (par,np,ier)
+
+c sembrerebbe che:
+c il primo parametro (indice 2) dve essere un grib
+c il secondo parametro (indice 1) deve essere o grib o costante
+c i seguenti possono essere solo costanti
+
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+c	da includere
+	parameter (maxiu=10,maxgb=10,maxlen=400000)
+	integer kunit(maxiu),ncampi(maxgb)
+	logical opened(maxiu)
+	byte grib(maxlen,maxgb)
+	common /grib/kunit,opened,grib,ncampi
+c
+	parameter (idimv=maxlen/4)
+	dimension values(idimv,maxgb+1)
+c	save ncampi
+
+	DIMENSION ISEC0(2,2)
+	DIMENSION ISEC1(150,2)
+	DIMENSION ISEC2(384,2)
+	DIMENSION ZSEC2(96,2)
+	DIMENSION ISEC3(2,2)
+	DIMENSION ZSEC3(2,2)
+	DIMENSION ISEC4(42,2)
+	
+	logical degrib
+	real rval(100)
+
+	data imd,rmd/32767,-1.5e21/
+	CALL SETPAR (KBIT,KNEG,KPR)     !get machine dependent parameters
+	idimg=maxlen/(kbit/8)		!dimensione in word
+	call grsvck (0)			!swich off checking
+
+	isec3(2,1)=kneg
+	zsec3(2,1)=rmd
+	isec3(2,2)=kneg
+	zsec3(2,2)=rmd
+
+
+	ier=11				!controllo numero parametri
+	if (np.lt.2)goto 300
+
+	ier=12
+	call letter(par(1),ngb2,ierr)	!primo par deve essere lettera
+	if (ierr.ne.0)goto 300
+
+	ier=13
+	if (ngb2.lt.1.or.ngb2.gt.maxgb)goto 300
+
+
+	ier=12
+	if (par(2).eq.'reset')then
+	    idim1=-1		!disabilito degrib e dimensione fittizia
+	    degrib=.false.
+	  goto 44
+	end if
+
+c					elaboro terzo parametro
+	if (np.lt.3)goto 300
+c					terzo par o lettera o costante
+	call letter(par(3),ngb1,ierr)
+	if (ierr.ne.0)then		!e` una costante ?
+
+c	    read (par(3),*,err=22)icost
+c	    rcost=float(icost)
+c	    goto 55
+c 22        continue
+
+	    read (par(3),*,err=300)rcost
+
+55	    ngb1=maxgb+1
+	    idim1=-1		!disabilito degrib e dimensione fittizia
+	    degrib=.false.
+	    do i=1,idimv			!tutto il campo costante
+		values(i,ngb1)=rcost
+	    end do
+	else
+	    ier=13
+	    if (ngb1.lt.1.or.ngb1.gt.maxgb)goto 300
+	    degrib=.true.			!e` un grib
+	end if
+
+44	continue
+
+	ier=18
+	if (ncampi(ngb2).lt.1.and..not.degrib)goto 300
+	if (.not.degrib)goto 66			!e` una costante ?
+
+c	<<<<<<<	 start	>>>>>>>>
+
+
+	ker=1
+
+	CALL GRIBEX (isec0(1,1),isec1(1,1),isec2(1,1),zsec2(1,1)
+     $       ,isec3(1,1),zsec3(1,1),isec4(1,1)
+     $       ,values(1,ngb1),idimv,grib(1,ngb1),idimg,kword,'D',ker)
+
+	if(ker.gt.0)then
+c	    print*,'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+c	    print*,'	>>>>>>>>>>  errore decodifica',ker
+c	    print*,'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+	    ier=ker
+	    goto 300
+	end if
+	ier=0
+	idim1=isec4(1,1)
+	ibm1=isec3(1,1)
+	nx=isec2(2,1)
+	ny=isec2(3,1)
+	ija=isec2(11,1)
+
+
+c	type*,'		>>>>>>>>>>  decodifica primo ok '
+
+66	continue
+
+	if (ncampi(ngb2).lt.1)goto 33
+	ker=1
+
+	CALL GRIBEX (isec0(1,2),isec1(1,2),isec2(1,2),zsec2(1,2)
+     $       ,isec3(1,2),zsec3(1,2),isec4(1,2)
+     $       ,values(1,ngb2),idimv,grib(1,ngb2),idimg,kword,'D',ker)
+
+	if(ker.gt.0)then
+c	    print*,'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+c	    print*,'	>>>>>>>>>>  errore decodifica',ker
+c	    print*,'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+	    ier=ker
+	    goto 300
+	end if
+	ier=0
+	idim2=isec4(1,2)
+	ibm2=isec3(1,2)
+c	type*,'		>>>>>>>>>>  decodifica secondo ok '
+
+	if (idim1.lt.0)goto 33			!costanti
+	ier=15
+	if(idim1.ne.idim2)goto 300
+	ier=16
+	if (ibm1.ne.ibm2)goto 300
+
+33	continue
+
+        print*,'np',np
+	do i=4,np
+         print*,'par',par(i)
+	   read (par(i),*,err=300)rval(i-3)
+	end do
+
+	ier=14
+	ig=2          ! per default scrive le sezioni relative al primo grib
+
+	if      (par(2).eq.'media')then
+		call media(values(1,ngb1),values(1,ngb2)
+     $          ,idim2,rmd,ncampi(ngb2))
+		isec1(16,ig)=min(isec1(16,1),isec1(16,2))
+		isec1(17,ig)=max(isec1(17,1),isec1(17,2))
+		isec1(17,ig)=max(isec1(17,ig),isec1(16,ig))
+
+		! qui bisogna inserire la gestione di isec1(18)
+		! isec1(18,ig)=??
+
+	else if (par(2).eq.'somma')then
+		call somma(values(1,ngb1),values(1,ngb2)
+     $          ,idim2,rmd,ncampi(ngb2))
+	else if (par(2).eq.'sottrai')then
+		call sottrai(values(1,ngb1),values(1,ngb2)
+     $          ,idim2,rmd,ncampi(ngb2))
+	else if (par(2).eq.'moltiplica')then
+		call moltiplica(values(1,ngb1),values(1,ngb2)
+     $          ,idim2,rmd,ncampi(ngb2))
+	else if (par(2).eq.'dividi')then
+		call dividi(values(1,ngb1),values(1,ngb2)
+     $          ,idim2,rmd,ncampi(ngb2))
+	else if (par(2).eq.'uguale')then
+		call uguale(values(1,ngb1),values(1,ngb2)
+     $          ,idim2,rmd,ncampi(ngb2))
+	else if (par(2).eq.'reset')then
+		call reset(values(1,ngb2),idim2,rmd,ncampi(ngb2))
+	else if (par(2).eq.'filtro')then
+		call filtro(values(1,ngb1),values(1,ngb2)
+     $          ,idim2,nx,ny,rmd,ija,ncampi(ngb2))
+	else if (par(2).eq.'norma')then
+		call norma(values(1,ngb1),values(1,ngb2)
+	1	,idim2,rmd,ncampi(ngb2))
+	else if (par(2).eq.'thetaep')then
+		call thetaep(values(1,ngb1),values(1,ngb2)
+	1	,idim2,rmd,ncampi(ngb2))
+	else if (par(2).eq.'theta')then
+		call theta(values(1,ngb1),values(1,ngb2)
+	1	,idim2,rmd,ncampi(ngb2))
+	else if (par(2).eq.'rh')then
+		call rh(values(1,ngb1),values(1,ngb2)
+	1	,idim2,rmd,ncampi(ngb2))
+	else if (par(2).eq.'massimo')then
+		call massimo(values(1,ngb1),values(1,ngb2)
+     $          ,idim2,rmd,ncampi(ngb2))
+		isec1(16,ig)=min(isec1(16,1),isec1(16,2))
+		isec1(17,ig)=max(isec1(17,1),isec1(17,2))
+	else if (par(2).eq.'minimo')then
+		call minimo(values(1,ngb1),values(1,ngb2)
+     $          ,idim2,rmd,ncampi(ngb2))
+		isec1(16,ig)=min(isec1(16,1),isec1(16,2))
+		isec1(17,ig)=max(isec1(17,1),isec1(17,2))
+	else
+	  goto 300
+	end if
+
+	ker=1
+
+	isec4(2,ig)=24		!bit per var
+
+	CALL GRIBEX (isec0(1,ig),isec1(1,ig),isec2(1,ig),zsec2(1,ig)
+     $       ,isec3(1,ig),zsec3(1,ig),isec4(1,ig),
+     $       values(1,ngb2),idim2,grib(1,ngb2),idimg,kword,'C',ker)
+
+c       attenzione la gribex rovina la matrice dati in ingresso
+
+	if(ker.gt.0)then
+c	    print*,'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+c	    print*,'	>>>>>>>>>>  errore codifica',ker
+c	    print*,'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+	    ier=ker
+	    goto 300
+	end if
+	ier=0
+c	type*,'		>>>>>>>>>>  codifica ok '
+
+300	return
+	end
+
+
+	subroutine media(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+	ncampi=ncampi+1
+c	print*,'numero campi per media',ncampi
+	do i=1,idim
+	  if(values1(i).ne.rmd)then
+	      if (values2(i).eq.rmd)values2(i)=0.
+	      values2(i)=values2(i)*(float(ncampi-1)/float(ncampi))
+     $             +values1(i)/float(ncampi)
+	  else
+	    values2(i)=rmd
+	  end if	
+	end do
+
+	return
+	end
+
+	subroutine somma(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+c	print*,'somma',values2(1),values1(1)
+	ncampi=ncampi+1
+	do i=1,idim
+	  if(values1(i).ne.rmd.and.values2(i).ne.rmd)then
+	    values2(i)=values2(i)+values1(i)
+	  else
+	    values2(i)=rmd
+	  end if	
+	end do
+
+	return
+	end
+
+	subroutine dividi(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+c	print*,'dividi',values2(1),values1(1)
+
+	ncampi=ncampi+1
+	do i=1,idim
+	  if(values1(i).ne.rmd.and.values2(i).ne.rmd)then
+	    values2(i)=values2(i)/values1(i)
+	  else
+	    values2(i)=rmd
+	  end if	
+	end do
+
+	return
+	end
+
+	subroutine moltiplica(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+c	print*,'moltiplica',values2(1),values1(1)
+	ncampi=ncampi+1
+	do i=1,idim
+	  if(values1(i).ne.rmd.and.values2(i).ne.rmd)then
+	    values2(i)=values2(i)*values1(i)
+	  else
+	    values2(i)=rmd
+	  end if	
+	end do
+
+	return
+	end
+
+	subroutine thetaep(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+         R=287
+         cp=1004
+         cost=R/cp
+         Lc=2.5E6
+
+c	if (trace) print *,'P=', p
+	do i=1,idim
+	  if(values1(i).ne.rmd.and.values2(i).ne.rmd)then
+             values2(i)=values2(i)*((1000./values1(i))**cost)*
+     $       exp(Lc*(0.622*ESAT(values2(i))/values1(i))/(cp*values2(i)))
+	  else
+	    values2(i)=rmd
+	  end if	
+	end do
+
+	return
+	end
+
+c la prendo dalla termolib.f perche' non so dove altro pescarla!
+	FUNCTION ESAT(T)
+	DATA ABZ/273.16/
+         TC=T-ABZ
+	ESAT=6.1078*EXP((17.2693882*TC)/(TC+237.3))
+	RETURN
+	END
+
+	subroutine theta(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+	print*,'theta',values1(1),values2(1)
+c	ncampi=ncampi+1
+
+         R=287
+         cp=1004
+         cost=R/cp
+
+c	if (trace) print *,'P=', p
+	do i=1,idim
+	  if(values1(i).ne.rmd.and.values2(i).ne.rmd.
+     $          and.values1(i).lt.1150)then
+	     values2(i)=values2(i)*((1000./values1(i))**cost)
+	  else
+	     values2(i)=rmd
+	  end if	
+	end do
+
+	return
+	end
+
+	subroutine rh(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+	print*,'rh',values2(1),values1(1)
+c	ncampi=ncampi+1
+
+	do i=1,idim
+	  if(values1(i).ne.rmd.and.values2(i).ne.rmd)then
+             if((values2(i)-values1(i)) .gt. 0.)
+     $            print*,'1',values2(i)-values1(i)
+	    values2(i)=100.*(ESAT(values2(i))/ESAT(values1(i)))
+             if(values2(i) .gt. 100.) print*,'2',values2(i)
+	  else
+	    values2(i)=rmd
+	  end if	
+	end do
+
+	return
+	end
+
+	subroutine reset(values1,idim,rmd,ncampi)
+	dimension values1(idim)
+	logical trace
+	common /debug/trace
+
+	ncampi=0
+	do i=1,idim
+	    values1(i)=rmd
+	end do
+
+	return
+	end
+
+
+	subroutine filtro(values1,values2,idim,nx,ny,rmd,ija,ncampi)
+	dimension values1(idim),values2(idim)
+
+
+c	da includere
+	parameter (maxiu=10,maxgb=10,maxlen=400000)
+c
+
+	parameter (idimv=maxlen/4)
+	dimension work(idimv)
+
+
+	logical trace
+	common /debug/trace
+
+	ncampi=1
+
+	do i=1,idim
+		values2(i)=values1(i)
+	end do
+
+	do nf=1,2
+	  do i=1,idim
+		work(i)=values2(i)
+	  end do
+	  do i=2,nx-1
+	    do j=2,ny-1
+		ip=mindex(i,j,nx,ny,ija)
+		vp=values2(ip)
+	        if (vp.eq.rmd)goto 10
+
+		pp=4.
+		p1=1.
+		p2=1.
+		p3=1.
+		p4=1.
+		i1=mindex(i-1,j-1,nx,ny,ija)
+		i2=mindex(i+1,j-1,nx,ny,ija)
+		i3=mindex(i+1,j+1,nx,ny,ija)
+		i4=mindex(i-1,j+1,nx,ny,ija)
+	        v1=values2(i1)
+	        v2=values2(i2)
+	        v3=values2(i3)
+	        v4=values2(i4)
+
+	        if (v1.eq.rmd)p1=0.
+	        if (v2.eq.rmd)p2=0.
+	        if (v3.eq.rmd)p3=0.
+	        if (v4.eq.rmd)p4=0.
+		  work(ip)=(vp*pp+v1*p1+v2*p2+v3*p3+v4*p4)/
+     $               (pp+p1+p2+p3+p4)
+10	    end do
+	  end do
+	  
+	  do i=1,idim
+		values2(i)=work(i)
+	  end do
+
+	end do
+
+	return
+	end
+
+	subroutine sottrai(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+	ncampi=ncampi+1
+	do i=1,idim
+	  if(values1(i).ne.rmd.and.values2(i).ne.rmd)then
+	    values2(i)=values2(i)-values1(i)
+	  else
+	    values2(i)=rmd
+	  end if	
+	end do
+
+	return
+	end
+
+	subroutine uguale(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+	ncampi=1
+	do i=1,idim
+	    values2(i)=values1(i)
+	end do
+
+	return
+	end
+
+
+	subroutine letter(par,num,ier)
+	character*40 par
+	logical trace
+	common /debug/trace
+	ier=1
+
+	if (index (par,' ').ne.2)goto 300
+	num=ichar(par(1:1))-64
+	if (num.lt.1.or.num.gt.25)goto 300
+
+	ier=0
+300	return
+	end
+
+
+	subroutine printkey (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+c	da includere
+	parameter (maxiu=10,maxgb=10,maxlen=400000)
+	integer kunit(maxiu),ncampi(maxgb)
+	logical opened(maxiu)
+	byte grib(maxlen,maxgb)
+	common /grib/kunit,opened,grib,ncampi
+c
+
+	character mode*1,filein*80
+	integer idunit
+c	data idunit,mode,filein/1,'r','grib.intera'/
+	common /openclose/idunit,mode,filein
+
+	integer data(3),ora(2),level(3),scad(4),var(3)
+
+	CALL SETPAR (KBIT,KNEG,KPR)     !get machine dependent parameters
+	idimg=maxlen/(kbit/8)		!dimensione in word
+
+	ier=11
+	if (np.gt.1)goto 300
+
+	ier=12
+	ngb=1
+	if(np.ge.1)then
+		call letter(par(np),ngb,ierr)
+		if (ierr.ne.0)goto 300
+	end if
+	ier=13
+	if (ngb.lt.1.or.ngb.gt.maxgb)goto 300
+
+	ier=14
+
+	call getinfo (-1,grib(1,ngb),idimg,data,
+     $       ora,scad,level,var,
+     $       ala1,ala2,alo1,alo2,nj,ni,dj,di,idrt
+     $       ,alarot,alorot,rot,ija,kret)
+
+	ier=0
+	if (kret.eq.0)then
+	  write(*,'(a)')' ----------------------------------------'
+	  write(*,'(a,a)') ' print key grib nel buffer ',par(np)(1:1)
+	  write(*,'(a,5i5.4)')' data ora  ',data,ora
+	  write(*,'(a,4i5.4)')' scadenza  ',scad
+	  write(*,'(a,3i5.4)')' livello   ',level
+	  write(*,'(a,3i5.4)')' variabile ',var
+	  write(*,'(a)')' ----------------------------------------'
+	  goto 300
+	else
+	  ier=abs(kret)
+	  goto 300
+	end if
+
+300	continue
+c	print *,'printkey codice errore',ier
+	return
+	end
+
+
+	subroutine testkey (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+c	da includere
+	parameter (maxiu=10,maxgb=10,maxlen=400000)
+	integer kunit(maxiu),ncampi(maxgb)
+	logical opened(maxiu)
+	byte grib(maxlen,maxgb)
+	common /grib/kunit,opened,grib,ncampi
+c
+
+	character mode*1,filein*80
+	integer idunit
+c	data idunit,mode,filein/1,'r','grib.intera'/
+	common /openclose/idunit,mode,filein
+
+c
+	integer key(15)
+c	data key/15*-1/
+	common /keyc/key
+c
+	integer keytmp(15)
+
+	CALL SETPAR (KBIT,KNEG,KPR)     !get machine dependent parameters
+	idimg=maxlen/(kbit/8)		!dimensione in word
+
+	ier=11
+	if (np.gt.1)goto 300
+
+	ier=12
+	ngb=1
+	if(np.ge.1)then
+		call letter(par(np),ngb,ierr)
+		if (ierr.ne.0)goto 300
+	end if
+	ier=13
+	if (ngb.lt.1.or.ngb.gt.maxgb)goto 300
+
+	ier=14
+
+	call getinfo (-1,grib(1,ngb),idimg
+     $       ,keytmp(1),keytmp(4),keytmp(6)
+     $       ,keytmp(10),keytmp(13),
+     $       ala1,ala2,alo1,alo2,nj,ni,dj,di,idrt
+     $       ,alarot,alorot,rot,ija,kret)
+
+	ier=0
+	if (kret.eq.0)then
+	  do i=1,15
+	    if (key(i).ge.0.and.key(i).ne.keytmp(i))ier=1
+	  end do
+	  goto 300
+	else
+	  ier=abs(kret)
+	  goto 300
+	end if
+
+300	continue
+	return
+	end
+
+
+	subroutine rewind (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+c	da includere
+	parameter (maxiu=10,maxgb=10,maxlen=400000)
+	integer kunit(maxiu),ncampi(maxgb)
+	logical opened(maxiu)
+	byte grib(maxlen,maxgb)
+	common /grib/kunit,opened,grib,ncampi
+c
+
+	character mode*1,filein*80
+	integer idunit
+c	data idunit,mode,filein/1,'r','grib.intera'/
+	common /openclose/idunit,mode,filein
+
+	integer data(3),ora(2),level(3),scad(4),var(3)
+
+	CALL SETPAR (KBIT,KNEG,KPR)     !get machine dependent parameters
+	idimg=maxlen/(kbit/8)		!dimensione in word
+
+	ier=11
+	if (np.gt.1)goto 300
+
+	ier=14
+	if(np.eq.1)read (par(np),*,err=300)idunit
+	ier=15
+	if (idunit.lt.1.or.idunit.gt.maxiu)goto 300
+	ier=4
+	if (.not.opened(idunit)) goto 300
+
+	call pbseek (kunit(idunit),0,0,kret)
+
+	ier=0
+	if (kret.eq.0)then
+		goto 300
+	else
+		ier=abs(kret)
+		goto 300
+	end if
+
+300	continue
+c	print *,'rewind codice errore',ier
+	return
+	end
+
+	subroutine printdati (par,np,ier)
+	character*40 par(*)
+	logical trace
+	common /debug/trace
+
+c	da includere
+	parameter (maxiu=10,maxgb=10,maxlen=400000)
+	integer kunit(maxiu),ncampi(maxgb)
+	logical opened(maxiu)
+	byte grib(maxlen,maxgb)
+	common /grib/kunit,opened,grib,ncampi
+c
+
+	character mode*1,filein*80
+	integer idunit
+c	data idunit,mode,filein/1,'r','grib.intera'/
+	common /openclose/idunit,mode,filein
+
+	integer data(3),ora(2),level(3),scad(4),var(3)
+	parameter (idimv=maxlen/4)
+	dimension values(idimv)
+	data imd,rmd/32767,-1.5e21/
+
+	CALL SETPAR (KBIT,KNEG,KPR)     !get machine dependent parameters
+	idimg=maxlen/(kbit/8)		!dimensione in word
+
+	ier=11
+	if (np.gt.1)goto 300
+
+	ier=12
+	ngb=1
+	if(np.ge.1)then
+		call letter(par(np),ngb,ierr)
+		if (ierr.ne.0)goto 300
+	end if
+	ier=13
+	if (ngb.lt.1.or.ngb.gt.maxgb)goto 300
+
+	ier=14
+
+c	call getinfo (-1,grib(1,ngb),idimg,data,
+c	1	ora,scad,level,var,
+c	1	ala1,ala2,alo1,alo2,nj,ni,dj,di,idrt
+c	1	,alarot,alorot,rot,ija,kret)
+	idimvv=idimv
+	call getdata (grib(1,ngb),idimg,imd,rmd,values,idimvv,ibm,kret)
+
+	ier=0
+	if (kret.eq.0)then
+	  write(1,*)idimvv
+
+c						testare bitmap !
+	  write(1,*)(values(i),i=1,idimvv)
+	  goto 300
+	else
+	  ier=abs(kret)
+	  goto 300
+	end if
+
+300	continue
+c	print *,'printdati codice errore',ier
+	return
+	end
+
+      subroutine testkeys (grib,maxlen,ier)
+      logical trace
+      common /debug/trace
+      
+c	da includere
+      byte grib(maxlen)
+c
+
+      integer key(15)
+c      data key/15*-1/
+      common /keyc/key
+c
+      integer keytmp(15)
+
+      CALL SETPAR (KBIT,KNEG,KPR) !get machine dependent parameters
+      idimg=maxlen/(kbit/8)     !dimensione in word
+      
+      ier=14
+      
+      call getinfo (-1,grib,idimg
+     +     ,keytmp(1),keytmp(4),keytmp(6)
+     +     ,keytmp(10),keytmp(13),
+     +     ala1,ala2,alo1,alo2,nj,ni,dj,di,idrt
+     +     ,alarot,alorot,rot,ija,kret)
+      
+      ier=0
+      if (kret.eq.0)then
+        do i=1,15
+          if (key(i).ge.0.and.key(i).ne.keytmp(i))ier=1
+        end do
+        goto 300
+      else
+        ier=abs(kret)
+        goto 300
+      end if
+        
+ 300  continue
+      return
+      end
+
+	subroutine norma(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+c	print*,'norma',values2(1),values1(1)
+c	print*, rmd
+	do i=1,idim
+	  if(values1(i).ne.rmd.and.values2(i).ne.rmd)then
+c	     print*,rmd
+	     values2(i)=sqrt( values2(i)**2 + values1(i)**2 )
+	  else
+c	     print*,'norma finta'
+	     values2(i)=rmd
+	  end if	
+	end do
+
+	return
+	end
+
+	subroutine massimo(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+c	print*,'massimo',values2(1),values1(1)
+	ncampi=ncampi+1
+	do i=1,idim
+	  if(values1(i).ne.rmd.and.values2(i).ne.rmd)then
+	    values2(i)=max (values2(i),values1(i))
+	  else
+	    values2(i)=rmd
+	  end if	
+	end do
+
+	return
+	end
+
+	subroutine minimo(values1,values2,idim,rmd,ncampi)
+	dimension values1(idim),values2(idim)
+	logical trace
+	common /debug/trace
+
+c	print*,'minimo',values2(1),values1(1)
+	ncampi=ncampi+1
+	do i=1,idim
+	  if(values1(i).ne.rmd.and.values2(i).ne.rmd)then
+	    values2(i)=min (values2(i),values1(i))
+	  else
+	    values2(i)=rmd
+	  end if	
+	end do
+
+	return
+	end

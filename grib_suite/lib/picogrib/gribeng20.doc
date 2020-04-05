@@ -1,0 +1,820 @@
+PICODATA S.R.L.
+Via F. Hayez, 8    20129 Milano  Italia
+tel.02.277.115.400  fax 02.277.115.401
+mailto:info@picodata.it    http://www.picodata.it
+
+
+PICOGRIB Version 2.0
+
+
+GRIB-format file decoding application.
+
+
+
+This application package consist of four items :
+
+DUMPGRIB :	a program that allows to view all information contained in GRIB message informative 
+sections and the first ten actual  values of the data grid 
+
+SHOWGRIB :	a program that allows to decode a file of GRIB messages and to  create, for each field, a file 
+containing main information and all decompressed data associated with their coordinates.
+
+PARTGRIB :	a program that allows to divide a single file made up of several GRIB messages in many 
+files each consisting of a single GRIB message.
+
+GRIBLIB :	a routines library used by SHOWGRIB, DUMPGRIB and PARTGRIB to support GRIB 
+decoding functions.
+
+Previous procedures are compatible with version 1.2 of PICOGRIB,  in versione 2.0 the following utilities were 
+added:
+
+GRB2SRF :	a program that allows to decode a file of GRIB messages and to create, for each field, a file 
+all decompressed data associated with their coordinates,  both lat/long and UTM. Created 
+files have long names and can be directly inported in a SURFER application. It is possible to 
+supply a met variable decoding file to convert data to different units of measure. Met 
+variable decoding file includes also a brief  variable tag that can be used instead of variable 
+number to enhance long file name user-friendlines.
+	(This utility de facto substitutes SHOWGRIB).
+
+PGRIB32 :	a program that allows to divide a single file made up of several GRIB messages in many 
+files each consisting of a single GRIB message. Created files have long names, that can 
+contain variable tags in names.
+	(This utility de facto substitutes PARTGRIB).
+
+GRIBLIB32 :	a routines library used by GRB2SRF and PGRIB32  functions.
+
+The new utilities are not compatible with PC DOS, Windows 3.x  and VMS environments.
+
+Software has been developed in ANSI C and its portability has been tested in the following environments: 
+Digital VMS, Digital OSF/1, IBM AIX, Sun Solaris, SGI Irix, SCO Unix, PC DOS, Windows 3.x and 
+Windows95/NT. Under DOS and Windows 3.x the Microsoft C/C++ version 7.0 16 bits compiler was used. 
+Under  Windows95/NT the Absoft C/C++  Version 1.3 32 bits compiler was used.
+
+GRIB message format is described on the pubblication WMO FM 92-IX Ext. GRIB (gridded binary) - 
+Processed data in the form of grid-point values expressed in binary form, for fulther information about the 
+meaning of fields, refer to it.
+
+GRIB data representation supported by this version of the software are: latitude/longitude, rotated 
+latitude/longitude for full decoding; Mercator projection, Lambert conformal projection, gaussian 
+latitude/longitude,  polar stereographic projection, satellite perspective for decoding without coordinates 
+handling. At present spherical harmonic and complex or second-order packing representation are not  handled 
+by the package.
+
+GRIB messages to be decoded must be passed to programs as non-blocked binary files. Each file may 
+contain  more than one GRIB message, in this case, there will be a scanning of file searching for message 
+start and end tokens and all fields found will be decoded sequentially.
+
+
+
+DUMPGRIB
+
+Syntax :	DUMPGRIB	filename	[no-data value]
+Example	DUMPGRIB	grib.dat	    9999999
+
+Where filename refers to the file that contains the GRIB messages to be analyzed. No-data value is an 
+optional parameter, its omission indicates that the grid point value presence bitmap of section 3 must not be 
+used,  when present it is the value to be viewed when bitmap indicates absence of data for a grid position.
+
+The output of this program is standard output, usually the console. If the results have to be written to a file,  
+output redirection can be used, in UNIX and DOS environments by mean of ‘>’ operator. For VMS, it has been 
+written a DCL command file called REDIR.COM which has the following syntax:
+
+	@REDIR "command" outputfile
+
+For example, if it’s needed to run DUMPGRIB for file GRIB.GRB with output redirected on file GRIB.DMP the 
+command must be:
+
+	@REDIR "DUMPGRIB GRIB.GRB" GRIB.DMP
+
+The result will be a series of blocks similar to the following one:
+
+	5280	Total length of GRIB message
+	1	GRIB edition number
+
+
+S E C T I O N   1
+
+	28	Length of section 1
+	1	Code table 2, parameter table, Version No.
+	97	Identification of centre
+	4	Generating process identification number
+	2	Grid definition
+	192	Flag
+	11	Indicator of parameter
+	105	Indicator of type of level
+	2	Heigth, pressure, etc. of levels
+	94	Year of century
+	12	Month
+	22	Day
+	0	Hour
+	0	Minute
+	1	Indicator of unit of time range
+	6	P1 - Period of time
+	0	Time range indicator
+	0	Number included in average
+	0	Number missing from averages or accumulations
+	20	Century of reference
+	0	Units decimal scale factor
+
+
+S E C T I O N 2
+
+	42	Length of section 2
+	0	Number of vertical coordinate parameters
+	10	Data representation type
+	93	Number of points along a parallel
+	81	Number of points along a meridian
+	-11000	Latitude of first grid point
+	-11000	Longitude of first grid point
+	128	Resolution and component flags
+	9000	Latitude of last grid point
+	12000	Longitude of last grid point
+	250	Parallel direction increment
+	250	Meridian direction increment
+	64	Scanning mode
+	-45000	Latitude of the southern pole in millidegrees
+	9000	Longitude of the southern pole in millidegrees
+	0	Angle of rotation
+
+
+S E C T I O N 3
+
+	948	Length of section 3
+	0	Predetermined bit map number
+
+
+S E C T I O N 4
+
+	4250	Length of section 4
+	9	Flag
+	-3	Scale factor
+	253.612381	Reference value
+	9	Number of bits containing each packed value
+	3767	Number of packed values
+	7533	Number of unpacked values
+	280.987366	Unpacked value 1
+9999999.000000	Unpacked value 2
+	280.612366	Unpacked value 3
+9999999.000000	Unpacked value 4
+	280.737366	Unpacked value 5
+9999999.000000	Unpacked value 6
+	280.862366	Unpacked value 7
+9999999.000000	Unpacked value 8
+	280.612366	Unpacked value 9
+9999999.000000	Unpacked value 10
+
+             1 GRIB messages found in GRIB.GRB
+
+
+GRB2SRF
+
+Syntax :	GRB2SRF	varfile	filename	[no-data value]
+Examples
+1)		GRB2SRF	*		grib.dat
+2)		GRB2SRF	varfile.dat	grib.dat
+3)		GRB2SRF	*		grib.dat	999999
+4)		GRB2SRF	varfile.dat	grib.dat	999999
+
+
+Where filename refers to the file that contains the GRIB messages to be analyzed, no data value when 
+present indicates the value to be viewed for not-marked in bitmap positions, if omitted, grid points without a 
+value associated are not printed; varfile is a variable description file to be used in decoding (if no file is to be 
+used a * must be coded iinstead of the name).
+
+The output of this program consists of  a series of files, one for each  GRIB message contained in the input 
+file. Output file names will are constructed using GRIB identification information of section 1 in the following 
+way:
+
+AAAAMMYYHHmm_DDD_LLLL_PPP.dat
+
+AAAAMMYYHHmm	Is the complete GRIB emission date
+DDD			Is forecast deadline (000 means analysis)
+LLLL			Is pressure level indicator. If surface level surf is coded here
+PPP			Is variable code
+
+Output file are created in the current directory.
+
+If a varfile table is supplied, and if parameter code is present in the table, PPP code is substituted by the 
+variable tag corresponding to variable code, and output files are created in the directory described in the first 
+record of the table (if current directory is desired .\ must be coded as first record).
+
+Varfile has the following contenents:
+
+c:\documenti\massimo\grib12\examples\
+128 129 0.102   0.   Z Geopotential_(m)
+128 130 1.   -273.16 T Temperature_(^C)
+128 131 1.      0.   U U_wind_component_(m/s)
+128 132 1.      0.   V V_wind_component_(m/s)
+  1   6 0.102   0.   Z Geopotential_(m)
+  1  11 1.   -273.16 T Temperature_(^C)
+  1  33 1.      0.   U U_wind_component_(m/s)
+  1  34 1.      0.   V V_wind_component_(m/s)
+    (1)       (2)       (3)             (4)          (5)   (6)
+
+(1)	Table version code
+(2)	Parameter identification
+(3)	A coefficient in v=Ax+B unit conversion formula
+(4)	B coefficient in v=Ax+B unit conversion formula
+(5)	Variale tag to be used instead of paramet4er identification in constructing long file names
+(6)	Long description to be used in header record in surfer file (_ signs are subtituted with blanks)
+
+Output files have the following contenents:
+
+
+
+Response to example 1 command (no varfile, no no-data value)
+Dumping a GRIB containing pure lat/lon data.
+
+Output file name is: .\199510011200_000_surf_229.dat
+
+Lat (deg)","Long (deg)","UTM-X (km)","UTM-Y (km)","Variable 229"
+  45.500   13.000    1812.518   5046.378        0.287
+  45.000   13.000    1815.276   4990.832        0.346
+  45.000   13.500    1854.686   4992.902        0.404
+  44.500   12.500    1778.258   4933.461        0.226
+
+Response to example 1 command (no varfile, no no-data value)
+Dumping a GRIB containing staggered rotated lat/lon data.
+
+Output file name is: .\199412211200_000_surf_011.dat
+
+"Lat (deg)","Long (deg)","R-lat (deg)","R-long (deg)","UTM-X (km)","UTM-Y (km)","Variable 11"
+ -11.000  -11.000    33.123   -3.923     290.269   3740.319      280.987
+ -11.000  -10.500    33.200   -3.344     345.845   3742.291      280.612
+ -11.000  -10.000    33.274   -2.764     401.338   3744.166      280.737
+ -11.000   -9.500    33.345   -2.183     456.752   3745.945      280.862
+
+Response to example 2 command (use of varfile, no no-data value)
+Dumping a GRIB containing staggered rotated lat/lon data (same as before).
+
+Output file name is: c:\documenti\massimo\grib12\examples\199412211200_000_surf_T.dat
+
+"Lat (deg)","Long (deg)","R-lat (deg)","R-long (deg)","UTM-X (km)","UTM-Y (km)","Temperature (^C)"
+ -11.000  -11.000    33.123   -3.923     290.269   3740.319        7.827
+ -11.000  -10.500    33.200   -3.344     345.845   3742.291        7.452
+ -11.000  -10.000    33.274   -2.764     401.338   3744.166        7.577
+ -11.000   -9.500    33.345   -2.183     456.752   3745.945        7.702
+
+Response to example 3 command (no varfile, no-data value given)
+Dumping a GRIB containing staggered rotated lat/lon data (same as before).
+
+Output file name is: .\199412211200_000_surf_011.dat
+
+"Lat (deg)","Long (deg)","R-lat (deg)","R-long (deg)","UTM-X (km)","UTM-Y (km)","Variable 11"
+ -11.000  -11.000    33.123   -3.923     290.269   3740.319      280.987
+ -11.000  -10.750    33.162   -3.634     318.067   3741.317   999999.000
+ -11.000  -10.500    33.200   -3.344     345.845   3742.291      280.612
+ -11.000  -10.250    33.238   -3.054     373.601   3743.240   999999.000
+ -11.000  -10.000    33.274   -2.764     401.338   3744.166      280.737
+ -11.000   -9.750    33.310   -2.474     429.055   3745.067   999999.000
+
+Response to example 4 command (use of varfile, no-data value given)
+Dumping a GRIB containing staggered rotated lat/lon data (same as before).
+
+Output file name is: c:\documenti\massimo\grib12\examples\199412211200_000_surf_T.dat
+
+"Lat (deg)","Long (deg)","R-lat (deg)","R-long (deg)","UTM-X (km)","UTM-Y (km)","Temperature (^C)"
+ -11.000  -11.000    33.123   -3.923     290.269   3740.319        7.827
+ -11.000  -10.750    33.162   -3.634     318.067   3741.317   999999.000
+ -11.000  -10.500    33.200   -3.344     345.845   3742.291        7.452
+ -11.000  -10.250    33.238   -3.054     373.601   3743.240   999999.000
+ -11.000  -10.000    33.274   -2.764     401.338   3744.166        7.577
+ -11.000   -9.750    33.310   -2.474     429.055   3745.067   999999.000
+
+SHOWGRIB
+
+Syntax :	SHOWGRIB	filename	[display-flag	[no-data value]]
+Example	SHOWGRIB	grib.dat	       y	          9999999
+
+Where filename refers to the file that contains the GRIB messages to be analyzed, display-flag when present 
+indicates that is desired to have in output file all decompressed values, not only message informative section, 
+and no-data value is an optional parameter, when present it indicates the value to be viewed for not-marked in 
+bitmap positions, if omitted, grid points without a value associated are not printed..
+
+The output of this program consists of  a series of files, one for each  GRIB message contained in the input 
+file. Output file names will are constructed using single message emission date and a progressive number 
+indicating the position of the message in the input file, in the form: MMDDhhmm.nnn .
+
+MMDDhhmm.	month-day-hours-minutes of GRIB emission
+nnn		GRIB progressive number in input file.
+
+The result for a rotated latitude/longitude file will be similar to the following example:
+
+	1994	Four digit year
+	12	Month
+	22	Day
+	0	Hour
+	0	Minute
+	6	P1 - Period of time
+	0	P2 - Period of time
+	2	Heigth, pressure, etc. of levels
+	0	
+	11	Indicator of parameter
+	0	Data representation
+	93	Number of points along a parallel
+	81	Number of points along a meridian
+	-11000	Latitude of first grid point
+	-11000	Longitude of first grid point
+	9000	Latitude of last grid point
+	12000	Longitude of last grid point
+	250	Parallel direction increment
+	250	Meridian direction increment
+	45000	Latitude of the southern pole in millidegrees
+	9000	Longitude of the southern pole in millidegrees
+	-11.000	-11.000	33.123	-3.923	280.987
+	-11.000	-10.750	33.162	-3.634	9999999.000
+	-11.000	-10.500	33.200	-3.344	280.612
+	-11.000	-10.250	33.238	-3.054	9999999.000
+	-11.000	-10.000	33.274	-2.764	280.737
+	-11.000	-9.750	33.310	-2.474	9999999.000
+	-11.000	-9.500	33.345	-2.183	280.862
+	-11.000	-9.250	33.378	-1.892	9999999.000
+	-11.000	-9.000	33.411	-1.601	280.612
+	-11.000	-8.750	33.444	-1.309 	9999999.000
+	-11.000	-8.500	33.475	-1.017	280.112
+	-11.000	-8.250	33.505	-0.725	9999999.000
+    ...         ...         ...
+    ...         ...         ...
+    ...         ...         ...
+    ...         ...         ...
+
+
+
+PGRIB32
+
+Syntax :	PARTGRIB   filename  [varfile]
+Example	PARTGRIB   grib.dat  varfile.dat
+
+Where filename is the file that contains the GRIB messages to be isolated. If varfile is present, variable tag 
+and destination directory are used to generate output file names.
+
+The output of this program consists of  a series of files, one for each  GRIB message contained in the input 
+file. Output file names will are constructed using GRIB identification information of section 1 in the following 
+way:
+
+AAAAMMYYHHmm_DDD_LLLL_PPP.grb
+
+AAAAMMYYHHmm	Is the complete GRIB emission date
+DDD			Is forecast deadline (000 means analysis)
+LLLL			Is pressure level indicator. If surface level surf is coded here
+PPP			Is variable code
+
+Output file are created in the current directory.
+
+If a varfile table is supplied, and if parameter code is present in the table, PPP code is substituted by the 
+variable tag corresponding to variable code, and output files are created in the directory described in the first 
+record of the table (if current directory is desired .\ must be coded as first record).
+
+
+
+
+
+
+PARTGRIB
+
+Syntax :	PARTGRIB   filename
+Example	PARTGRIB   grib.dat
+
+Where filename is the file that contains the GRIB messages to be isolated.
+
+The output of this program consists of  a series of files, one for each  GRIB message contained in the input 
+file. Output file names will are constructed using single message emission date and a progressive number 
+indicating the position of the message in the input file, in the form: MMDDhhmm.aaa .
+
+MMDDhhmm.	month-day-hours-minutes of GRIB emission
+aaa		GRIB alphabetic progressive univocally characterizing each message in input file.
+
+
+GRIBLIB/GRIBLIB32
+
+
+GRIBLIB contains several routines used by DUMPGRIB, SHOWGRIB and PARTGRIB. It follows a description 
+of some of the most significant. In GRIBLIB32 summarize_grib and save_grib_file have different calling 
+sequences and behave in another way to generate long file names and different coordinate output.
+
+Function return status (except GRIBEX routine) can have only two values: NORMAL_STATUS and 
+ABORT_STATUS.
+
+
+LOAD_GRIB_FILE
+
+Load from a file to a buffer a complete GRIB message.
+
+Data are copied in memory with no modifications.
+
+From the current position in the file, the start token is searched, message length is decoded, the whole 
+message is loaded and the presence of the end token is tested.
+If the start token is not found before the file end or the end token is not found in the right position, this function 
+returns an error code.
+
+Prototype:	long int load_grib_file(grib_file,grib_buffer)
+
+Arguments:	FILE *grib_file;
+		unsigned char **grib_buffer;
+
+Where :	grib_file is the pointer ( FILE * type ) to the file opened for reading the GRIB data set.
+	 grib_buffer is the address of the buffer where the GRIB data set will be loaded.
+
+grib buffer is dinamically allocated inside the routine when actual GRIB message length is decoded.
+
+DEGRIB
+
+It receives a buffer which contains a GRIB message, decodes the message and writes the infrmation into a 
+data structure.
+
+Using operation code it’s possible to choose among three different types of decoding:
+
+- only section lengths extraction,	operation = GRIB_LENGTH 
+- setcions 0,1, and 2 sections,		operation =GRIB_INFO 
+- complete decode.			operation =GRIB_DECODE 
+
+If the representation type is not supported by the current software version, an error status will be returned.
+
+Prototype:      long degrib(operation,grib_buffer,ignore_bitmap,grib_msg,no_bit_value)
+
+Arguments:	char operation;
+		unsigned char **grib_buffer;
+		long int ignore_bitmap;
+		struct grib_type *grib_msg;
+		float *no_bit_value;
+
+Where:	operation is the decode type to be executed
+	grib_buffer is the address where GRIB data set must be copied (see LOAD_GRIB_FILE)
+	ignore_bitmap is a flag which specifies if the bitmap has to be used
+	grib_msg is the data structure where GRIB data will be written
+	no_bit_value is the value to be written in the array of decompressed data for positions marked in 
+			bitmap as no data taken
+PRINT_GRIB
+
+Shows GRIB data to standard output.
+Using operation code it’s possible to choose among three different groups of information to be viewed:
+
+- only section lengths extraction,	operation = GRIB_LENGTH 
+- setcions 0,1, and 2 sections,		operation =GRIB_INFO 
+- complete decode.			operation =GRIB_DECODE 
+
+Prototype:	void print_grib(operation,grib_msg)
+
+Arguments:	char operation;
+		struct grib_type grib_msg;
+
+Where:	operation is the information group code to be shown
+	grib_msg is the data structure that contains a decoded GRIB data set
+
+
+SUMMARIZE_GRIB
+
+Writes in a text file information kept in a GRIB data set structure.
+
+By an argument flag is possible to ask also the writing of decompressed GRIB grid data and coordinates.
+
+Prototype:	void summarize_grib(grib_msg,show_lat_long,no_bit_value)
+
+Arguments:	struct grib_type grib_msg;
+		long int show_lat_long;
+		float *no_bit_value;
+
+Where:		grib_msg is the data structure that contains a decoded GRIB data set
+		show_lat_long is a flag which specifies if all grid values and their coordinates have to be 
+			written
+		no_bit_value is the value written in the array of decompressed data for positions marked 
+			in bitmap as no data taken
+
+in GRIBLIB32 :
+
+Prototype:	void summarize_grib(grib_msg,show_lat_long,no_bit_value,nvar,v,dir)
+
+Arguments:	struct grib_type grib_msg;
+		long int show_lat_long;
+		float *no_bit_value;
+		long int nvar;
+		struct vx *v;
+		char *dir;
+
+Where:		grib_msg is the data structure that contains a decoded GRIB data set
+		show_lat_long is a flag which specifies if all grid values and their coordinates have to be 
+			written
+		no_bit_value is the value written in the array of decompressed data for positions marked 
+			in bitmap as no data taken
+		nvar number of variable descriptions in *v sructure
+		V variable description table (from varfile)
+		dir output directory (flrom varfile)
+GRIBEX
+
+This stub was introduced to support a compatible call to the FORTRAN GRIBEX routine in use at ECMWF.
+
+It receives a buffer which contains a GRIB data set, it decodes this data set and writes the decoded GRIB 
+data set in series of integer and real arrays.
+
+As saied. it’s an emulation of ECMWF GRIBEX  routine, version 10, but has the following restriction:
+
+-	Are supported only hoper functions: 'D','I','L' e 'Z' .
+-	PSEUDOGRIB and other non-GRIB codes are nor supported.
+-	No decode can be done for GRIB data format representation not previously listed (i.e. spherical harmonic).
+-	This routine returns always to the program also if KRET is 0 on input, even if ECMWF routine aborts 
+calling program in this case.
+-	The possible KRET return values can be only: -3,-4,-5 (for bitmap handling), 0 means Ok, 1 for generic 
+decode error.
+
+This routine can be called only by FORTRAN in UNIX environment or by Absoft and DEC FORTRAN 
+77 in Windows95/NT environment.
+
+See ECMWF GRIBEX version 10 description documents for parameters meaning.
+Prototype:	void gribex(ksec0,ksec1,ksec2,psec2,ksec3,psec3,ksec4,
+		     psec4,klenp,kgrib,kleng,kword,hoper,kret)
+
+Arguments:	int	*ksec0;
+		int	*ksec1;
+		int	*ksec2;
+		int	*ksec3;
+		int	*ksec4;
+		float	*psec2;
+		float	*psec3;
+		float	*psec4;
+		int	*klenp;
+		unsigned char *kgrib;
+		int	*kleng;
+		int	*kword;
+		char	*hoper;
+		int	*kret;
+
+
+
+GRIBLIB library functions call examples:
+
+#include <stdio.h>#include <stdlib.h>#include <string.h>#include <math.h>#include 
+"constant.h"#include "struct.h"#include "griblib.h"main(argc, argv)int argc;char 
+*argv[];{  FILE			*grib_file;  struct grib_type	grib_msg;  unsigned 
+char		**grib_buffer;  unsigned char		*middle_pointer;  unsigned char
+		*saved_pointer;  float			no_bit_value;  long int		
+	status;  long int			ignore_bitmap;  long int		
+	messages_total;  grib_buffer = &middle_pointer;  if ((argc < 2) || (argc > 
+3))  {    printf("Usage:  DUMPGRIB  gribfile  [no-bit-value]\n");    
+printf("Example DUMPGRIB  grib.dat     9999999\n");    return ABORT_STATUS;  }  
+if ((grib_file = fopen(argv[1],"rb")) == 0)  {    printf("File not found\n");    
+return ABORT_STATUS;  }  if (argc == 3)  {    no_bit_value = (float) 
+atof(argv[2]);    ignore_bitmap = FALSE;  }  else  {    ignore_bitmap = TRUE;  }  
+messages_total = 0;  while( (status = load_grib_file(grib_file, grib_buffer)) == 
+NORMAL_STATUS)  {    saved_pointer = *grib_buffer;    status = 
+degrib(GRIB_DECODE, grib_buffer, ignore_bitmap,                    &grib_msg, 
+&no_bit_value);    free(saved_pointer);    print_grib(GRIB_INFO, grib_msg);    
+print_grib(GRIB_DECODE, grib_msg);    if (grib_msg.section1.forecasts_list != 0)      
+free(grib_msg.section1.forecasts_list);    if 
+(grib_msg.section2.lat_long.vertical_parameters_list != 0)      
+free(grib_msg.section2.lat_long.vertical_parameters_list);    if 
+(grib_msg.section2.lat_long.row_points_number_list != 0)      
+free(grib_msg.section2.lat_long.row_points_number_list);    if 
+(grib_msg.section3.bitmap != 0)      free(grib_msg.section3.bitmap);    if 
+(grib_msg.section4.binary_data != 0)      free(grib_msg.section4.binary_data);    
+if (status != NORMAL_STATUS) return status;    ++messages_total;  }  
+fclose(grib_file);  printf("%ld GRIB messages found in 
+%s\n\n\n",messages_total,argv[1]);  return NORMAL_STATUS;}
+
+
+Structures used in the package to describe a decoded GRIB message.
+
+struct section0_type {
+	char	word_grib[4];		/* 'GRIB' token */
+	long int	total_length;		/* Total length of GRIB message */
+	long int	grib_edition;		/* GRIB edition number */
+};
+
+struct section1_type {
+	long int	section_length;		/* Length of section 1 */
+	long int	table2_version;		/* Code table 2, parameter table, Version No. */
+	long int	centre;		/* Identification of centre */
+	long int	process;		/* Generating process identification number */
+	long int	grid_definition;		/* Grid definition */
+	long int	flag;		/* Flag */
+	long int	parameter;		/* Indicator of parameter */
+	long int	level_type;		/* Indicator of type of level */
+	long int	measure1;		/* Heigth, pressure, etc. of levels */
+	long int	measure2;		/* Heigth, pressure, etc. of levels */
+	long int	year;		/* Year of century */
+	long int	month;		/* Month */
+	long int	day;		/* Day */
+	long int	hour;		/* Hour */
+	long int	minute;		/* Minute */
+	long int	time_range_unit;		/* Indicator of unit of time range */
+	long int	time_period1;		/* P1 - Period of time */
+	long int	time_period2;		/* P2 - Period of time */
+	long int	time_range;		/* Time range indicator */
+	long int	number_in_average;		/* Number included in average */
+	long int	number_not_in_average;	/* Number missing from averages or 
+				   accumulations */
+	long int	reference_century;		/* Century of reference */
+	long int	reserved1;		/* Reserved */
+	long int	decimal_scale_factor;	/* Units decimal scale factor */
+	long int	reserved2[12];		/* Reserved */
+	long int	local_definition;		/* Local definition number */
+	long int	class;		/* Class */
+	long int	type;		/* Type */
+	long int	stream;		/* Stream */
+	long int	experiment_version;			/* Experiment version */
+	long int	ensemble_forecast;		/* Ensemble forecast number */
+	long int	forecasts_total;		/* Total number of forecasts in
+				   ensemble */
+	long int	cluster;		/* Cluster number */
+	long int	clusters_total;		/* Total number of of clusters */
+	long int	reserved3;		/* Reserved */
+	long int	clustering_method;		/* Clustering method */
+				/* The next six values are considered
+				   when clustering */
+	long int	start_time_step;		/* Start time step */
+	long int	end_time_step;		/* End time step */
+	long int	northern_latitude;		/* Northern latitude of domain */
+	long int	western_longitude;		/* Western longitude of domain */
+	long int	southern_latitude;		/* Southern latitude of domain */
+	long int	eastern_longitude;		/* Eastern longitude of domain */
+	long int	operational_cluster;	/* Number of cluster which
+				   operational cluster belongs to */
+	long int	control_cluster;		/* Number of cluster which control 
+				   cluster belongs to */
+	long int	cluster_forecasts;		/* Number of forecasts belonging to  	
+				   the cluster */
+	char	*forecasts_list;		/* Ensemble forecast list */
+};
+
+struct lat_long_type {	long int	section_length;		/* Length of section 2 */	long 
+int	vertical_parameters_number;	/* Number of vertical coordinate				
+			   parameters */	long int	list_position;			/* List file 
+offset */	long int	data_representation;		/* Data representation type */	char
+		*vertical_parameters_list;	/* List of vertical coordinate			
+				   parameters */	char		*row_points_number_list;	/* 
+List of numbers of points in							   each row */	long int
+	parallel_points;		/* Number of points along a parallel */	long int
+	meridian_points;		/* Number of points along a meridian */	long int
+	first_latitude;		/* Latitude of first grid point */	long int
+	first_longitude;		/* Longitude of first grid point */	long int
+	resolution_and_flags;		/* Resolution and component flags */	long int
+	last_latitude;			/* Latitude of last grid point */	long int
+	last_longitude;		/* Longitude of last grid point */	long int
+	parallel_increment;		/* Parallel direction increment */	long int
+	meridian_increment;		/* Meridian direction increment */	long int
+	scanning_mode;			/* Scanning mode */	long int	reserved1[3];		
+	/* Reserved */	long int	southern_pole_latitude;	/* Latitude of the southern pole
+							   in millidegrees */	long int
+	southern_pole_longitude;	/* Longitude of the southern pole				
+			   in millidegrees */	long int	rotation_angle;		/* Angle of 
+rotation */	long int	stretching_pole_latitude;	/* Latitude of pole of stretching	
+						   in millidegrees */	long int
+	stretching_pole_longitude;	/* Longitude of pole of stretching				
+			   in millidegrees */	long int	stretching_factor;		/* 
+Stretching factor */};struct gaussian_type {	long int	section_length;		/* Length of 
+section 2 */	long int	vertical_parameters_number;	/* Number of vertical coordinate 
+parameters */	long int	list_position;			/* List file offset */	long int
+	data_representation;		/* Data representation type */	char	
+	*vertical_parameters_list;	/* List of vertical coordinat parameters */	char	
+	*row_points_number_list;	/* List of numbers of points i each row */	long int
+	parallel_points;		/* Number of points along a parallel */	long int
+	meridian_points;		/* Number of points along a meridian */	long int
+	first_latitude;		/* Latitude of first grid point */	long int
+	first_longitude;		/* Longitude of first grid point */	long int
+	resolution_and_flags;		/* Resolution and component flags */	long int
+	last_latitude;			/* Latitude of last grid point */	long int
+	last_longitude;		/* Longitude of last grid point */	long int
+	parallel_increment;		/* Parallel direction increment */	long int
+	pole_equator_parallels;	/* Number of parallels between				
+			   a Pole and the Equator */	long int	scanning_mode;			/* 
+Scanning mode */	long int	reserved1[3];			/* Reserved */	long int
+	southern_pole_latitude;	/* Latitude of the southern pole				
+			   in millidegrees */	long int	southern_pole_longitude;	/* Longitude 
+of the southern pole							   in millidegrees */	long int
+	rotation_angle;		/* Angle of rotation */	long int
+	stretching_pole_latitude;	/* Latitude of pole of stretching in 				
+					   millidegrees */	long int	stretching_pole_longitude;
+	/* Longitude of pole of stretching							   in 
+millidegrees */	long int	stretching_factor;		/* Stretching factor */};struct 
+polar_type {	long int	section_length;		/* Length of section 2 */	long int
+	vertical_parameters_number;	/* Number of vertical coordinate parameters */	long int
+	list_position;			/* List file offset */	long int	data_representation;	
+	/* Data representation type */	char		*vertical_parameters_list;	/* List of 
+vertical coordinate parameters */	char		*row_points_number_list;	/* List of numbers 
+of points in each row */	long int	x_points;			/* Number of points along 
+X-axis */	long int	y_points;			/* Number of points along Y-axis */	long 
+int	first_latitude;		/* Latitude of first grid point */	long int
+	first_longitude;		/* Longitude of first grid point */	long int
+	resolution_and_flags;		/* Resolution and component flags */	long int
+	origin_longitude;		/* Longitude of the meridian parallel				
+			   to the Y-axis */	long int	x_grid_length;			/* X-
+direction grid length */	long int	y_grid_length;			/* Y-direction grid length 
+*/	long int	projection_centre_flag;	/* Pole on projection plane */	long int
+	scanning_mode;			/* Scanning mode */	long int	reserved1[4];		
+	/* Reserved */};struct mercator_type {	long int	section_length;		/* 
+Length of section 2 */	long int	vertical_parameters_number;	/* Number of vertical coordinate 
+parameters */	long int	list_position;			/* List file offset */	long int
+	data_representation;		/* Data representation type */	char	
+	*vertical_parameters_list;	/* List of vertical coordinate parameters */	char	
+	*row_points_number_list;	/* List of numbers of points in each row */	long int
+	parallel_points;		/* Number of points along a parallel */	long int
+	meridian_points;		/* Number of points along a meridian */	long int
+	first_latitude;		/* Latitude of first grid point */	long int
+	first_longitude;		/* Longitude of first grid point */	long int
+	resolution_and_flags;		/* Resolution and component flags */	long int
+	last_latitude;			/* Latitude of last grid point */	long int
+	last_longitude;		/* Longitude of last grid point */	long int
+	latitude_intersection;		/* Latitude where Mercator projection				
+			   cylinder intersects the Earth */	long int	reserved1[1];		
+	/* Reserved */	long int	scanning_mode;			/* Scanning mode */	long int
+	parallel_increment;		/* Parallel direction increment */	long int
+	meridian_increment;		/* Meridian direction increment */	long int
+	reserved2[8];			/* Reserved */};struct lambert_type {	long int
+	section_length;		/* Length of section 2 */	long int
+	vertical_parameters_number;	/* Number of vertical coordinate parameters */	long int
+	list_position;			/* List file offset */	long int	data_representation;	
+	/* Data representation type */	char		*vertical_parameters_list;	/* List of 
+vertical coordinate parameters */	char		*row_points_number_list;	/* List of numbers 
+of points in each row */	long int	x_points;			/* Number of points along 
+X-axis */	long int	y_points;			/* Number of points along Y-axis */	long 
+int	first_latitude;		/* Latitude of first grid point */	long int
+	first_longitude;		/* Longitude of first grid point */	long int
+	resolution_and_flags;		/* Resolution and component flags */	long int
+	origin_longitude;		/* Longitude of the meridian parallel to the 
+							   Y-axis */	long int
+	x_grid_length;			/* X-direction grid length */	long int
+	y_grid_length;			/* Y-direction grid length */	long int
+	projection_centre_flag;	/* Pole on projection plane */	long int
+	scanning_mode;			/* Scanning mode */	long int
+	latitude_intersection1;	/* First latitude where secant				
+			   cone cuts the sphere */	long int
+	latitude_intersection2;	/* Second latitude where secant				
+			   cone cuts the sphere */	long int
+	southern_pole_latitude;	/* Latitude of the southern pole				
+			   in millidegrees */	long int
+	southern_pole_longitude;	/* Longitude of the southern pole				
+			   in millidegrees */	long int	reserved1[3];	
+		/* Reserved */};struct space_view_type {	long int	section_length;
+		/* Length of section 2 */	long int	vertical_parameters_number;	/* 
+Number of vertical coordinate parameters */	long int	list_position;			/* 
+List file offset */	long int	data_representation;		/* Data representation type 
+*/	char		*vertical_parameters_list;	/* List of vertical coordinate 
+parameters */	char		*row_points_number_list;	/* List of numbers 
+of points in							   each row */	long 
+int	x_points;			/* Number of points along X-axis */	long int
+	y_points;			/* Number of points along Y-axis */	long int
+	point_latitude;		/* Latitude of sub-satellite point */	long 
+int	point_longitude;		/* Longitude of sub-satellite point */	long 
+int	resolution_and_flags;		/* Resolution and component flags */	long int
+	x_diameter;			/* Diameter of Earth in x-direction */	long 
+int	y_diameter;			/* Diameter of Earth in y-direction */	long 
+int	point_x;			/* X-coord of sub-satellite point */	long int
+	point_y;			/* Y-coord of sub-satellite point */	long int
+	scanning_mode;			/* Scanning mode */	long int
+	grid_orientation;		/* Orientation of the grid */	long int
+	altitude;			/* Altitude of the camera from Earth */	long 
+int	origin_x;			/* X-coord of origin of sector image */	long 
+int	origin_y;			/* Y-coord of origin of sector image */	long 
+int	reserved1[6];			/* Reserved */};
+struct section3_type {
+	long int	section_length;		/* Length of section 3 */
+	long int	unused_bits;		/* Unused bits at end of section 3 */
+	long int	bitmap_code;		/* Predetermined bit map number */
+	char	 *bitmap;		/* Bitmap with a bit to data point 
+				   correspondence */
+};
+
+struct section4_type {
+	long int	section_length;		/* Length of section 4 */
+	long int	flag_and_unused_bits;	/* Flag */
+	long int	scale_factor;		/* Scale factor */
+	float	reference_value;		/* Reference value */
+	long int	bits_number;		/* Number of bits containing each 
+				   packed value */
+	long int	packed_values;		/* Number of packed values */
+	long int	unpacked_values;		/* Number of unpacked values */
+	long int	work_with_floats;		/* Working in floating point flag */
+	void	 *binary_data;		/* Unpacked values */
+};
+
+struct section5_type {
+	char	end_of_message[4];		/* '7777' token */
+};
+
+struct grib_type {    struct section0_type  section0;    struct section1_type  section1;    union {      
+struct lat_long_type	lat_long;      struct gaussian_type	gaussian;      struct polar_type 
+	polar;      struct mercator_type	mercator;      struct lambert_type	lambert;      
+struct space_view_type	space_view;    } section2;    struct section3_type  section3;    struct 
+section4_type  section4;    struct section5_type  section5;};  struct vx {  	long int tab;  
+	long int par;  	float a;  	float b;  	char db[10];  	char dl[100];};
+
+
+Distribution kit composition:
+
+STRUCT.H	decoded GRIB data set structure include
+CONSTANT.H	constants include
+GRIBLIB.H	GRIBLIB library prototype include with arguments description
+GRIBLIB32.OBJ	GRIBLIB32 library object  (produced by ABSOFT C compiler)
+GRIBLIB.OBJ	GRIBLIB library object  (produced by ABSOFT C compiler)
+DUMPGRIB.EXE	DUMPGRIB executable file
+SHOWGRIB.EXE	SHOWGRIB executable file
+PARTGRIB.EXE	PARTGRIB executable file
+GRB2SRF.EXE	GRB2SRF executable file
+PGRIB32.EXE	PGRIG32 executable file
+GRIBENG20.WKS	This manual (WORKS 4.0 WP file)
+VARFILE.DAT	Sample variable name  table
+
+
+  
+
+	
+	3

@@ -1,0 +1,57 @@
+<HTML><HEAD><TITLE>
+ gribbo
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">gribbo</H2> <HR>
+ **** GRIBBO - Program to convert fron AFA to a GRIB file. <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/ugrib/gribbo.f">/disk3/patruno/ugrib/gribbo.f</A> <HR>
+<PRE>
+
+
+ $Date: 2002/09/25 16:44:19 $    $Revision: 1.14 $
+ $Id: gribbo.f,v 1.14 2002/09/25 16:44:19 patruno Exp $
+
+     Reference.
+     ----------
+
+           WMO Manual on Codes for GRIB definition.
+           WMO Publication No. 9, Volume B, for grid catalogue numbers.
+
+     Comments.
+     ---------
+
+           GRIBEX provides a number of packing/unpacking options.
+           See documentation in routine GRIBEX for details.
+
+     Author.
+     -------
+
+           Paolo Patruno    5/12/96   at S.M.R.
+
+     Modifications.
+     --------------
+
+     4/12/98
+     Changed predefined area for operational grib from 2 (father) to 4
+     and from 3 (son) to 5.
+
+     11/12/98
+     Fixed bug in computation of maximum value
+
+     8/4/1999
+     changed matrix dimension and added dimension error check
+
+     12/4/1999
+     added stereographic projection (drt=5)
+     modificato isec2(19) impostato a 8 solo se irg (drt) =10
+     aggiunta proiezione lambert
+
+     23/11/1999
+     Y2K compliant
+
+
+     -----------------------------------------------------------------
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

@@ -1,0 +1,8 @@
+FC = ifort
+#F90 = pgf90
+DESTDIR = ${HOME}/yangl/tools/grib_util/2.2
+libdir = ${HOME}/yangl/tools/grib_util/2.2/lib
+AR = ar rc
+
+#enable for gf77 compiler only
+EXTRAOBJ_HIBU = math_func.o

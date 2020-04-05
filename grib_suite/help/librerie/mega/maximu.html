@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>
+ MAXIMU
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">maximu</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/maxminmed.f">/disk3/patruno/lib/mega/maxminmed.f</A> <HR>
+<PRE>
+	SUBROUTINE MAXIMU(IMINUTI,IVET,I1,I2,MAXI,J)
+	calcola il valore massimo del vettore ivet dall'indice I1
+	all'indice I2 restituendo il numero di valori validi trovati in J
+	solo nel caso che l'intervallo non sia superiore a INTMAX
+	(default=2 ore) altrimenti MAXI=32767 ; J=-1
+
+	INPUT:
+
+	IMINUTI(I2)	I*4	vettore dei tempi dei dati	
+	IVET(I2)	I*4	vettore dei dati (dato mancante =32767)
+	I1		I*4	indice del vettore IVET da cui iniziare la
+				valutazione
+	I2		I*4	indice del vettore IVET in cui finire la
+				valutazione
+
+	OUTPUT:
+
+	MAXI		R*4	valore massimo trovato
+				se :
+				intervallo tra i dati &gt;INTMAX MAXI=32767
+				dati elaborati        =0      MAXI=32767
+	J		I*4	numero di dati effettivi su cui e` stato
+				valutato il valore massimo.
+				se :
+				intervallo tra i dati &gt;INTMAX j=-1
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

@@ -1,0 +1,48 @@
+<HTML><HEAD><TITLE>
+ NUBIMA
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">nubima</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/dball.f">/disk3/patruno/lib/mega/dball.f</A> <HR>
+<PRE>
+	SUBROUTINE NUBIMA (NS,CC,NU,NBST,ITLIV)
+
+	converte le nubi del METAR ordinandole per livello e calcolando
+	la copertura totale
+
+	IN:
+
+	NS(4)	INTEGER*2	nuvolosita` per singolo tipo
+	CC(4)	CHARACTER*2	tipo nube
+
+	OUT:
+
+	NU	INTEGER*2	nuvolosita` totale
+	NBST	INTEGER*2	nuvolosita` NUBI BASSE
+	ITLIV(3)	INTEGER*2	tipo nube
+
+
+ NUBIMA
+/disk3/patruno/lib/mega/dball.f
+	SUBROUTINE NUBIMA_new (NS,CC,hhh,NU,NBST,ITLIV)
+
+	converte le nubi del METAR ordinandole per livello e calcolando
+	la copertura totale
+	per versione metar dopo il 1/7/93
+
+	IN:
+
+	NS(4)	INTEGER*2	nuvolosita` per singolo tipo
+	HHH(4)	INTEGER*2	altezza nube per singolo tipo
+	CC(4)	CHARACTER*2	tipo nube
+
+	OUT:
+
+	NU	INTEGER*2	nuvolosita` totale
+	NBST	INTEGER*2	nuvolosita` NUBI BASSE
+	ITLIV(3)	INTEGER*2	tipo nube (solo CU o CB)
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

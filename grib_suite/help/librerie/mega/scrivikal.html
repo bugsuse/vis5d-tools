@@ -1,0 +1,54 @@
+<HTML><HEAD><TITLE>
+ SCRIVIKAL
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">scrivikal</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/leggiscrivikal.f">/disk3/patruno/lib/mega/leggiscrivikal.f</A> <HR>
+<PRE>
+	subroutine scrivikal(IGG,IMM,IAA,iora,imin,ISTAZ,
+	1	ipunt,iscad,obs,dmo,prev,x,p,enarewrite,ier)
+
+	Scrive nel data base di kalman con accesso a chiave.
+	Gestisce il file shared e la riscrittura del record.
+	
+ input:	
+	IGG,IMM,IAA	I*4	giorno mese ed anno del record
+	IORA,IMIN	I*4	ora e minuti del record
+	ISTAZ		I*4	stazione del record
+	IPUNT		I*4	punto del grigliato del grid di ECMWF
+				contato	da sinistra veso destra ad iniziare
+				da Nord.
+	ISCAD		I*4	scadenza in ore del record richiesto
+
+	OBS		R*4	dato misurato sulla stazione:
+				se la validita` della previsione (data del
+				record+scadenza) e` centrata alle ore 12 e` un
+				valore massimo, se e` centrata alle ore 00 e`
+				un valore minimo.
+				per il valore massimo si riferisce alla data
+				del record.
+				per il valore minimo si riferisce alla notte
+				tra la data del record e quella successiva.
+
+	DMO		R*4	valore del punto di griglia di ECMWF con
+				data di emissione pari a quella del record
+	PREV		R*4	previsione del filtro di Kalman con validita`
+				data del record+scadenza.
+	X(im,1)		R*4	matrice del filtro utilizzata per la previsione
+	P(im,im)	R*4	matrice del filtro utilizzata per la previsione
+				con im=2
+	enarewrite	LOGICAL	abilita la riscrittura di un record gia
+				esistente se posto =.TRUE.
+ output:
+	IER		I*4	condizione di errore
+				ier=0 tutto ok
+				ier=1 altri errori fatali
+				ier=2 errore nella rilettura del record se
+					gia  esistente
+				ier=3 errore nella rewrite del record gia
+					esistente
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

@@ -1,0 +1,59 @@
+<HTML><HEAD><TITLE>
+ grid_from_grib
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">grid_from_grib</H2> <HR>
+ Deduce il tipo di grigliato dalle informazioni del grib e convenzioni SMR <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/hibu/grid_from_grib.f">/disk3/patruno/lib/hibu/grid_from_grib.f</A> <HR>
+<PRE>
+
+      subroutine grid_from_grib(u,idimu,rmis,alorot,alarot,
+     +     idrt,ibm,
+     +     tlm0d,tph0d,igrid,ier)
+
+Deduce il tipo di grigliato dalle informazioni del grib e convenzioni SMR
+
+     input:
+     u        real(idimu)   vettore dei dati da grib
+     idimu    int           dimensione vettore
+     rmis     real          valore dato mancante
+     alorot   real     longitudine del Polo Nord del sistema ruotato, nel
+                       sistema geografico come da specifiche grib
+                       (rapp. decimale)
+
+     alarot   real     latitudine del Polo Nord del sistema
+                       ruotato nel sistema geografico come da specifiche
+                       grib (rapp. decimale)
+
+     idrt     int      data representation type        (table 6)
+     ibm      int      bit map predefinita (=0 inclusa o non utlizzata)
+
+     output:
+     tlm0d    real     longitudine del punto intercetto del meridiano di
+                       Greenwich con l'equatore del sistema ruotato, nel
+                       sistema geografico (rapp. decimale)
+
+     tph0d    real     latitudine del punto intercetto del
+                       meridiano di Greenwich con l'equatore del sistema
+                       ruotato nel sistema geografico (rapp. decimale)
+
+     igrid    int      indicatore del tipo di grigliato
+                                1       grigliato E staggherato punti H
+                                2       grigliato E staggherato punti V
+                                0       grigliato regolare (destaggherato)
+                                -1      grigliato E staggherato punti H
+                                        con valori mancanti
+                                -2      grigliato E staggherato punti V
+                                        con valori mancanti
+
+     ier      int      error code
+                             ier=0       OK
+                             ier=1       idrt non gestita
+
+
+</PRE>
+Vedi anche:
+<a href="rot_grib_lambo.html ">rot_grib_lambo</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

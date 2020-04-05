@@ -1,0 +1,27 @@
+-1 ! number of times to put in vis5d file, negative means ignore the times
+2000-01-24_18:00:00
+ U      ! variable list for vis5d file,  indent one space to skip
+ V      ! first five in list are special variables (diagnosed)
+W
+ THETA
+ TK
+TC
+ QVAPOR
+QCLOUD
+QRAIN
+RAINC
+TSK
+end_of_variable_list
+wrfout_d01_000000  ! data files to pull fields from
+end_of_file_list
+-1 ! specify v5d vertical grid  0=cartesian, -1=interp to z from lowest h, >1 list levels (z)  desired in vis5d file
+1 1.
+2 2.
+3 3.
+4 4.
+5 5.
+6 6.
+7 7.
+8 8.
+9 9.
+10 10.

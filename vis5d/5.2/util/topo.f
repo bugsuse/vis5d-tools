@@ -1,0 +1,204 @@
+      FUNCTION TOPO(FLAT,FLON)
+C
+C VIS-5D version 4.0
+C
+C VIS-5D system for visualizing five dimensional gridded data sets
+C Copyright (C) 1990-1994  Bill Hibbard and Dave Santek
+C
+C This program is free software; you can redistribute it and/or modify
+C it under the terms of the GNU General Public License as published by
+C the Free Software Foundation; either version 1, or (at your option)
+C any later version.
+C
+C This program is distributed in the hope that it will be useful,
+C but WITHOUT ANY WARRANTY; without even the implied warranty of
+C MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+C GNU General Public License for more details.
+C
+C You should have received a copy of the GNU General Public License
+C along with this program; if not, write to the Free Software
+C Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+C
+      PARAMETER (NTOPS=5000)
+      INTEGER*2 LEVEL(NTOPS)
+      COMMON/LEVEL/LR,LC,TLAT,TLON,TLATIN,TLONIN,LATINC,LONINC,LEVEL
+C TLAT POSITIVE NORTH, TLON POSITIVE WEST
+C NOTE TLATIN=6.0/LATINC, TLONIN=6.0/LONINC
+      A=(FLAT-TLAT)*TLATIN+1.0
+      B=(FLON-TLON)*TLONIN+1.0
+      I=A
+      J=B
+      IF(I .LT. 1) GO TO 50
+      IF(J .LT. 1) GO TO 50
+      IF(I .GT. LR) GO TO 50
+      IF(J .GT. LC) GO TO 50
+      K=I+1
+      L=J+1
+      IF(K .GT. LR) K=LR
+      IF(L .GT. LC) L=LC
+      A=A-I
+      B=B-J
+      C=1.0-A
+      D=1.0-B
+      NIJ=I+LR*(J-1)
+      NIL=I+LR*(L-1)
+      NKJ=K+LR*(J-1)
+      NKL=K+LR*(L-1)
+      TOPO=C*(D*LEVEL(NIJ)+B*LEVEL(NIL))+A*(D*LEVEL(NKJ)+B*LEVEL(NKL))
+      TOPO=TOPO/1000.0
+      RETURN
+50    TOPO=0.0
+      RETURN
+      END
+C
+      SUBROUTINE INTOPO
+      PARAMETER (NTOPS=5000)
+      INTEGER*2 LEVEL(NTOPS)
+      COMMON/LEVEL/LR,LC,TLAT,TLON,TLATIN,TLONIN,LATINC,LONINC,LEVEL
+      COMMON/LIMS/IDAYL,ITIMEL,LDAYL,LTIMEL,XLATS,XLATN,
+     *XLONE,XLONW,XHGTB,XHGTT,JUNK(40)
+      COMMON/IWORD/IWORD
+C
+C
+      TLAT=WLATS
+      ILAT=TLAT*6
+      IF(TLAT .LT. 0.0) ILAT=ILAT-1
+      TLAT=ILAT/6.0
+      TLON=WLONE
+      ILON=TLON*6
+      IF(TLON .LT. 0.0) ILON=ILON-1
+      TLON=ILON/6.0
+      DO 370 I=2,100
+      LATINC=I/2
+      LONINC=(I+1)/2
+      LR=2+(WLATN-TLAT)*6.0/LATINC
+      LC=2+(WLONW-TLON)*6.0/LONINC
+      IF(LR*LC .LT. NTOPS) GO TO 380
+370   CONTINUE
+      CALL SDEST('ERROR SETTING UP TOPOGRAPHY',0)
+      RETURN
+380   TLATIN=6.0/LATINC
+      TLONIN=6.0/LONINC
+      CALL GETTOP
+      RETURN
+990   CALL SDEST('BAD SPOLY READ IN TOPO ',0)
+      CALL EXIT(0)
+      RETURN
+      END
+C
+      SUBROUTINE GETTOP
+      INTEGER*2 IBUF(144)
+      CHARACTER*8 CFILE
+      INTEGER HLAT,HLON
+      INTEGER ITEMP(1000),ISEA(1000)
+      PARAMETER (NTOPS=5000)
+      INTEGER*2 LEVEL(NTOPS)
+      COMMON/LEVEL/LR,LC,TLAT,TLON,TLATIN,TLONIN,LATINC,LONINC,LEVEL
+C TLAT POSITIVE NORTH, TLON POSITIVE WEST
+C NOTE TLATIN=6.0/LATINC, TLONIN=6.0/LONINC
+      DATA IMASK/'1FF'X/
+      DATA LREC/0/,IRECL/72/,CFILE/'TOPOHRES'/
+C
+      CALL DDEST('GETTOP',0)
+      LONLIM=6*360
+      LONLH=LONLIM/2
+      XMULT=30.48/(LATINC*LONINC)
+      LINCH=LATINC*LONINC/2
+C
+      LLAT=TLAT*6.0+0.1
+      LLON=TLON*6.0+0.1
+      IF(TLAT .LT. 0.0) LLAT=TLAT*6.0-0.1
+      IF(TLON .LT. 0.0) LLON=TLON*6.0-0.1
+      HLAT=LLAT+LATINC*(LR-1)
+      HLON=LLON+LONINC*(LC-1)
+C      CALL SCOUT('LLAT',LLAT,LLON,HLAT,HLON,LATINC,LONINC)
+      LAA=(LATINC-1)/2
+      LAB=LATINC-1-LAA
+      LOA=(LONINC-1)/2
+      LOB=LONINC-1-LOA
+C      CALL SCOUT('LAA',LAA,LAB,LOA,LOB,LR,LC)
+C
+      KLAT=LLAT
+      DO 100 ILR=1,LR
+      LATL=KLAT-LAA
+      LATH=KLAT+LAB
+C      NIJ=ILR+LR*(JLC-1)
+      DO 110 JLC=1,LC
+      ISEA(JLC)=0
+110   ITEMP(JLC)=0
+      DO 50 ILAT=LATL,LATH
+      IOFF=0
+      IF(ILAT .LT. 0) IOFF=8100
+      LAT=ILAT
+      IF(ILAT .LT. 0) LAT=-ILAT
+      KLON=LLON
+      DO 120 JLC=1,LC
+      LONL=KLON-LOA
+      LONH=KLON+LOB
+      DO 130 ILON=LONL,LONH
+      LON=ILON
+      IF(LON .GT. LONLH) LON=LON-LONLIM
+      IF(LON .LT. -LONLH) LON=LON+LONLIM
+      IF(LON .LT. 0) LON=LONLIM+LON
+      IREC=IOFF+LAT*15+LON/144+1
+      IF(IREC .EQ. LREC) GO TO 10
+      LREC=IREC
+      ISTAT=LWI(CFILE,(IREC-1)*IRECL,IRECL,IBUF)
+      IF(ISTAT.NE.0) THEN
+        CALL SDEST('ERROR READING TOPOHRES ',ISTAT)
+        RETURN
+      ENDIF
+10    IB=MOD(LON,144)+1
+      II=IBUF(IB)
+      IEL=IAND(II,IMASK)
+      IF(IEL .GE. 400) IEL=400-IEL
+      ITEMP(JLC)=ITEMP(JLC)+IEL
+      IF(II/512 .EQ. 0) ISEA(JLC)=ISEA(JLC)+1
+130   CONTINUE
+120   KLON=KLON+LONINC
+50    CONTINUE
+C      NIJ=ILR+LR*(JLC-1)
+      NIJ=ILR
+      DO 140 JLC=1,LC
+      II=ITEMP(JLC)*XMULT
+      IF(II .EQ. 0) II=1
+      IF(ISEA(JLC) .GT. LINCH) II=0
+      LEVEL(NIJ)=II
+140   NIJ=NIJ+LR
+100   KLAT=KLAT+LATINC
+C
+      IF(LATINC*LONINC .GT. 2) GO TO 220
+      DO 210 ILR=1,LR
+      NIJ=ILR
+      DO 210 JLC=1,LC
+      IF(LEVEL(NIJ) .EQ. 0) GO TO 210
+      IA=LEVEL(NIJ)
+      IS=4*IA
+      IW=4
+      IF(JLC .EQ. 1) GO TO 201
+      IB=LEVEL(NIJ-LR)
+      IS=IS+IB
+      IW=IW+1
+201   IF(JLC .EQ. LC) GO TO 202
+      IB=LEVEL(NIJ+LR)
+      IS=IS+IB
+      IW=IW+1
+202   IF(ILR .EQ. 1) GO TO 203
+      IB=LEVEL(NIJ-1)
+      IS=IS+IB
+      IW=IW+1
+203   IF(ILR .EQ. LR) GO TO 204
+      IB=LEVEL(NIJ+1)
+      IS=IS+IB
+      IW=IW+1
+204   IS=(IS+IW/2)/IW
+      IF(IS .EQ. 0) IS=1
+      LEVEL(NIJ)=IS
+210   NIJ=NIJ+LR
+220   CONTINUE
+C
+      DO 200 I=1,300
+200   ITEMP(I)=LEVEL(I)
+C      CALL DOUBT('LEVEL',300,ITEMP)
+      RETURN
+      END

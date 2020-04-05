@@ -1,0 +1,49 @@
+<HTML><HEAD><TITLE>
+ LTLWD
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">ltlwd</H2> <HR>
+ trasforma le componenti del vento dal sistema geografico al sistema ruotato <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/hibu/ltlwd.f">/disk3/patruno/lib/hibu/ltlwd.f</A> <HR>
+<PRE>
+
+ SUBROUTINE LTLWD(ALMD,APHD,u,v,TLM0D,CTPH0,STPH0,tu,tv)
+
+
+ Trasforma le componeti u,v espresse nel sistema geografico
+ a componenti u,v espresse nel sistema ruotato tipico dei modelli
+ meteo LAMBO e LOKAL.
+
+ input:
+
+  ALMD       real      longitudine sistema geografico (rapp. decimale)
+  APHD       real      latitudine sistema geografico (rapp. decimale)
+
+  u          real     componente u nel sistema geografico
+  v          real     componente v nel sistema geografico
+
+  TLM0D      real      longitudine del punto intercetto del meridiano di
+                       Greenwich con l'equatore del sistema ruotato, nel
+                       sistema geografico
+
+  CTPH0      real      coseno della latitudine del punto intercetto del
+                       meridiano di Greenwich con l'equatore del sistema
+                       ruotato nel sistema geografico (rapp. decimale)
+  STPH0      real      seno della latitudine del punto intercetto del
+                       meridiano di Greenwich con l'equatore del sistema
+                       ruotato nel sistema geografico
+
+ output:
+
+  tu         real     componente u nel sistema ruotato
+  tv         real     componente v nel sistema ruotato
+
+</PRE>
+Vedi anche:
+<a href="rltlwd.html ">rltlwd</a>
+<a href="tlld.html ">tlld</a>
+<a href="rtlld.html ">rtlld</a>
+<a href="rot_grib_lambo.html ">rot_grib_lambo</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

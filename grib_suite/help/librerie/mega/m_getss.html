@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>
+ M_GETSS
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">m_getss</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/m_getss.f">/disk3/patruno/lib/mega/m_getss.f</A> <HR>
+<PRE>
+      INTEGER FUNCTION M_GETSS(FILAC, IUN, PRIMO, ISTAZL,
+     *                   ISTAZU, STAZE, DATA, ORA, BUFFER)
+
+   Estrae TEMPA e TEMPB, fissata DATA e ORA, per le stazioni comprese
+   nei limiti ISTAZL, ISTAZU.
+   ad ogni chiamata ritorna in BUFFER i dati relativi ad una stazione,
+   in ordine crescente entro i limiti imposti.
+   Se per una o piu` staz. consecutive manca un report (filac(1) o filac(2))
+   riporta il report della prima staz. successiva in cui e' presente.
+   Se alla chiamata precedente i due report erano fasati si avanzera` su
+   tutti e due i tipi altrimenti solo con quello con stazione piu`
+   piccola.
+
+	input:
+	FILAC(2)	CHAR*100	nomi file archivio per tipo1 e tipo2
+	IUN(2)		I*4		unita` logiche per tipo1 e tipo2
+	PRIMO(2)	LOGICAL		true per primo accesso per tipo1 e tipo2
+	ISTAZL		I*4		stazione inferiore da estrarre
+	ISTAZU		I*4		stazione superiore da estrarre
+	DATA(3)		I*4		data (gg,mm,aa) da estrarre
+	ORA(2)		I*4		ora (hh,mm) da estrarre
+
+	output:
+	STAZE(2)	I*4		stazioni estratte
+					corrispondenti a buffer
+	BUFFER(230,2)	I*2	dati in output per tipo1 e tipo2
+	M_GETSS		I*4	condizione di errore come getssdds
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

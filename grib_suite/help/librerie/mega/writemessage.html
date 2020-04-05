@@ -1,0 +1,27 @@
+<HTML><HEAD><TITLE>
+ WRITEMESSAGE
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">writemessage</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/writemessage.f">/disk3/patruno/lib/mega/writemessage.f</A> <HR>
+<PRE>
+	SUBROUTINE WRITEMESSAGE (FILENAME,MESSAGE)
+
+	permette di scrivere un messaggio in append in un file di log
+	gestisce il numero di unita` usato (default=71)che viene lasciato
+	aperto dopo la scrittura. se l'unita` e` gia` utilizzata prova
+	con le unita` successive fino alla prima libera che pero` in questo
+	caso viene subito richiusa e ne viene notificato l'uso nel file.
+
+	input:
+	FILENAME	CHARACTER*(*)	NOME FILE DI LOG
+	MESSAGE		CHARACTER*(*)	MESSAGGIO DA SCRIVERE
+
+	CALL		NESSUNA
+	COMMON		/CONTRO/	A CONTRO(11) VIENE ASSEGNATA L'UNITA`
+					DA UTILIZZARE
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

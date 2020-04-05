@@ -1,0 +1,54 @@
+<HTML><HEAD><TITLE>
+ TESTASTAZIONI
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">testastazioni</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/testastazioni.f">/disk3/patruno/lib/mega/testastazioni.f</A> <HR>
+<PRE>
+	SUBROUTINE TESTASTAZIONI (K,X,Y,VAL,LAT,LON,GRADMAX)
+
+	questa subroutine effettua un controllo spaziale dei dati distribuiti
+	su stazioni che devono essere il piu` possibili equidistribuite
+	nello spazio. Vengono costruiti con un a routine NCAR dei triangoli
+	che uniscono tre stazioni adiacenti in maniera che essi siano il
+	piu` possibile equilateri. Qesto fa in maniera che da una stazione
+	partano vari raggi (da un minimo di 4 a n) che rappresentano
+	al tempo stesso i vari orientamenti nello spazio e le stazioni
+	possibilmente piu` vicine. Vengono quindi estratti tutti i vertici
+	dei triangoli appartenenti a una stazione, ordinati per poi
+	togliere i valori doppi e considerati per calcolare i vari gradienti
+	nelle varie direzioni. SOLO SE TUTTI QUESTI GRADIENTI RISULTERANNO
+	SUPERIORI AL GRADMAX E TUTTI DELLO STESSO SEGNO IL DATO VERRA`
+	CONSIDERATO ERRATO
+	( e tolto dai vettori dei dati e delle coordinate NCAR).
+	Il controllo e` piu` scadente sulle stazioni che appartengono
+	al poligono che racchiude tutte le stazioni in quanto il controllo
+	su di esse viene effettuato su un angolo inferiore ai 180 gradi.
+	Essse potrebbero eventualmente essere escluse dal controllo.
+	Le coordinate x,y devo essre calcolate dopo avere  chiamato
+	una supmap appropriata in modo da identificare la superficie terrestre
+	il piu` possibile con un piano (proiezione conforme di Lambert
+	per le nostre latitudini) chiamando poi la supcon.
+
+	PARAMETRI IN INGRESSO
+
+	K	INTEGER		numero di stazioni da testare
+	X	REAL(K)		coordinate NCAR lungo x
+	Y	REAL(K)		coordinate NCAR lungo y
+	VAL	REAL(K)		valori misurati nelle stazioni
+	LAT	REAL(K)		latitudine delle stazioni in centesimali
+	LON	REAL(K)		longitudine delle stazioni in centesimali
+	GRADMAX REAL		variazione considerata massima/Km della
+				grandezza considerata
+
+	PARAMETRI IN USCITA
+
+	K	INTEGER		numero di stazioni buone
+	X	REAL(K)		coordinate NCAR lungo x delle staz. buone
+	Y	REAL(K)		coordinate NCAR lungo y delle staz. buone
+	VAL	REAL(K)		valori misurati nelle stazioni buone
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

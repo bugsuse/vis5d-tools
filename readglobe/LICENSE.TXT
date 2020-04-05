@@ -1,0 +1,8 @@
+This program is covered by the license
+
+	LICENZA PUBBLICA GENERICA (GPL) DI ARPA SMR
+
+(see the file LICENZA.TXT), which is equivalent, in its terms, to the
+GNU General Public License version 2 as published by the Free Software
+Foundation, Inc. 59 Temple Place, Suite 330, Boston, MA 02111-1307
+USA.

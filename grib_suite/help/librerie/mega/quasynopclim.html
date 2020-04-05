@@ -1,0 +1,99 @@
+<HTML><HEAD><TITLE>
+ QUASYNOPCLIM
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quasynopclim</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quasynopclim.f">/disk3/patruno/lib/mega/quasynopclim.f</A> <HR>
+<PRE>
+	SUBROUTINE QUASYNOPCLIM(FLAG,IER)
+							modificato 12/04/94
+	controllo di qualita` di tipo climatologico sui dati synop.
+	OGNI VARIABILE SYNOP VIENE CONFRONTATA CON DEI LIMITI DI VALIDITA`
+	entro i quali deve essere compresa. Per la maggioranza delle variabili
+	i limiti sono fissi e sempre validi; per alcune altre dipendono
+	dalla posizione geografica (pressione a livello stazione e
+	geopotenziale) e dalle variazioni stagionali (radiazione solare).
+
+	FLAG(43)	BYTE	incrementato di tre se verificato errore
+				per le 43 variabili synop
+	IER		I*4	condizione di errore
+			IER=1	tipo messaggio errato
+			IER=-1	non trovo i dati anagrafici della stazione
+				e quindi faccio controlli piu` blandi.
+
+	COMMON /RRW/RRW	I*2	RRW(50) per passare i dati synop come dichiarato
+				in met$inc:synop.inc
+
+	Per indirizzare il vettore FLAG alla variabile interessata si puo`
+	utilizzare, includendo nel proprio programma, il file
+	megainc$dir:quasynop.inc ed utilizzare come indici del; vettore le
+	variabili che hanno lo stesso nome della variabile (meteodata)
+	preceduto da 'IN'. Ad esempio:
+	per la temperatura        FLAG(INTATA)
+
+	I principi generali su cui sono basati questi controlli di qualita`
+	sono stati ricavati con alcuni adattamenti da:
+
+    1) W.W.W. PLANNING REPORT N.26  'QUALITY CONTROL PROCEDURES
+       FOR METEOROLOGICAL DATA'
+
+    2) technical note  E.C.M.W.F.- operations department-
+       'quality control checks applied to observational data'
+
+    3) AERONAUTICA MILITARE ITALIANA REGOLAMENTO DI SERVIZIO N.5
+       'MESSAGGI METEOROLOGICI' MET RS 5  FM 12-VIII SYNOP
+
+    4) W.M.O. UNESCO 1970  MAPPE DI TEMPERATURA MEDIA E PRECIPITAZIONE
+       'ATLANTE CLIMATICO DI EUROPA'
+
+     FLAG    NOME VAR.	  SOGLIA MIN.  SOGLIA MAX.        NOTE
+
+	1	HH		0	2500
+	2	VIS		0	9999
+	3	NTOT		0	9
+	4	DD		0	360	vento variabile 999
+	5	FF		0	199
+	6	TATA		-290	490
+	7	TDTD		-290	490	
+	8	UMID		20	100
+	9	PRES		9600	10600
+	10	GEOP		-650	6000  (500-1800) (2150-3450) (4700-6000)
+	11	P0P0		4500	10600	naca-1330  naca+670
+	12	CART		0	8
+	13	TEND		0	60
+	14	PRECI		0	9890
+	15	TR		6	12
+	16	TEMPRS		0	99
+	17	PEMPAS		0	99
+	18	NH		0	9
+	19	CL		0	9
+	20	CM		0	9
+	21	CH		0	9
+	22	TETE		-290	490
+	23	TW		-10	490
+	24	PWA		0	99
+	25	HWA		0	2000
+	26	PW		0	99
+	26	RADSOL		0	* (funzione del giorno,ora,latitudine)
+	27	HW		0	2000
+	28	E		0	9
+	29	TMINS		-290	490
+	30	EG		0	9
+	31	SSS		0	9960  zero in estate in pianura nel sud
+	32	NSS		0	9
+	33-35	NSS		0	8
+	36-39	CSS		0	9
+	40-43	HHSS		0	22500
+
+	N.B.
+	naca viene calcolata in funzione dell'altezza ed e` l'atmosfera standard
+	i limiti del geopotenziale sono diversi a seconda del livello standard
+	di riferimento.
+	per il calcolo della radiazione globale vedi RADMAX.
+	L'altezza della neve deve essere 0 nei mesi da Maggio a Settembre
+	nelle stazioni sotto i 500m. al di sotto del 48 pararallelo.
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

@@ -1,0 +1,2314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="StarOffice/5.1 (Linux)">
+	<META NAME="CREATED" CONTENT="19991014;14334000">
+	<META NAME="CHANGED" CONTENT="16010101;0">
+</HEAD>
+<BODY>
+<DIV TYPE=HEADER>
+	<P STYLE="margin-bottom: 0cm"><BR>
+	</P>
+</DIV>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Times New Roman, serif"><IMG SRC="sv3023023.gif" NAME="Immagine2" ALIGN=BOTTOM WIDTH=82 HEIGHT=82 BORDER=0></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 2cm; margin-top: 6.35cm; margin-bottom: 0cm; border-top: none; border-bottom: 2.50pt solid #000000; border-left: none; border-right: none; padding: 0cm">
+X-GRIBarch</P>
+<P STYLE="margin-left: 2cm; margin-bottom: 0cm">SISTEMA
+ARCHIVIAZIONE<BR>MESSAGGI IN CODICE GRIB<B><FONT SIZE=5 STYLE="font-size: 20pt"><FONT FACE="Helvetica, sans-serif">	</FONT></FONT></B></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4><B>Marzo
+1999<BR>Versione : 2.3 (Piattaforme UNIX/OpenVMS)</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>Contenuto</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>1.		ORGANIZZAZIONE
+LOGICA DELL'ARCHIVIO</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>1.1</B>	Dataset</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>1.2</B>	Sezione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>1.3</B>	Segmento</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>1.4</B>	Segmento
+fuori ordine o con dati troppo vecchi</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>1.5	</B>Dataset
+indicizzati e non indicizzati</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>2.		ORGANIZZAZIONE
+DELLE TABELLE</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>2.1	</B>Note
+generali sulla nomenclatura dei files</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>2.2	</B>Tabella
+indice dei datasets presenti nel sistema</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>2.3</B>	Tabella
+delle griglie supportate</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>2.4</B>	Tabella
+delle variabili supportate</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>2.4.1	</B>Nuova
+gestione delle estensioni</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>2.5</B>	Tabella
+delle bitmap supportate</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>3.		ORGANIZZAZIONE
+FISICA DELL'ARCHIVIO</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>3.1</B>	Struttura
+delle directory</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>3.2</B>	Filosofia
+di archiviazione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>3.2.1	</B>Files
+&lt;nomds&gt;.DES</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>3.2.2	</B>Files
+&lt;nomds&gt;.X</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>3.3</B>	Dataset</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>3.4</B>	Sezioni
+ON LINE</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>3.5</B>	Sezioni
+OFF LINE su supporto ad accesso diretto</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>3.6</B>	Sezioni
+OFF LINE su supporto ad accesso sequenziale</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>3.7</B>	Segmenti</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>3.8</B>	Segmenti
+fuori ordine</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>4.		ACCOGLIENZA
+DEI DATI</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>4.1</B>	Fase
+di accoglienza</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>4.2</B>	Fase
+di editing</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>4.1.1</B>	Editing<B>
+</B>manuale del log file</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>4.1.2	</B>Modifica
+guidata del log file</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>4.3</B>	Fase
+di caricamento</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>5.		PROCEDURE
+GUIDATE A MENU'</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.1</B>	Gestione
+Tabelle</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.1.1</B>	Gestione
+caratteristiche dataset</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.1.2</B>	Visualizza
+contenuto dataset</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.1.3</B>	Gestione
+griglie</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.1.4</B>	Gestione
+bitmaps</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.1.5</B>	Gestione
+variabili</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.2</B>	Importazione
+nuovi GRIB</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.3</B>	Travasi
+tra archivi e ripuliture</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.3.1</B>	Inizializzazione
+nastro di salvataggio</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.3.2</B>	Travaso
+da archivio in linea a storico su disco</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.3.3	</B>Travaso
+da primo livello storico ad archivio su nastro</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.3.4	</B>Ripulitura
+archivio in linea dai dati travasati</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.3.5	</B>Ripulitura
+archivio storico su disco dai dati travasati</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.4</B>	Manutenzione
+archivi</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.4.1</B>	Infittimento
+archivio storico su disco</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.4.2</B>	Eliminazione
+segmenti fuori ordine da archivio in linea</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.4.3</B>	Riorganizzazione
+e costruzione indice su archivio in linea</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>5.4.4</B>	Riorganizzazione
+e costruzione indice su archivio storico su disco</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>6.		ROUTINES
+DI ACCESSO</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>7.		ESTRAZIONI</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>7.1</B>	Formati
+di richieste di estrazione e piani</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>7.2</B>	Gestione
+dei gruppi mnemonici</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>7.3</B>	Caratteristiche
+per l'estrazione dei GRIB</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>7.4</B>	Programma
+per l'estrazione dei GRIB</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>7.5</B>	Descrizione
+dei dati estratti da GRIB</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>8.		FUNZIONI
+SPECIALI A LINEA DI COMANDO</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>8.1</B>	La
+funzione lgrib</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>8.2</B>	La
+funzione sgrib</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>8.3</B>	La
+funzione ascds</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>8.4</B>	La
+funzione ascbm</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>8.5</B>	La
+funzione ascar</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>8.6</B>	La
+funzione ascva</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>8.		GESTIONE
+SPECIFICA DI CODICE ESPERIMENTO ED ESTENSIONI</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>1.
+  Organizzazione logica dell'archivio</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Viene
+in questo paragrafo descritta la struttura di archiviazione dei GRIB
+utilizzata dal presente sistema di gestione.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>1.1
+  Dataset</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">ll
+raggruppamento concettualmente pi&ugrave; ampio di GRIB &egrave; il
+<I>dataset</I>. I dataset sono di due tipi: univoco per terna di
+valori, oppure univoco per coppia di valori. Nel primo caso viene
+definito un dataset distinto per ogni quaterna univoca di valori
+centro di emissione, griglia geografica, processo generatore, pi&ugrave;
+una componete, detta genericamente &#147;codice esperimento&#148;,
+che pu&ograve; essere definita o non definita a discrezione
+dell&#146;utente per smiscelare dataset che risulterebbero altrimenti
+identici. Nel secondo caso per ogni coppia univoca di valori centro
+di emissione, griglia geografica.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>1.2
+  Sezione</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Ogni
+dataset pu&ograve; essere costituito da diverse<I> sezioni</I>, ogni
+sezione &egrave; caratterizzata dalla data di emissione relativa al
+GRIB pi&ugrave; vecchio in essa memorizzato, dalla data di emissione
+relativa al GRIB pi&ugrave; recente in essa memorizzato e da un tipo
+di supporto magnetico su cui la sezione &egrave; memorizzata.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Esiste
+sempre un <I>sezione &quot;on line&quot;</I> nella quale i GRIB sono
+accolti al momento della prima memorizzazione in archivio. La sezione
+on line risiede su una coppia device/directory relativa ad un disco
+fisso, sempre in linea al sistema. Dalla sezione on line i dati
+possono essere spostati su di una <I>sezione &quot;ad accesso
+diretto&quot;</I>, detta di tipo <I>logicamente adiacente</I> alla
+sezione on line, residente su di un supporto magnetico rimovibile ma
+ad accesso diretto (ad es. disco magnetoottico), ogni sezione di
+questo tipo &egrave; individuata da un identificativo di sezione
+(univoco a livello di dataset per questo tipo di sezione) e da un
+directory di residenza. Il supporto fisico che contiene sezioni di
+questo tipo potr&agrave; essere messo in linea volta per volta su
+drives diversi e quindi essere associato a devices dinamicamente
+differenti. Possono esistere pi&ugrave; sezioni &quot;ad accesso
+diretto&quot; relative a periodi diversi e non sovrapposti,
+generalmente memorizzate su supporti fisicamente distinti (un disco
+magnetoottico per sezione) ma sotto la stessa directory.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Dalle
+sezioni &quot;ad accesso diretto&quot; i dati possono venire spostati
+su <I>sezioni &quot;ad accesso sequenziale&quot;</I>, dette di tipo
+<I>logicamente adiacente</I> alle sezioni ad accesso diretto,
+residenti su di un supporto magnetico rimovibile ad accesso
+sequenziale (ad es. nastro magnetico, DAT), ogni sezione di questo
+tipo &egrave; individuata da un identificativo di sezione (univoco a
+livello di dataset per questo tipo di sezione). Il supporto fisico
+che contiene sezioni di questo tipo potr&agrave; essere messo in
+linea volta per volta su drives diversi e quindi essere associato a
+devices dinamicamente differenti. Possono esistere pi&ugrave; sezioni
+&quot;ad accesso sequenziale&quot; relative a periodi diversi e non
+sovrapposti, tassativamente memorizzate su supporti fisicamente
+distinti (un nastro contiene una e una sola sezione dati relativa ad
+uno ed un solo dataset).</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>1.3
+  Segmento</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Ogni
+sezione &egrave; costituita da un certo numero di <I>segmenti</I> di
+dati. Un segmento dati &egrave; l'unit&agrave; minima di
+archiviazione dei GRIB per un dataset, ed &egrave; anche l'unit&agrave;
+minima che si pu&ograve; movimentare tra sezioni logicamente
+adiacenti nelle operazioni guidate di salvataggio e cancellazione.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">La
+lunghezza di un segmento dati &egrave; definita o in termini di
+<I>numero di giorni</I> di dati in esso contenuti o in termini di<I>
+numero di mesi</I> di dati in esso contenuti, la <I>data di
+riferimento</I> di un segmento &egrave; definita come la data, intesa
+come terna anno, mese giorno, del GRIB pi&ugrave; vecchio in esso
+memorizzabile (e non necessariamente in esso memorizzato). La
+lunghezza del segmento &egrave; una caratteristica definita una
+tantum per un dataset alla sua creazione e non pi&ugrave;
+modificabile. Il sistema &egrave; congegnato in maniera tale da porre
+i seguenti vincoli sui limiti di segmento: un segmento la cui
+lunghezza &egrave; definita in termini di numero di giorni non
+conterr&agrave; mai dati relativi a due mesi differenti, esiste in
+altri termini sempre il limite di segmento relativo al primo di ogni
+mese e la lunghezza dell'ultimo segmento relativo al mese viene
+prolungata o limitata in maniera tale da non violarne i confini; un
+segmento la cui lunghezza &egrave; definita in termini di numero di
+mesi non conterr&agrave; mai dati relativi ad anni diversi, valgono
+le stesse regole di generazione sopra viste.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Ad
+esempio, se la lunghezza del segmento &egrave; definita in 10 giorni,</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">per
+ogni mese archiviato saranno presenti 3 segmenti con date di
+riferimento (quali che siano l'anno aaaa e il mese mm):</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>	aaaamm01</I></B>	con
+i dati dal primo al 10 del mese</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>	aaaamm11</I></B>	con
+i dati dal giorno 11 al 20 del mese</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>	aaaamm21</I></B>	con
+i dati dal giorno 21 alla file del mese</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Se
+invece la lunghezza del segmento &egrave; definita (per assurdo) in 5
+mesi, per ogni anno archiviato saranno presenti 2 segmenti con date
+di riferimento:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>	aaaa0101</I></B>		con
+i dati dal 1/1 al 31/5</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>	aaaa0601</I></B>		con
+i dati dal 1/6 alla fine dell'anno</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">non
+viene generato un terzo segmento perch&eacute; i due mesi residui che
+esso conterrebbe sono meno della met&agrave; della lunghezza del
+segmento.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Nell'ambito
+dei segmenti dati delle sezioni &quot;on line&quot; e su supporto ad
+accesso diretto, i dati vengono memorizzati in ordine di ricezione, e
+viene gestita una flag che indica se nel segmento &egrave; rispettato
+l'ordine cronologico di anno, mese, giorno, ora di riferimento dei
+GRIB in esso contenuti (questa flag non viene al momento utilizzata
+nelle procedure di retrieval dei dati). Nell'ambito dei segmenti dati
+delle sezioni su supporto ad accesso sequenziale, viene mantenuto
+l'ordinamento dei dati secondo la logica:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Data
+di riferimento</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Unit&agrave;
+di tempo</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Scadenza</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Range
+di tempo</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Tipo
+livello </I></FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Livello</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Centro
+emittente</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Tabella</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Parametro</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Ci&ograve;
+avviene solo qualora il dataset sia di tipo indicizzato. In caso
+contrario i dati sono memorizzati nei segmenti su nastro nell'ordine
+di ricezione. </FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Per
+le sezioni &quot;on line&quot; e su supporto ad accesso diretto &egrave;
+possibile definire un indice che punti ogni singolo GRIB della
+sezione, indipendentemente dal segmento in cui &egrave; memorizzato,
+e che fornisce per l'intera sezione l'ordinamento descritto per i
+segmenti delle sezioni su supporto sequenziale.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Un
+segmento pu&ograve; appartenere ad un'unica sezione dello stesso
+livello (On line, ovviamente in quanto unica, off line ad accesso
+diretto, off line ad accesso sequenziale).</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>1.4
+  Segmento fuori ordine o con dati troppo vecchi</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Una
+peculiarit&agrave; delle sezioni &egrave; che per sezioni dello
+stesso tipo (on line, su supporto ad accesso diretto, su supporto ad
+accesso sequenziale), una certa data non pu&ograve; appartenere che
+ad una sezione: le sezioni dello stesso tipo non sono cio&egrave;
+sovrapponibili. Ci&ograve; comporta che se vengono caricati dei GRIB
+che per data di emissione risultino appartenenti a segmenti gi&agrave;
+migrati verso sezioni non on line, vadano previste procedure speciali
+per l'allineamento dei dati. Questa tipologia di GRIB &egrave; detta
+&quot;fuori ordine&quot; ed il sistema all'atto del caricamento
+provvede a memorizzare i dati di questo tipo in speciali segmenti del
+tipo &quot;OOO&quot; (Out Of Order), in maniera da renderli
+individuabili e manipolabili con maggiore semplicit&agrave;. ll
+sistema fornisce inoltre procedure per l'allineamento delle sezioni
+su supporto ad accesso diretto, mentre non ne prevede per le sezioni
+su supporto ad accesso sequenziale. </FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">I
+segmenti out of order vengono utilizzati anche per memorizzare GRIB
+la cui data sia inferiore dell'attuale data limite di sezione di pi&ugrave;
+di 50 anni, in maniera tale da evitare la costruzione di indici
+enormi a fronte di possibili errori di caricamento.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>1.5
+  Dataset indicizzati e non indicizzati</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Il
+sistema di archiviazione provvede a registrare i dati ricevuti nei
+segmenti opportuni all'atto della ricezione e, solo se richiesto
+espressamente, a costruire e manutenere gli indici sia della sezione
+on line che delle sezioni off line ad accesso diretto. Nell'ipotesi
+di dataset indicizzati il sistema di archiviazione provvede anche a
+riordinare fisicamente i segmenti da copiare su nastro secondo
+l'ordine logico dettato dall'indice.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Il
+sistema provvede in ogni caso sempre ad eliminare GRIB duplicati sin
+dalla prima memorizzazione nei segmenti on line e a completare di
+sez2 e sez3 (descrizioni griglia e bitmap) tutti i GRIB prima di
+ricopiarli su nastro.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>2.
+  Organizzazione delle tabelle</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Sono
+gestite inoltre come parte integrante del sistema di archiviazione le
+seguenti tabelle che descrivono le caratteristiche dell'archivio e
+dei GRIB che lo compongono.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Tutte
+le tabelle possono essere alimentate automaticamente, secondo regole
+di default, dalle procedure standard di accoglienza dei GRIB pi&ugrave;
+avanti descritte. Alcuni dei parametri possono poi essere modificati
+manualmente a video tramite funzioni di operatore o, meglio,
+immediatamente dopo la procedura di accoglienza e prima della
+procedura di caricamento effettivo.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>2.1
+  Note generali sulla nomenclatura dei files</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">XGRIBarch
+&egrave; un sistema multipiattafoma, funzionante sia sotto
+VMS/OpenVMS che sotto UNIX. E' strutturato in maniera tale da
+consentire la condivisione completa degli archivi e delle tabelle
+tramite NFS anche per configurazioni miste tra le due famiglie di
+sistemi operativi. Come &egrave; noto, VMS vede i nomi files sempre
+maiuscoli, presentandoli per&ograve; ad un sistema UNIX come sempre
+ed interamente minuscoli. UNIX invece mantiene i nomi files
+rigorosamente come dichiarati dall'utente, mescolando
+indifferentemente maiuscole e minuscole. Buona parte dei nomi files
+in gioco nell'applicazione, sono composti da diverse sezioni che, a
+seconda delle scelte dell'operatore, possono essere sia maiuscole che
+minuscole, quindi per evitare incomprensioni tra i sistemi operativi,
+alcune routines di basso livello dell'applicazione provvedono a
+creare tutti i files con tutte lettere minuscole, quali che siano le
+scelte dell'utente per le singole sezioni. La forzatura del carattere
+a minuscolo avviene partendo a ritroso dall'ultimo carattere del nome
+file e arrestandosi quando viene incontrato o / o : o ]. Ad esempio
+il nome dichiarato dall'utente come: <B><I>$GRB_DAT/sez3_ECMWF_PD141.agenda</I></B>
+o <B><I>GRB_DAT:sez3_ECMWF_PD141.agenda</I></B> viene comunque
+forzato sia in creazione che nelle richiese di accesso successive in
+<B><I>$GRB_DAT/sez3_ecmwf_pd141.agenda</I></B> o
+<B><I>GRB_DAT:sez3_ecmwf_pd141.agenda</I></B> . Inoltre in questa
+documentazione i nomi sono sempre riportati con la convenzione VMS
+vale a dire maiuscoli e nella forma <B><I>&lt;device&gt;:&lt;nomefile&gt;</I></B>
+. Per le piattaforme UNIX ci&ograve; va letto come
+<B><I>$&lt;device&gt;/&lt;nomefile&gt; </I></B>se non altrimenti
+espressamente specificato.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>2.2
+  Tabella indice dei datasets presenti nel sistema</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Si
+appoggia al file ad indici <B><I>GRB_DAT:GRB_DS.FIL</I></B> e
+contiene un record per ognuno dei dataset descritti nel sistema.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Le
+informazioni che riporta sono le seguenti:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Nome
+Dataset<BR></I>Nome del dataset di massimo 32 caratteri. Questo nome
+&egrave; utilizzato per comporre tutti i diversi nomi dei files che
+contengono sia le informazioni di sezione che i segmenti, non pu&ograve;
+quindi contenere caratteri non accettati nei nomi file.<BR>E' la
+chiave di accesso primaria a questo archivio e deve essere
+univoca.<BR>Il nome del dataset pu&ograve; essere cambiato
+dall'utente con l'apposita funzione a video fintanto che &egrave;
+presente solo la sezione on line del dataset.<BR>Nel caso di dataset
+a terna univoca il valore di questo campo &egrave; sostanzialmente
+arbitrario, anche se di solito viene lasciato nella forma
+&lt;nomegriglia processogeneratore [codiceesperimento]&gt; (che &egrave;
+il nome di default che viene imposto dalle procedure di caricamento
+automatico, codice esperimento, se non desiderato, viene omesso).<BR>Nel
+caso di dataset a coppia univoca il valore di questo campo deve
+invece necessariamente coincidere con il nome della griglia a cui il
+dataset si appoggia, vale a dire con il valore del campo <I>nome
+interno griglia</I>.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.51cm; text-indent: -0.51cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Descrizione<BR></I>Massimo
+50 caratteri liberi di descrizione del dataset.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Centro
+di Emissione<BR></I>Un byte binario contenente il codice del centro
+di emissione come convogliato dai messaggi GRIB.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Griglia
+usata<BR></I>Un byte binario contenente il codice della griglia a cui
+si appoggiano i GRIB di questo dataset come convogliato dai messaggi
+GRIB. Pu&ograve; naturalmente valere 255 nel caso che la sezione 2
+sia inclusa nei messaggi ed il codice di griglia non sia quindi
+definito.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Processo
+Generatore<BR></I>Un byte binario contenente il codice del processo
+generatore come convogliato dai messaggi GRIB.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Nome
+interno griglia<BR></I>Codice di 8 caratteri alfanumerici sicuramente
+univoco di definizione di una particolare griglia agli effetti del
+sistema. E' la chiave di accesso primaria alla tabella delle aree.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Codice
+esperimento</I></FONT></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">	Codice
+di 4 caratteri utilizzato, a discrezione dell&#146;utente, per
+smiscelare archivi che avrebbero altrimenti nomi identici.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">La terna Processo generatore/nome
+interno griglia/codice esperimento &egrave; chiave secondaria di
+ricerca per individuare durante i caricamenti se un GRIB appartenga o
+no ad un dataset gi&agrave; definito nel sistema nel caso di dataset
+a quaterna univoca. Nel caso di dataset a coppia univoca, la ricerca
+di dataset gi&agrave; definito viene invece fatta tramite la chiave
+primaria <I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Nome
+Dataset</FONT></FONT></I></P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.51cm; text-indent: -0.51cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Elimina
+sez2 in caricamento<BR></I>Questo switch se attivato fa s&igrave; che
+eventuali sezioni 2 (definizione della griglia) ricevute convengano
+eliminate del GRIB prima della memorizzazione in segmento. Ci&ograve;
+avviene se e solo se la sezione 2 da eliminare &egrave; gi&agrave;
+presente nella tabella delle griglie supportate.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 0.5cm; text-indent: -0.5cm; margin-bottom: 0cm">
+Elimina sez3 in caricamento<BR><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Questo
+switch se attivato fa s&igrave; che eventuali sezioni 3 (bitmap)
+ricevute convengano eliminate del GRIB prima della memorizzazione in
+segmento. Ci&ograve; avviene se e solo se la sezione 3 da eliminare &egrave;
+gi&agrave; presente nella tabella delle bitmap supportate.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Segmentazione
+dataset<BR></I>Lunghezza in giorni (valore positivo da 1 a 30) o in
+mesi (valore negativo da -12 a -1, la lunghezza &egrave; ovviamente
+il valore assoluto del contenuto del campo) dei segmenti dati del
+dataset. Codificare 30 o -1 ha lo stesso effetto.<BR>Questa lunghezza
+non &egrave; pi&ugrave; modificabile dopo che sia stato effettuato il
+primo caricamento dati nel sistema.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Residenza
+dell'archivio<BR></I>Inizia con questo campo il gruppo di parametri
+che descrive la situazione della sezione on line.<BR>Descrizione
+della coppia device/directory su cui risiede la sezione on line del
+dataset. Pu&ograve; contenere sia una dichiarazione esplicita che un
+nome logico (purch&eacute; definito dall'utente prima del primo
+caricamento) per una lunghezza totale di 50 caratteri al massimo.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Passo
+di emissione in minuti<BR></I>Parametro utilizzato per i dataset
+indicizzati. Se viene caricato un valore 0 in questo campo il sistema
+non crea indici per le sezioni on line e off line ad accesso diretto
+del dataset e non riordina i segmenti prima della memorizzazione su
+sezioni off line ad accesso sequenziale. Se viene caricato un valore
+diverso da 0, esso indica il passo in minuti tra due date di
+emissione di GRIB appartenenti a questo archivio. Le date di
+emissione devono essere equispaziate temporalmente o comunque
+multiple di questo passo.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Numero
+di GRIB in linea</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Numero
+segmenti in linea</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Data
+di Emissione Min (aaaammgghhmi</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Data
+di Emissione Max (aaaammgghhmi)</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Ultima
+ricezione il (aaaammgghhmi)</I> <BR>Questi quattro campi  sono
+informazioni statistiche relative alla sezione on line, la data di
+emissione minima &egrave; utilizzata insieme con il passo di
+emissione come base per la costruzione dell'indice di sezione.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Numero
+GRIB in buffer</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Data
+di Emissione Min</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Data
+di Emissione Max</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><BR>Questi
+tre campi sono relativi ad eventuali dati &quot;fuori ordine&quot; o
+troppo vecchi individuati dalla procedura di caricamento ed
+accantonati nei segmenti tipo OOO per essere processati dalle
+opportune funzioni manuali di allineamento archivi.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Come si &egrave; appena
+visto, il record relativo al dataset contiene la descrizione della
+situazione della sezione on line che &egrave; unica per ogni dataset.
+Analoghe descrizioni della situazione delle sezioni su supporto
+magnetico ad accesso diretto e ad accesso sequenziale sono mantenute
+dal sistema in due files associati a ciascun dataset di nome
+rispettivamente:</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_DAT:SEZ3_nnnnnn.AGENDA</I></B>
+per le sezioni ad accesso diretto</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_DAT:SEZ4_nnnnnn.AGENDA</I></B>
+per le sezioni ad accesso sequenziale</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">dove
+<B><I>nnnnnn</I></B> &egrave; il nome idenazificato del dataset.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">I
+due files contengono un record di testata per ogni sezione e un
+record ogni segmento della sezione, aventi il tracciato illustrato
+dai seguenti esempi:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">*PRIMA
+     199605110000 199606150000          7       3024 0 1440 padania</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960511   199605110000 199605150000     129360        420 0</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960516   199605160000 199605200000     129360        420 0</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960521   199605210000 199605250000     129360        420 0</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960526   199605260000 199605310000     155232        504 0</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960601   199606010000 199606050000     129360        420 0</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960606   199606060000 199606100000     129360        420 0</FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.51cm; text-indent: -0.51cm; margin-bottom: 0cm">
+ 19960611   199606110000 199606150000     129360        420 0</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">*NASTRO
+    199603010000 199605100000         14       5964</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960301   199603010000 199603050000     172800        420</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960306   199603060000 199603100000     172800        420</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960311   199603110000 199603150000     172800        420</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960316   199603160000 199603200000     172800        420</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960321   199603210000 199603250000     172800        420</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960326   199603260000 199603310000     207360        504</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960401   199604010000 199604050000     172800        420</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960406   199604060000 199604100000     172800        420</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960411   199604110000 199604150000     172800        420</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960416   199604160000 199604200000     172800        420</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960421   199604210000 199604250000     172800        420</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960426   199604260000 199604300000     172800        420</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">
+19960501   199605010000 199605050000     172800        420</FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"> 19960506   199605060000
+199605100000     172800        420</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Nell'ordine
+i campi della testata hanno il seguente significato<I>:</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Identificativo
+di sezione </I></FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Nome
+di dieci caratteri alfanumerici univoco per tutte le sezioni relative
+ad un dataset, prefissato da *. E' la label del disco rimovibile che
+contiene la sezione su supporto ad accesso diretto o il nome che
+caratterizza univocamente il nastro su cui &egrave; memorizzata la
+sezione su supporto sequenziale. Per label del disco rimovibile si
+intende l'unico record contenuto nel file
+<B><I>&lt;device&gt;:[directory]nnnnn.LABEL</I></B> (VMS, la MFD va
+caratterizzata come <B>[000000]</B>) o <B><I>&lt;path&gt;/nnnnn.label</I></B>
+ (UNIX), dove nnnnn &egrave; il nome del dataset la cui sezione &egrave;
+memorizzata su &lt;device&gt; o &lt;path&gt;.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Data
+di Emissione del GRIB pi&ugrave; vecchio registrato</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Per
+le sezioni off line ad accesso diretto relative ad archivi
+indicizzati &egrave; usata come data di base per la costruzione
+dell'indice.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.51cm; text-indent: -0.51cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.51cm; text-indent: -0.51cm; margin-bottom: 0cm">
+Data di Emissione del GRIB pi&ugrave; recente registrato</P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.51cm; text-indent: -0.51cm; margin-bottom: 0cm">
+Numero dei segmenti registrati nella sezione</P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.51cm; text-indent: -0.51cm; margin-bottom: 0cm">
+Numero dei GRIB registrati nella sezione</P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.51cm; text-indent: -0.51cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Solo
+per le sezioni ad accesso diretto sono poi definite le seguenti
+caratteristiche:</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Sezione
+interamente salvata anche su nastro</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Se
+0 no se 1 si (riassume in .and. le flag dei singoli segmenti sotto
+elencate)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Passo
+di emissione<BR></I>ha lo stesso significato del campo omologo della
+sezione on line.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Directory
+su cui risiedono i segmenti sul supporto<BR></I>Nome della directory
+(in minuscolo e senza separatori) in cui vengono registrati segmenti
+e files di appoggio sui devices offline ad accesso diretto che
+ospitano la sezione.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Ad ogni record di testata
+seguono un record per ogni segmento memorizzato nella sezione, il cui
+tracciato &egrave; il seguente:</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Identificativo
+del segmento</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Data
+di Emissione del GRIB pi&ugrave; vecchio registrato nel segmento</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Data
+di Emissione del GRIB pi&ugrave; recente registrato nel segmento</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Numero
+dei bytes utilizzati nel segmento</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Numero
+dei GRIB registrati nel segmento</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Segmento
+salvato a livello superiore (=0 no, =1 si)</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Come
+si pu&ograve; intuire, le tabelle sopra descritte riportano tutte le
+informazioni necessarie per individuare in maniera univoca la
+posizione di un particolare GRIB in archivio.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>2.3
+  Tabella delle griglie supportate</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Si
+appoggia al file ad indici <B><I>GRB_DAT:GRB_AREAS.FIL</I></B> e
+contiene un record per ogni coppia centro di emissione/griglia
+definita distinta utilizzata nei GRIB memorizzati nell'archivio.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Le
+informazioni che riporta sono le seguenti:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Nome
+area<BR></I>Nome interno della griglia univoco per il sistema di
+memorizzazione di 8 caratteri. E' il codice che compare nel tracciato
+del record di descrizione del dataset. Questo nome &egrave;
+modificabile manualmente tramite la funzione operatore apposita e la
+sua modifica viene propagata automaticamente a tutti i records di
+descrizione di dataset interessati.<BR>Questo campo &egrave; la
+chiave di accesso primaria alla tabella.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Descrizione</I><BR>Descrizione
+libera di 49 caratteri.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Elimina
+sez2 in caricamento<BR></I>Questo switch se attivato fa s&igrave; che
+eventuali sezioni 2 (definizione della griglia) ricevute convengano
+eliminate del GRIB prima della memorizzazione in segmento. Ci&ograve;
+avviene se e solo se la sezione 2 da eliminare &egrave; gi&agrave;
+presente nella tabella delle griglie supportate. Viene ricopiato
+nello switch omologo relativo al dataset all'atto della creazione di
+un record di descrizione del dataset che si appoggi a quest'area.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Elimina
+sez3 in caricamento<BR></I>Questo switch se attivato fa s&igrave; che
+eventuali sezioni 3 (bitmap) ricevute convengano eliminate del GRIB
+prima della memorizzazione in segmento. Ci&ograve; avviene se e solo
+se la sezione 3 da eliminare &egrave; gi&agrave; presente nella
+tabella delle bitmap supportate. Viene ricopiato nello switch omologo
+relativo al dataset all'atto della creazione di un record di
+descrizione del dataset che si appoggi a quest'area.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Segmentazione
+dataset</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>	</I>Lunghezza
+in giorni (valore positivo da 1 a 30) o in mesi (valore negativo da
+-12 a -1, la lunghezza &egrave; ovviamente il valore assoluto del
+contenuto del campo) dei segmenti dati dei dataset che utilizzeranno
+questa griglia. Codificare 30 o -1 ha lo stesso effetto. Questo
+valore &egrave; utilizzato come default dalle procedure automatiche
+di caricamento quando viene incontrato per la prima volta un dataset
+nuovo che per&ograve; utilizzi una griglia gi&agrave; definita.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Passo
+di emissione in minuti<BR></I>Parametro utilizzato per i dataset
+indicizzati. Se viene caricato un valore 0 in questo campo il sistema
+non crea indici per le sezioni on line e off line ad accesso diretto
+del dataset e non riordina i segmenti prima della memorizzazione su
+sezioni off line ad accesso sequenziale. Se viene caricato un valore
+diverso da 0, esso indica il passo in minuti tra due date di
+emissione di GRIB appartenenti a questo archivio. Le date di
+emissione devono essere equispaziate temporalmente o comunque
+multiple di questo passo. Questo valore &egrave; utilizzato come
+default dalle procedure automatiche di caricamento quando viene
+incontrato per la prima volta un dataset nuovo che per&ograve;
+utilizzi una griglia gi&agrave; definita.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Centro
+di Emissione<BR></I>Un byte binario contenente il codice del centro
+di emissione come convogliato dai messaggi GRIB.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Codice
+griglia<BR></I>Un byte binario contenente il codice della griglia 
+come convogliato dai messaggi GRIB. Pu&ograve; naturalmente valere
+255 nel caso che la sezione 2 sia inclusa nei messaggi ed il codice
+di griglia non sia quindi definito.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Non
+cambia DS a cambio processo generatore<BR></I>Questo switch se
+attivato fa s&igrave; che a questa griglia si appoggi un solo dataset
+che non modificher&agrave; pi&ugrave; la propria identit&agrave;
+quale che sia il processo generatore che viene convogliato dai GRIB
+ad esso appartenenti. Se questo switch &egrave; attivato, il dataset
+dovr&agrave; avere lo stesso nome della griglia a cui si appoggia.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Lunghezza
+della sezione 2 associata (bytes)<BR></I>Indica la lunghezza in bytes
+della sezione 2 in codice GRIB che caratterizza la griglia in esame.
+Se questo numero &egrave; diverso da zero, la sezione 2 &egrave;
+registrata come parte del record di seguito a questo campo.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Il codice del centro di
+emissione pi&ugrave; il codice di griglia costituiscono una chiave di
+accesso secondaria non univoca a questa tabella. L'identit&agrave;
+della griglia di un GRIB ricevuto con una gi&agrave; definita in
+tabella viene stabilita ove possibile per confronto diretto delle
+sezioni 2 in formato GRIB.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">La parte terminale del
+record di questa tabella contiene la sezione 2 in formato GRIB a cui
+il record si riferisce.</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>2.4
+  Tabella delle variabili supportate</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Si
+appoggia al file ad indici <B><I>GRB_DAT:GRB_VARS.FIL</I></B> e
+contiene un record per ogni terna centro di emissione/codice
+tabella/codice variabile distinta utilizzata nei GRIB memorizzati
+nell'archivio.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Le
+informazioni che riporta sono le seguenti:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Nome
+variabile<BR></I>Nome interno della variabile univoco per il sistema
+di memorizzazione di 10 caratteri. Questo nome &egrave; modificabile
+manualmente tramite la funzione operatore apposita e non compare in
+nessun altro tracciato record.<BR>Questo campo &egrave; la chiave di
+accesso primaria alla tabella.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Descrizione</I><BR>Descrizione
+libera di 50 caratteri.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Centro
+di Emissione<BR></I>Un byte binario contenente il codice del centro
+di emissione come convogliato dai messaggi GRIB.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Versione
+tabella</I><BR>Un byte binario contenente la versione della tabella
+di cui la variabile fa parte come convogliato dai messaggi GRIB.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Codice
+parametro</I><BR>Un byte binario contenente il codice della variabile
+come convogliato dai messaggi GRIB.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">L'associazione dei tre
+campi precedenti costituisce una chiave di accesso secondaria univoca
+a questa tabella che viene utilizzata dalla procedura di caricamento
+per stabilire se una variabile sia gi&agrave; conosciuta al sistema
+oppure no e vada quindi generata.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Nella tabella &egrave;
+possibile definire della variabili &quot;generiche&quot; aventi il
+centro di emissione codificato come 255, che vengono utilizzate come
+calco all'atto della ricezione di GRIB a centro di emissione non
+precedentemente conosciuto e a parit&agrave; di tabella e codice
+nelle creazione automatica delle corrispondenti variabili a centro di
+emissione definito.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">I campi che seguono non
+sono utilizzati dal sistema di archiviazione.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Unit&agrave;
+di misura di archiviazione</I>		10 caratteri</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Unit&agrave;
+di misura di visualizzazione</I>		10 caratteri</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Fattori
+di conversione vis=a*arc+b	valore di a</I>	valore reale</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>			valore
+di b</I>	valore reale</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Ausiliario
+1</I>			20 caratteri</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Ausiliario
+2</I>			20 caratteri</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Ausiliario
+3</I>			20 caratteri</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>	</I>Contiene
+per le componenti U del vento il codice della V corrispondente e
+viceversa per le V.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Ausiliario
+4</I>			20 caratteri</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">	Contiene lo mnemonico di
+identificazione della variabile (V. Estrazione)</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>2.4.1.
+  Nuova gestione delle estensioni</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Rispetto
+alla versione 2.2 del GRIBarch, la tabella delle variabili non
+supporta pi&ugrave; le variabili estese. Ad esempio tutte le
+variabili relative ai diversi cluster degli ensemble forecast  o i
+diversi livelli di probabilit&agrave; dei probability forecast sono
+ora gestiti da &#147;estensioni&#148; definibili dall&#146;utente  e
+posizionate all&#146;atto del caricamento e gestite in maniera
+esplicita e separata rispetto alle variabili durante le estrazioni.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">La
+voce &#147;estensioni&#148; compare inoltre in maniera esplicita
+anche nelle procedure di visualizzazione dei dataset, come terna di
+valori numerici ciascuno compreso tra 0 e 255.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Simmetricamente
+alla versione 2.2, la mancanza di estensione (una terna scadenza
+/livello /variabile basta ad individuare univocamente tutti i campi
+memorizzati nel dataset) &egrave; caratterizzata da tre valori a 0
+come codice estensione appesa ad ogni variabile.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>2.5
+  Tabella delle bitmap supportate</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Si
+appoggia al file ad indici <B><I>GRB_DAT:GRB_BMAPS.FIL</I></B> e
+contiene un record per ogni coppia centro di emissione/bitmap
+definita distinta utilizzata nei GRIB memorizzati nell'archivio.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Le
+informazioni che riporta sono le seguenti:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Nome
+bitmap<BR></I>Nome interno della bitmap univoco per il sistema di
+memorizzazione di 10 caratteri. Questo nome &egrave; modificabile
+manualmente tramite la funzione operatore apposita e non compare in
+nessun altro tracciato.<BR>Questo campo &egrave; la chiave di accesso
+primaria alla tabella.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Descrizione</I><BR>Descrizione
+libera di 50 caratteri.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Centro
+di Emissione<BR></I>Un byte binario contenente il codice del centro
+di emissione come convogliato dai messaggi GRIB.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Codice
+bitmap<BR></I>Una word binaria contenente il codice della bitmap come
+convogliato dai messaggi GRIB. Pu&ograve; naturalmente valere 0 nel
+caso che la sezione 3 sia inclusa nei messaggi ed il codice di bitmap
+non sia quindi definito.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>Lunghezza
+della sezione 3 associata (bytes)<BR></I>Indica la lunghezza in bytes
+della sezione 3 in codice GRIB che caratterizza la bit map in esame.
+Se questo numero &egrave; diverso da zero, la sezione 3 &egrave;
+registrata come parte del record di seguito a questo campo.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.51cm; text-indent: -0.51cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Il codice del centro di
+emissione pi&ugrave; il codice di bitmap costituiscono una chiave di
+accesso secondaria non univoca a questa tabella. L'identit&agrave;
+della bitmap di un GRIB ricevuto con una gi&agrave; definita in
+tabella viene stabilita ove possibile per confronto diretto delle
+sezioni 3 in formato GRIB.</P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>3.
+  Organizzazione fisica dell'archivio</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>3.1
+  Struttura delle directory</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Tutte le directory coinvolte
+nell'applicazione sono assegnate a nomi logici nel caso VMS e a
+variabili di ambiente nel caso UNIX. Le minime assegnazioni
+indispensabili da farsi sono le seguenti:</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Aree di lettura e scrittura:</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>FIL_DIR</I></B>		Scratch
+files della gestione men&ugrave; e maschere, files di utilit&agrave;
+					dell'applicazione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_WORK	</I></B>	Area
+usata nelle procedure di caricamento e ricostruzione per i files di
+				appoggio e log files.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_BASE</I></B>		Area
+in cui le procedure di ricostruzione creano delle sottodirectory di
+				appoggio.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_ON_LINE</I></B>	Zona
+di residenza delle sezioni on line dei diversi archivi per default.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_DAT</I></B>		area
+di residenza delle tabelle, dei files <B><I>.AGENDA </I></B>e <B><I>.DES
+.</I></B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Aree
+di sola lettura:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_SRC</I></B>		Sorgenti
+dei programmi dell'applicazione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_ROU</I></B>		Sorgenti
+delle routines dell'applicazione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_INC</I></B>		Include
+files dell'applicazione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_FDL</I></B>		Descrittori
+per la creazione delle tabelle</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_EXE</I></B>		Eseguibili
+dell'applicazione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_COM</I></B>		Procedure
+(DCL o csh) dell'applicazione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Assegnazioni
+relative ai files di sistema utilizzati dall'applicazione:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>AREE	</I></B>		Tabella
+delle griglie (di solito vede <B><I>GRB_DAT:GRB_AREAS.FIL</I></B>)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>VARIABILI</I></B>		Tabella
+delle variabili (di solito vede <B><I>GRB_DAT:GRB_VARS.FIL</I></B>)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>BITMAP</I></B>		Tabella
+delle bitmap (di solito vede <B><I>GRB_DAT:GRB_BMAPS.FIL</I></B>)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>DATASET</I></B>		Tabella
+caratteristiche dataset (di solito vede <B><I>GRB_DAT:GRB_DS.FIL</I></B>)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>DISCHI</I></B>		Elenco
+dei devices ad accesso diretto disponibili per l'applicazione.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>NASTRI</I></B>		Elenco
+dei devices ad accesso sequenziale disponibili per l'applicazione.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">La
+seguente serie di simboli globali (VMS/DCL) o alias (UNIX/csh) viene
+inoltre utilizzato dai programmi dell'applicazione e deve quindi
+essere messo a disposizione di un utente XGRIBarch:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">xgrb_accogli		usa
+	<B>GRB_EXE:xgrb_accogli.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">xgrb_load		usa	<B>GRB_EXE:xgrb_load.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">xgrb_trav_0_1		usa	<B>GRB_EXE:xgrb_trav_0_1.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">xgrb_trav_1_2		usa	<B>GRB_EXE:xgrb_trav_1_2.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">xgrb_puli_0_1		usa	<B>GRB_EXE:xgrb_puli_0_1.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">xgrb_rema_0_1	usa	<B>GRB_EXE:xgrb_rema_0_1.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">xgrb_ooo_1		usa	<B>GRB_EXE:xgrb_ooo_1.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">expand		usa	<B>GRB_EXE:fp_expansion.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">sgrib			usa	<B>GRB_EXE:grb_sep.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">lgrib			usa	<B>GRB_COM:lgrib.com</B>
+o <B>GRB_EXE:grb_lis.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">dmnvar		usa	<B>GRB_EXE:dmnvar.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">lmnvar			usa	<B>GRB_EXE:lmnvar.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">lmnds			usa	<B>GRB_EXE:lmnds.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">getgrib			usa	<B>GRB_EXE:fp_getgrib.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">xgrb_edit		usa	<B>GRB_COM:ed.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">ascds			usa	<B>GRB_EXE:ascds.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">ascar			usa	<B>GRB_EXE:ascar.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">ascbm			usa	<B>GRB_EXE:ascbm.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><I><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">ascva			usa	<B>GRB_EXE:ascva.exe</B></FONT></FONT></I></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>3.2
+  Filosofia di archiviazione</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Fisicamente,
+un archivio X-GRIBarch di nome <B><I>&lt;nomds&gt;</I></B> &egrave;
+costituito da:</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.64cm; text-indent: -0.64cm; margin-bottom: 0cm">
+Un file di descrizione delle caratteristiche dell'archivio, in
+termini di tutte le possibili quaterne
+scadenza/livello/variabile/estensione che sono presenti almeno una
+volta nell'unita' di archiviazione a cui il <FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>.DES</I></B>
+si riferisce, l'ipotesi di base &egrave; che per ogni data di
+emissione siano potenzialmente sempre presenti tutte le quaterne
+caratterizzate in questo file. Questo file ha nome <B><I>&lt;nomds&gt;.DES</I></B>
+. Esiste un <B><I>&lt;nomds&gt;.DES</I></B> generale a livello
+dell'intero dataset e una serie di <B><I>&lt;nomds&gt;.DES</I></B>
+speciali per ogni sezione ad accesso diretto sia on line che off
+line.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.64cm; text-indent: -0.64cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.64cm; text-indent: -0.64cm; margin-bottom: 0cm">
+Se l'indicizzazione &egrave; attiva, un file di puntamento (indice)
+per ogni sezione ad accesso diretto sia on line che off line,
+contenente un record per ognuno dei possibili campi costituenti
+l'archivio stesso e avente nome <FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>&lt;nomds&gt;.X</I></B>
+.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.64cm; text-indent: -0.64cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 0.64cm; text-indent: -0.64cm; margin-bottom: 0cm">
+Un numero arbitrario di files, corrispondenti ai segmenti dati,
+contenenti i GRIB relativi ai campi archiviati, in ordine di
+ricezione, ma comunque relativi ad una ben determinata serie di date
+di emissione consecutive nel tempo di nome <FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>&lt;nomds&gt;.aaaammgg</I></B>
+. I nomi e le date contenute nei segmenti seguono le regole descritte
+nel capitolo struttura logica dell'archivio. Ad ogni segmento
+corrisponde un file <B><I>&lt;nomds&gt;.aaaammgg_H</I></B> che
+convoglia informazioni sui contenuti effettivi del segmento.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>3.2.1
+  Files &lt;nomds&gt;.DES</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Sono
+files ASCII che contengono le seguenti informazioni:</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Numero
+delle quaterne distinte scadenza/livello/variabile/estensione (NT)</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>NT
+records aventi le caratteristiche di ogni singola quaterna seguite
+dagli mnemonici corrispondenti.</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Un
+esempio di file .DES &egrave; il seguente, per il significato delle
+codifiche si vedano le considerazioni riportate  nel capitolo
+&quot;Estrazioni&quot;.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">   
+     84</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00006 000 000 001 00000 000 128 139 000 000 000 | 'F006' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00006 000 000 001 00000 000 128 142 000 000 000 | 'F006' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00006 000 000 001 00000 000 128 143 000 000 000 | 'F006' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00006 000 000 001 00000 000 128 144 000 000 000 | 'F006' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00006 000 000 001 00000 000 128 186 000 000 000 | 'F006' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00006 000 000 001 00000 000 128 187 000 000 000 | 'F006' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00006 000 000 001 00000 000 128 188 000 000 000 | 'F006' 'G00' 'HCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00012 000 000 001 00000 000 128 139 000 000 000 | 'F012' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00012 000 000 001 00000 000 128 142 000 000 000 | 'F012' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00012 000 000 001 00000 000 128 143 000 000 000 | 'F012' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00012 000 000 001 00000 000 128 144 000 000 000 | 'F012' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00012 000 000 001 00000 000 128 186 000 000 000 | 'F012' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00012 000 000 001 00000 000 128 187 000 000 000 | 'F012' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00012 000 000 001 00000 000 128 188 000 000 000 | 'F012' 'G00' 'HCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00018 000 000 001 00000 000 128 139 000 000 000 | 'F018' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00018 000 000 001 00000 000 128 142 000 000 000 | 'F018' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00018 000 000 001 00000 000 128 143 000 000 000 | 'F018' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00018 000 000 001 00000 000 128 144 000 000 000 | 'F018' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00018 000 000 001 00000 000 128 186 000 000 000 | 'F018' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00018 000 000 001 00000 000 128 187 000 000 000 | 'F018' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00018 000 000 001 00000 000 128 188 000 000 000 | 'F018' 'G00' 'HCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00024 000 000 001 00000 000 128 139 000 000 000 | 'F024' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00024 000 000 001 00000 000 128 142 000 000 000 | 'F024' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00024 000 000 001 00000 000 128 143 000 000 000 | 'F024' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00024 000 000 001 00000 000 128 144 000 000 000 | 'F024' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00024 000 000 001 00000 000 128 186 000 000 000 | 'F024' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00024 000 000 001 00000 000 128 187 000 000 000 | 'F024' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00024 000 000 001 00000 000 128 188 000 000 000 | 'F024' 'G00' 'HCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00030 000 000 001 00000 000 128 139 000 000 000 | 'F030' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00030 000 000 001 00000 000 128 142 000 000 000 | 'F030' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00030 000 000 001 00000 000 128 143 000 000 000 | 'F030' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00030 000 000 001 00000 000 128 144 000 000 000 | 'F030' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00030 000 000 001 00000 000 128 186 000 000 000 | 'F030' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00030 000 000 001 00000 000 128 187 000 000 000 | 'F030' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00030 000 000 001 00000 000 128 188 000 000 000 | 'F030' 'G00' 'HCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00036 000 000 001 00000 000 128 139 000 000 000 | 'F036' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00036 000 000 001 00000 000 128 142 000 000 000 | 'F036' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00036 000 000 001 00000 000 128 143 000 000 000 | 'F036' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00036 000 000 001 00000 000 128 144 000 000 000 | 'F036' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00036 000 000 001 00000 000 128 186 000 000 000 | 'F036' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00036 000 000 001 00000 000 128 187 000 000 000 | 'F036' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00036 000 000 001 00000 000 128 188 000 000 000 | 'F036' 'G00' 'HCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00042 000 000 001 00000 000 128 139 000 000 000 | 'F042' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00042 000 000 001 00000 000 128 142 000 000 000 | 'F042' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00042 000 000 001 00000 000 128 143 000 000 000 | 'F042' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00042 000 000 001 00000 000 128 144 000 000 000 | 'F042' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00042 000 000 001 00000 000 128 186 000 000 000 | 'F042' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00042 000 000 001 00000 000 128 187 000 000 000 | 'F042' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00042 000 000 001 00000 000 128 188 000 000 000 | 'F042' 'G00' 'HCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00048 000 000 001 00000 000 128 139 000 000 000 | 'F048' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00048 000 000 001 00000 000 128 142 000 000 000 | 'F048' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00048 000 000 001 00000 000 128 143 000 000 000 | 'F048' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00048 000 000 001 00000 000 128 144 000 000 000 | 'F048' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00048 000 000 001 00000 000 128 186 000 000 000 | 'F048' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00048 000 000 001 00000 000 128 187 000 000 000 | 'F048' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00048 000 000 001 00000 000 128 188 000 000 000 | 'F048' 'G00' 'HCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00054 000 000 001 00000 000 128 139 000 000 000 | 'F054' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00054 000 000 001 00000 000 128 142 000 000 000 | 'F054' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00054 000 000 001 00000 000 128 143 000 000 000 | 'F054' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00054 000 000 001 00000 000 128 144 000 000 000 | 'F054' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00054 000 000 001 00000 000 128 186 000 000 000 | 'F054' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00054 000 000 001 00000 000 128 187 000 000 000 | 'F054' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00054 000 000 001 00000 000 128 188 000 000 000 | 'F054' 'G00' 'HCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00060 000 000 001 00000 000 128 139 000 000 000 | 'F060' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00060 000 000 001 00000 000 128 142 000 000 000 | 'F060' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00060 000 000 001 00000 000 128 143 000 000 000 | 'F060' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00060 000 000 001 00000 000 128 144 000 000 000 | 'F060' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00060 000 000 001 00000 000 128 186 000 000 000 | 'F060' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00060 000 000 001 00000 000 128 187 000 000 000 | 'F060' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00060 000 000 001 00000 000 128 188 000 000 000 | 'F060' 'G00' 'HCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00066 000 000 001 00000 000 128 139 000 000 000 | 'F066' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00066 000 000 001 00000 000 128 142 000 000 000 | 'F066' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00066 000 000 001 00000 000 128 143 000 000 000 | 'F066' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00066 000 000 001 00000 000 128 144 000 000 000 | 'F066' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00066 000 000 001 00000 000 128 186 000 000 000 | 'F066' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00066 000 000 001 00000 000 128 187 000 000 000 | 'F066' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00066 000 000 001 00000 000 128 188 000 000 000 | 'F066' 'G00' 'HCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00072 000 000 001 00000 000 128 139 000 000 000 | 'F072' 'G00' 'ST'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00072 000 000 001 00000 000 128 142 000 000 000 | 'F072' 'G00' 'LSP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00072 000 000 001 00000 000 128 143 000 000 000 | 'F072' 'G00' 'CP'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00072 000 000 001 00000 000 128 144 000 000 000 | 'F072' 'G00' 'SF'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00072 000 000 001 00000 000 128 186 000 000 000 | 'F072' 'G00' 'LCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00072 000 000 001 00000 000 128 187 000 000 000 | 'F072' 'G00' 'MCC'</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 8pt">001
+00072 000 000 001 00000 000 128 188 000 000 000 | 'F072' 'G00' 'HCC'</FONT></P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>3.2.2
+  Files &lt;nomds&gt;.X</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Questi
+files, a differenza dei .DES, non sono presenti per tutti gli
+archivi. Sono infatti legati alla definizione di un passo di
+emissione dei GRIB significativo (cio&egrave; maggiore di 0) a
+livello di creazione del record di controllo del dataset.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">I
+files <B><I>&lt;nomds&gt;.X</I></B> sono infatti files a record fisso
+in cui ogni record corrisponde biunivocamente ad una cinquina di
+parametri:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>(data/ora
+di emissione, scadenza di previsione, livello, variabile, estensione)</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">che
+individua esattamente un campo meteorologico registrato in archivio
+nell'ambito della sezione ad accesso diretto che l'indice
+caratterizza, prendendo come data di emissione di base la minima
+presente nella sezione ed ipotizzando che le successive siano tutte
+equispaziate del passo di emissione rispetto alla prima e tra di
+loro.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">I
+valori dei parametri caratterizzati da un record, non sono
+memorizzati nel record stesso, ma sono legati al numero che lo
+individua nel file .X da un algoritmo basato sulla distanza della
+data di emissione base della sezione, sul passo di emissione e sul
+numero di quaterne distinte scadenza/livello/variabile/estensione
+possibili per ogni data di emissione (descritte nel file .DES
+omologo).</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">I
+numeri di scadenze di previsione, livelli, variabili ed estensioni
+condiziona a priori la dimensione dell'archivio, infatti esiste
+comunque un record nel file ad indici per ognuna delle cinquine
+potenzialmente possibili sulla base dei parametri dichiarati in .DES,
+anche se il GRIB corrispondente non &egrave; stato fisicamente
+caricato nella sezione. Ai GRIB possibili ma non caricati corrisponde
+un record indice vuoto (tutto a zeri binari).</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Ogni
+record di puntamento contiene le informazioni necessarie a reperire
+il  GRIB vero e proprio nel segmento dove &egrave; stato
+effettivamente memorizzato.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Il
+record di puntamento contiene le seguenti informazioni memorizzate su
+tre longwords da 32 bits in binario.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Byte
+offest nel segmento dove inizia il GRIB associato (primo byte del
+file =0).</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Lunghezza
+in bytes del GRIB associato.</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>Data
+caratteristica del segmento aaaammgg (memorizzato su 8 cifre
+esadecimali).</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">L'algoritmo
+per il calcolo del numero record in indice &egrave; il seguente:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>NRECX
+= ((MDx-MD1)/MT)-1))*NSLV + IXS</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Dove:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>MDx</I>	data
+di emissione del record da trovare espressa in minuti</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>MD1</I>	data
+inferiore di sezione espressa in minuti</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>MT</I>	Passo
+di emissione dei GRIB in minuti</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>NSLV</I>	Numero
+delle quaterne scadenza/livello/variabile/estensione possibili per
+ogni emissione 	dei GRIB (primo record di .DES)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>IXS</I>	Numero
+del record nel file .DES (escludendo il contatore delle quaterne) a
+cui corrisponde 	la quaterna scadenza/livello/variabile/estensione da
+prelevare</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>3.3
+  Dataset</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Un
+dataset pu&ograve; essere visto come costituito dall'insieme del
+record di descrizione che lo individua univocamente nella tabella
+indice dei dataset, dei files tipo AGENDA che ne caratterizzano le
+sezioni off line, di tutte le sezioni on line (su di un disco in
+linea al sistema) ed off line (su dischi e nastri generalmente non in
+linea al sistema) che ne contengono effettivamente i dati, dai files
+.DES che lo caratterizzano nel suo complesso e che caratterizzano
+ogni sezione, eventualmente dai files .X che ne facilitano l'accesso.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>3.4
+  Sezioni ON LINE</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Sono
+costituite dalle informazioni contenute nel record di descrizione del
+dataset e dai segmenti normali e dai segmenti fuori ordine
+memorizzati nel directory di residenza dei dati.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Inoltre
+ad ogni sezione &egrave; sempre associato un file di descrizione dei
+contenuti e, se richiesto, alla sezione &egrave; associato un indice
+aventi nome:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	dd:nnnnnn.DES</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	dd:nnnnnn.X</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">dove
+:<B><I>	dd:	</I></B>device e directory dove risiede la sezione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>		nnnnnn</I></B>	&egrave;
+il nome del dataset</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">	<B><I>	.DES	</I></B>la
+marca che indica file descrizione di sezione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">	<B><I>	.X	</I></B>la
+marca che indica file indice di sezione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+che contiene per ogni GRIB contenuto in uno qualsiasi dei segmenti
+(non fuori ordine) della sezione un record di puntamento avente il
+tracciato prima descritto.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>3.5
+  Sezioni OFF LINE su supporto ad accesso diretto</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Sono
+costituite dalle informazioni contenute nel record di descrizione
+associato alla sezione definito nel file <B><I>GRB_DAT:SEZ3_nnnnn.AGENDA</I></B>
+opportuno e dai segmenti memorizzati nel directory di residenza dei
+dati contenuto sul supporto rimovibile opportuno. Contengono sempre
+un file .DES e, se richiesto,  un file tipo .X analogo a quello delle
+sezioni on line.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Ogni
+sezione di questo tipo, richiede che nella master file directory che
+caratterizza il device su cui la sezione &egrave; memorizzata risieda
+un file detto di label che contiene come unico record il nome della
+sezione stessa. Se <B><I>nnnnn</I></B> &egrave; il nome del dataset,
+il file di label si chiamer&agrave; <B><I>nnnnn.LABEL</I></B> e
+risieder&agrave; in &lt;device&gt;:[0,0] nel caso VMS o nel al mount
+point corrispondente al device nel caso UNIX.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">La
+procedura di inizializzazione guidata provvede a creare questo file
+label prima di utilizzare la sezione in caricamento.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Un
+singolo supporto magnetico pu&ograve; portare sezioni OFF LINE di
+archivi diversi con identificativi diversi.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>3.6
+  Sezioni OFF LINE su supporto ad accesso <BR>        sequenziale</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Sono
+costituite dalle informazioni contenute nel record di descrizione
+associato alla sezione definito nel file <B><I>GRB_DAT:SEZ4_nnnnn.AGENDA</I></B>
+opportuno e dai segmenti memorizzati sul nastro opportuno associato
+alla sezione dichiarata.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Il
+nastro ha sempre la seguente struttura:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">	Blocksize		12000</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">	Recordsize	120</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Nel
+caso VMS  &egrave; quindi da montare con il comando:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">	$
+MOUNT/FOREIGN/NOLABEL/BLOCKSIZE=12000/REC=120 dev</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Nel
+caso UNIX, l'unica accortezza da avere per l'utilizzo del nastro &egrave;
+di utilizzare come nome device quello corrispondente al funzionamento
+no rewind.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Le
+procedure guidate provvedono comunque a montare il nastro
+autonomamente.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Inoltre
+un nastro relativo ad una sezione off line su supporto sequenziale
+deve iniziare con un record del tipo:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Nome
+dataset		bytes 1-50</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Nome
+sezione		bytes 51-120</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Seguito
+da EOF.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">La
+procedura di inizializzazione guidata provvede a creare questa
+struttura.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Seguono
+poi i segmenti della sezione.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Un
+singolo nastro pu&ograve; ospitare un'unica sezione OFF LINE relativa
+ad un unico archivio.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>3.7
+  Segmenti</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Per
+le sezioni on line e su supporto ad accesso diretto, ogni segmento &egrave;
+caratterizzato da due files: uno contenente un unico record detto
+<I>testata del segmento</I> che descrive in chiaro le caratteristiche
+dei dati contenuti nel file dati associato in termini di:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Identificativo
+del segmento</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Data
+di Emissione del GRIB pi&ugrave; vecchio registrato nel segmento</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Data
+di Emissione del GRIB pi&ugrave; recente registrato nel segmento</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Numero
+dei bytes utilizzati nel segmento</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Numero
+dei GRIB registrati nel segmento</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Segmento
+salvato a livello superiore (=0 no, =1 si)</I></FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">ed
+avente un nome nella forma:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	dd:nnnnnn.aaaammgg_H</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">dove
+:<B><I>	dd:	</I></B>device e directory dove risiede la sezione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>		nnnnnn</I></B>	&egrave;
+il nome del dataset</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">		<B><I>aaaammgg</I></B>	la
+data di riferimento del segmento</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">		<B><I>_H	</I></B>la
+marca che indica file di testata</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">l'altro
+contenente unicamente i dati relativi ai GRIB, avente un nome della
+forma:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	dd:nnnnnn.aaaammgg</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">ed
+avente una struttura differente a seconda che il segmento risieda in
+una sezione ad accesso diretto o in una sezione ad accesso
+sequenziale.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Nel
+caso di segmento di sezione ad accesso diretto i diversi GRIB si
+susseguono l'uno all'altro senza soluzione di continuit&agrave;, la
+sequenza &egrave;:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>GRIB&lt;corpo
+del primo grib&gt;7777GRIB&lt;corpo del secondo grib&gt;7777GRIB
+........7777</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">I
+GRIB sono registrati sempre in ordine di arrivo (salvo il fatto che
+GRIB duplicati ricoprono quelli precedentemente ricevuti se le
+lunghezze sono compatibili) anche se il dataset &egrave; indicizzato.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Nel
+caso di segmento di sezione ad accesso sequenziale, i records sono a
+lunghezza fissa di 120 caratteri, e i GRIB sono memorizzati in
+maniera tale da iniziare sempre con il primo carattere di un nuovo
+record.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Per
+le sezioni su supporto sequenziale il segmento &egrave; costituito
+dalla seguente struttura:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Record
+di testata da 120 byte.</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	EOF</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Corpo
+del segmento (equivalente al file dati delle altre sezioni)</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	EOF</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">La
+struttura del record di testata &egrave;:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	nnnnnn.aaammgg			bytes
+1-50</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>	Informazioni
+di testata come per le altre sezionibytes	51-120</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">I
+dati nel corpo del segmento sono ordinati per&ograve; secondo
+l'ordine dato dall'indice nelle altre sezioni se il dataset &egrave;
+indicizzato, hanno lo stesso ordine delle sezioni ad accesso diretto
+altrimenti. Contengono comunque sia sezione 2 che sezione 3 (GRIB
+completi) anche se queste sezioni non erano presenti nei dati
+originali (completati utilizzando le informazioni di tabella all'atto
+dello scarico).</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>3.8
+  Segmenti fuori ordine</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Possono
+essere presenti solo per le sezioni on line. La struttura fisica &egrave;
+identica a quella dei segmenti normali, solo la nomenclatura &egrave;
+diversa:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">
+</FONT></FONT><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Il
+file di testata ha nome:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	dd:nnnnnn.aaaammgg_OOO_H</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">dove
+:<B><I>	dd:	</I></B>device e directory dove risiede la sezione</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>		nnnnnn</I></B>	&egrave;
+il nome del dataset</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>		OOO	</I></B>indica
+che il segmento &egrave; di tipo Out Of Order</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">	<B><I>	aaaammgg</I></B>	la
+data di riferimento del segmento</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">	<B><I>	_H	</I></B>la
+marca che indica file di testata</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Il
+file contenente i dati ha nome:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	dd:nnnnnn.aaaammgg_OOO</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>4.
+  Accoglienza dei dati</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">L'accoglienza
+di nuovi GRIB avviene in due fasi distinte: la prima riconoscere la
+tipologia dei GRIB che vengono proposti al sistema e ad allocarli ad
+un particolare dataset, generando eventualmente proposte di codici
+per dataset, griglie, bitmap e variabili sconosciute; la seconda
+volta a caricare effettivamente i GRIB nelle opportune sezioni on
+line al sistema e ad effettuare le modifiche richieste da operatore
+alle tabelle caricate per default nella fase precedente. Le due fasi
+sono state tenute separate proprio per consentire all'operatore di
+intervenire tra una fase e l'altra mediante una fase di editing
+modificando le proposte di codici fatte dal sistema relativamente a
+valori sconosciuti dei parametri.</FONT></FONT></P>
+<P STYLE="margin-left: 2cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>4.1
+  Fase di accoglienza</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">E' gestita dal programma
+<FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_EXE:XGRB_ACCOGLI.EXE</I></B>
+che pu&ograve; venire attivato con il comando:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I>xgrb_accogli
+[-&lt;passo_emissione_di default&gt;] &lt;filespec_da_accogliere&gt;
+&lt;codice_accoglienza&gt;</I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">e
+che provvede ad analizzare tutti i files (supposti contenere messaggi
+in codice GRIB) la file specification dei quali &egrave; data come
+parametro <I>&lt;filespec_da_accogliere&gt;</I> (ad es.
+DISK1:[NEWGRIB]*.GRB o /disk1/newgrib/*.grb, fare attenzione che va
+obbligatoriamente specificato un path per i files da accogliere, una
+definizione del tipo *.grb, senza l&#146;indicazione del path viene
+rifiutata da xgrb_accogli con una segnalazione di errore). Il
+risultato di questa analisi &egrave; scritto nel file
+<B><I>GRB_WORK:&lt;codice_accoglienza&gt;.ACCOGLI</I></B>, essendo
+<I>&lt;codice_accoglienza&gt;</I> una qualsiasi stringa alfanumerica,
+editabile, che contiene i tipi record pi&ugrave; oltre descritti.
+<I>&lt;passo_emissione_di default&gt;</I> (che pu&ograve; essere
+omesso, e in tal caso viene assunto come 0, ma che se viene
+specificato va fatto precedere da un trattino -), specifica il passo
+di emissione di default con cui vengono attesi i grib per tutte le
+nuove aree e i nuovi archivi che nascano in questo caricamento. </FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Inoltre per ogni dataset,
+griglia, bitmap e variabile sconosciuta al sistema che i GRIB
+analizzati convogliano, viene proposto un entry con codici e valori
+dei campi di default che nella fase di caricamento verr&agrave;
+inserito opportuna tabella.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Demandata a questa fase &egrave;
+anche l'individuazione di codici scadenza, livello e variabile ancora
+non dotati di mnemonico. Per questi parametri viene proposto '?' come
+valore: l'utente in editing potr&agrave; assegnare il valore
+desiderato.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">La fase di accoglienza
+non modifica in nessun modo le tabelle e pu&ograve; essere ripetuta
+all'infinito senza compromettere l'integrit&agrave; dell'archivio.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Il file tipo <FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>.ACCOGLI</I></B>
+creato contiene i seguenti tipi record:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>Descrittore
+file da caricare.</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Ha
+una struttura tipo:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&gt;&gt;
+DUC0:[FISICI]GB015_90060112000_0700.GRIB</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Il
+processo di accoglienza genera uno di questi record per ogni file
+distinto appartenente alla specifica data in
+<I>&lt;filespec_da_accogliere&gt;</I>. Questi record servono a
+comunicare alla fase di caricamento quali files prendere in
+considerazione, non vanno mai modificati n&egrave; per posizione n&egrave;
+per contenuto da parte dell'operatore.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 1.27cm; text-indent: -1.27cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>Descrittore
+bitmap.</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Ha
+una struttura del tipo:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	bm
+&lt;Nome bitmap&gt; &lt;lunghezza&gt; &lt;ngrib&gt; | &lt;Nome&gt;
+&lt;descriz&gt; &lt;codice&gt; &lt;memo(S/N)&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Viene generato un record
+di questo tipo per ogni GRIB con sezione 3 significativa e non
+coincidente con nessuna bitmap presente nella tabella delle bitmap
+per quel centro emittente. 
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Il campo <FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>&lt;memoSN&gt;</I>,
+per default N, indica la volont&agrave; di memorizzare o meno in
+tabella bitmap all'atto del caricamento la nuova bitmap ricevuta.
+Nessuna bitmap ricevuta viene spontaneamente memorizzata in tabella.
+Mettere S in questo campo nella fase di editing se si vuole che ci&ograve;
+avvenga. Qualora la lunghezza della sez3 sia superiore a 10000 bytes,
+lunghezza  record della tabella bitmap, la memorizzazione viene
+comunque rifiutata dal caricamento.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Un
+<I>&lt;codice&gt;</I> autogenerato che parte da 1000 viene comunque
+attribuito alla bitmap se ad essa non &egrave; gi&agrave; associato
+un codice vero di centro. </FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>&lt;nome&gt;</I>
+&egrave; un nome univoco generato dal programma di accoglienza (nella
+forma _cccfbbbbb, dove ccc &egrave; il codice GRIB del centro
+emittente, f una flag che vale 0 se il numero bbbbb &egrave; una
+codifica specifica data dal centro emittente, 1 se bbbbb &egrave; un
+numero progressivo univoco attribuito automaticamente dal programma
+di accoglienza in mancanza della codifica di centro),</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>Descrittore
+griglia.</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Ha
+una struttura del tipo:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	gr
+&lt;nome&gt; &lt;lung&gt; &lt;ngrib&gt; | &lt;nome&gt; &lt;descriz&gt;
+&lt;durata&gt; &lt;p_emis&gt; &lt;elim_s2&gt; &lt;elim_s3&gt;
+&lt;cambio_ds&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Viene
+generato un record di questo tipo per ogni GRIB presentato al sistema
+se il programma di accoglienza non trova nella tabella delle aree
+nessuna area coincidente con quella appena giunta. <I>&lt;nome&gt;</I>
+&egrave; un nome univoco generato dal programma di accoglienza (nella
+forma _cccfaaa, dove ccc &egrave; il codice GRIB del centro
+emittente, f una flag che vale 0 se il numero aaa &egrave; una
+codifica specifica data dal centro emittente, 1 se aaa &egrave; un
+numero progressivo univoco attribuito automaticamente dal programma
+di accoglienza in mancanza della codifica di centro), <I>&lt;descriz&gt;</I>
+contiene 'GRID nome' come testo della descrizione proposta per la
+griglia nel record di tabella. Il programma provvede anche a proporre
+automaticamente una lunghezza cronologica del segmento, <I>&lt;durata&gt;</I>,
+che sar&agrave; quella che verr&agrave; associata per default ad ogni
+nuovo dataset che verr&agrave; caricato successivamente e che si
+appoggi a questa griglia. Stessa cosa per i campi <I>&lt;p_emis&gt;
+&lt;elim_s2&gt;</I> ed <I>&lt;elim_s3&gt;</I>, il passo di emissione
+proposto &egrave; quello dichiarato come primo parametro preceduto da
+- nella stringa di attivazione o, se omesso, 0, vale a dire che tutti
+i dataset che si appoggeranno a quest'area non saranno per default
+indicizzati. Il default per le flags di eliminazione delle sezioni 2
+e 3 all'atto della ricezione &egrave; N (le sezioni se presenti non
+vengono rimosse). <I>&lt;cambio_ds&gt;</I> viene per default
+posizionato a S, che equivale a non premere lo switch di &quot;non
+cambia DS a cambio processo generatore&quot; nella maschera di
+caricamento della tabella delle griglie supportate e quindi generare
+per questa griglia dataset a terna univoca. Mettendo N il dataset che
+si appoggia a questa griglia sar&agrave; del tipo a coppia univoca.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>Descrittore
+variabile.</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Ha
+una struttura del tipo:</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	va
+&lt;nome&gt; &lt;ngrib&gt; | &lt;nome&gt; &lt;descrizione&gt; &lt;umv&gt;
+&lt;uma&gt; &lt;a&gt; &lt;b&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Qui
+una proposta di variabile viene comunque fatta. I nomi (chiavi
+primarie) hanno ora la struttura ccctttpppx  (dove x &egrave; una
+lettera che serve a smiscelare le variabili a codifica estesa ECMWF,
+di solito &egrave; x=' '). Sono state caricate delle variabili
+standard del tipo tttppp, se arriva una variabile sconosciuta che ha
+ppp e ttt uguali a quelle di una standard viene automaticamente
+proposta una variabile ppptttccc con le stesse caratteristiche.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>Descrittore
+dataset.</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Ha
+una struttura del tipo:</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	ds
+&lt;Nome&gt; &lt;ngrib&gt; | &lt;nome&gt; &lt;descrizione&gt;
+&lt;durata&gt; &lt;onlinedir&gt; &lt;elim_s2&gt; &lt;elim_s3&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Viene
+generato un record ds ogni dataset sconosciuto al sistema che venga
+identificato durane la scansione dei GRIB. Vengono proposti per i
+campi <I>&lt;durata&gt; &lt;elim_s2&gt; &lt;elim_s3&gt;</I> i valori
+dedotti dal corrispondente record di griglia.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Se
+si mettono a S le flags di strappamento di sez2 e sez3, il programma
+di caricamento provvede ad archiviare i GRIB privati delle sezioni
+suddette SOLO se queste sono gi&agrave; in tabella. La gestione dello
+strappaggio pu&ograve; essere attivata o disattivata in qualsiasi
+momento anche da maschera: il sistema gestisce comunque in maniera
+corretta GRIB archiviati contemporaneamente nello stesso DS nelle due
+forme.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Come
+<I>&lt;onlinedir&gt;</I> per default viene proposto GRB_ON_LINE, il
+passo di emissione e quindi l'indicizzazione sono gestiti tramite i
+record dl.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>Origine
+di sezione on line</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Ha
+le tre forme:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	dl
+&lt;nomedataset&gt; &lt;datainizio&gt; &lt;p_emis&gt; | &lt;datainizio&gt;
+&lt;p_emis&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	dl
+&lt;nomedataset&gt; &lt;datainizio&gt; &lt;p_emis&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	dx
+&lt;nomedataset&gt; &lt;datainizio&gt; &lt;p_emis&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Viene
+creato un record dl in forma modificabile (con |) ogni nuovo dataset
+che generato. <I>&lt;datainizio&gt;</I> &egrave; la data pi&ugrave;
+vecchia riscontrata per quel dataset durante il caricamento. <I>&lt;p_emis&gt;</I>
+&egrave; ripreso dal record di griglia corrispondente, zero in questo
+campo significa dataset non indicizzato.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">L'indice
+di un sezione ha origine fissa nel tempo e si basa su di un passo di
+emissione costante per tutti i segmenti del DS. L'origine (data
+inizio) deve essere congruente con il passo di emissione. Alla prima
+accoglienza questi due parametri vanno per forza assegnati. Le
+successive accoglienze, se necessario, ricostruiscono gli indici di
+segmento sulla base delle nuove date di inizio (che possono essere
+spostate solo indietro nel tempo rispetto a quella attuale).</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Le
+altre forme di questo record indicano modifiche o alla data limite di
+sezione o al numero dei record del file .DES, vengono interpretati
+dalla fase di caricamento ma non vanno modificati manualmente.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><B>Mnemonici
+scadenza, livello e variabile</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Hanno
+la forma:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	ms
+xxx xxxx xxx xxx | '?' '?'</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	ml
+xxx xxxx xxx     | '?' '?'</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	mv
+xxx xxxx xxx | '?'</B></I></FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Questi
+record vengono generati quando viene importato un GRIB in cui gli
+indicativi di scadenza o livello o variabile non hanno uno mnemonico
+assegnato nel files <B><I>GRB_DAT:MEMO_SCA.GLOBAL,
+GRB_DAT:MEMO_LEV.GLOBAL</I></B> o nella tabella <B><I>VARIABILI</I></B>.
+Il primo '?' va sostituito con il codice dello mnemonico, il secondo
+con la descrizione estesa (nel caso delle variabili la descrizione
+estesa va cambiata usando il record tipo va).</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Gli
+mnemonici di scadenza e livello sono aggiornati anche a livello delle
+tabelle di sistema. Gli mnemonici di variabile vengono propagati fino
+alla variabile standard corrispondente. Basta sostituire '?' con lo
+mnemonico desiderato (max 10 caratteri) includendolo tra apici.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Se
+l'aggiornamento non viene fatto all'atto del caricamento esistono
+procedure che consentono di ripassare gli archivi e cambiare gli
+mnemonici a posteriori (v. ESTRAZIONI).</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>4.2
+  Fase di editing</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Una volta che sia passato
+il programma di accoglienza, il file <FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><I>&lt;codice_accoglienza&gt;.ACCOGLI</I>
+generato, preso in editor, consente all'operatore la modifica di
+alcuni parametri di assegnati per default dal sistema. Le componenti
+modificabili di ogni singolo tipo record sono UNICAMENTE i parametri
+che compaiono alla destra di |, le stringhe riportate tra apici
+possono essere modificate ma vanno lasciate tra apici.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">La fase di editing &egrave;
+obbligatoria qualora si voglia rendere indicizzato un nuovo dataset
+che si appoggia ad un'area caricata per la prima volta nel sistema.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Un esempio di esito di una sessione di
+editing &egrave; qui di seguito riportato. Il file
+<FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B><I>GRB_WORK:UNO.ACCOGLI</I></B>
+&egrave; stato ottenuto passando il comando:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>xgrb_accogli
+ -0 GRB_BASE:[DAT_BO.TEST]STATOMARE.GRB  uno</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+in maniera esattamente equivalente </FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>xgrb_accogli
+ GRB_BASE:[DAT_BO.TEST]STATOMARE.GRB  uno</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">I
+dati contenuti si riferiscono all'area del Mediterraneo ancora non
+contenuta nella tabella delle aree, e hanno una bitmap (che
+rappresenta la maschera terra-mare) anch'essa sconosciuta. Le tre
+variabili convogliate sono invece conosciute come &quot;generiche&quot;
+e vengono quindi proposte con questo centro emittente, mancando per&ograve;
+dei codici mnemonici vengono per loro proposti tre records tipo ms.</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">&gt;&gt;
+GRB_BASE:[DAT_BO.TEST]STATOMARE.GRB</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">bm
+'_098101000'   358     1 | '_098101000' 'BMAP _098101000'  1000 'N'</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">gr
+'_0981007'      32     1 | '_0981007' 'GRID _0981007'   30    0 'N'
+'N' 'S'</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">va
+'098140230 '           1 | '098140230' 'MEAN WAVE DIRECTION' 'deg'
+'deg'   1.000000      0.0000000E+00</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">ds
+'_0981007205 '  30     1 | '_0981007205' 'DS _0981007205'  30
+'GRB_ON_LINE' 'N' 'N'</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">va
+'098140232 '           2 | '098140232' 'MEAN WAVE PERIOD' 'sec' 'sec'
+  1.000000      0.0000000E+00</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">va
+'098140229 '           3 | '098140229' 'SIGNIFICANT WAVE HEIGHT' 'm'
+'m'   1.000000      0.0000000E+00</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">dl
+'_0981007205 ' '199510011200'    -1 | '199510011200'    0</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">mv 
+ 98 140 230 | '?'</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">mv 
+ 98 140 232 | '?'</FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">mv   98 140 229 | '?'</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>4.2.1
+  Editing manuale del log file</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Il
+file sopra descritto pu&ograve; essere preso in editor e manipolato
+in maniera da ottenere come risultato del caricamento dei valori
+diversi da quelli di default.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">L'operazione
+di editing sotto riportata fa comporta che i nomi dell'area, della
+bitmap e del dataset siano diversi da quelli proposti; la bitmap
+venga registrata nella tabella apposita (il numero viene lasciato a
+1000); il dataset sia del tipo a terna univoca, indicizzato con passo
+tra le emissioni di un giorno (1440 minuti); tutti gli altri
+eventuali dataset che nasceranno appoggiandosi all'area MEDGR saranno
+anch'essi indicizzati con lo stesso passo di emissione (anche i dati
+del record gr sono stati modificati oltre a quelli del record dl);
+verranno strappate le sezioni 2 e 3 al ricevimento dei dati sia per
+il dataset MEDGR205 che per tutti quelli che nasceranno appoggiati su
+quest'area; alle variabili (sia relative al centro di emissione 98
+che generalizzate) vengono imposti degli mnemonici.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">&gt;&gt;
+GRB_BASE:[DAT_BO.TEST]STATOMARE.GRB</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">bm
+'_098101000'   358     1 | 'MEDBM' 'Bitmap Mar Mediterraneo'  1000
+'S'</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">gr
+'_0981007'      32     1 | 'MEDGR' 'Area Mar Mediterraneo'   30 1440
+'S' 'S' 'S'</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">va
+'098140230 '           1 | '098140230' 'MEAN WAVE DIRECTION' 'deg'
+'deg'   1.000000      0.0000000E+00</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">ds
+'_0981007205 '  30     1 | 'MEDGR205' 'Stato del Mar Mediterraneo' 
+30 'GRB_ON_LINE' 'S' 'S'</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">va
+'098140232 '           2 | '098140232' 'MEAN WAVE PERIOD' 'sec' 'sec'
+  1.000000      0.0000000E+00</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">va
+'098140229 '           3 | '098140229' 'SIGNIFICANT WAVE HEIGHT' 'm'
+'m'   1.000000      0.0000000E+00</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">dl
+'_0981007205 ' '199510011200'    -1 | '199510011200'    1440</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">mv 
+ 98 140 230 | 'MWD'</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">mv 
+ 98 140 232 | 'MWP'</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=1 STYLE="font-size: 6pt">mv 
+ 98 140 229 | 'SWH'</FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>4.2.2
+  Modifica guidata del log file</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">In alternativa, le
+modifiche alle informazioni relative all&#146;area e al dataset,
+possono essere modificate in maniera guidata con una sequenza di
+domande e risposte untilizzando il programma:</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>$GRB_EXE/editlog.exe
+$GRB_WORK/uno.accogli</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Le
+modiviche a informazioni relative a bitmap, variabili e mnemonici non
+sono invece gestibili con questa funzione.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>4.3
+  Fase di caricamento</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">E'
+gestita dal programma <B><I>GRB_EXE:XGRB_LOAD.EXE</I></B> che viene
+attivato con il comando:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>xgrb_load
+&lt;codice_accoglienza&gt; </B></I></FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">che
+provvede a prendere in carico GRIB e tabelle come specificato tramite
+il file <B><I>GRB_WORK:&lt;codice_accoglienza&gt;.ACCOGLI</I></B> nel
+formato prodotto da XGRB_ACCOGLI e a caricare le sezioni in linea,
+inclusi, se richiesto, gli indici e, se necessario, i segmenti fuori
+ordine. E' sempre questo programma che provvede ad aggiornare le
+tabelle aggiungendo i record che compaiono nel file e attuando le
+modifiche richieste da operatore.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+</BODY>
+</HTML>

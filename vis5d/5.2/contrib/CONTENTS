@@ -1,0 +1,31 @@
+
+This directory contains user-contributed VIS-5D utilities.  If you have
+written a useful utility you can send it to us and we'll add it to the
+distribution.
+
+
+Current Contents:
+=================
+
+hdftovis/
+
+HDF to VIS-5D file converter.
+
+Written by Karen Butler and Paul Meyer of Marshall Space Flight Center
+
+--------------------
+
+uw-meteor/
+
+University of Wisconsin Meteorology department file utilities
+
+Pete Pokrandt of UW Dept. of Atmospheric and Oceanic Science
+
+--------------------
+
+SimonBaas/
+
+Simon Baas ported VIS-5D to the HP and enhanced the VOGL library to do
+lighting and zbuffering.  Furthermore, he made some other VIS-5D enhance-
+ments which are described in this directory.
+

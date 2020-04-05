@@ -1,0 +1,21 @@
+# makefile for ccr file utility  programs
+# TARGETPATH = ../
+CC = cc
+CFLAGS = -c
+
+targets: extrccr diffccr scanccr
+
+extrccr: extrccr.o
+	$(CC) extrccr.o -o $(TARGETPATH)extrccr
+extrccr.o: extrccr.c
+	$(CC) $(CFLAGS) extrccr.c
+
+diffccr: diffccr.o
+	$(CC) diffccr.o -o $(TARGETPATH)diffccr
+diffccr.o: diffccr.c
+	$(CC) $(CFLAGS) diffccr.c
+
+scanccr: scanccr.o
+	$(CC) scanccr.o -o $(TARGETPATH)scanccr
+scanccr.o: scanccr.c
+	$(CC) $(CFLAGS) scanccr.c

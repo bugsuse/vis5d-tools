@@ -1,0 +1,32 @@
+<HTML><HEAD><TITLE>
+ CLIMA_INSOLAZIONE
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">clima_insolazione</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/qualocalclim.f">/disk3/patruno/lib/mega/qualocalclim.f</A> <HR>
+<PRE>
+	SUBROUTINE CLIMA_INSOLAZIONE(ALAT,IGG,IMM,IAA,IORA,IMIN,INS)
+
+	Restituisce il numero di minuti massimo possibile con insolazione
+	ad iniziare dalla mezzanotte fino ad un'ora specificata,
+	data la latitudine e una data.
+	In particolare alle ore 00 viene fornito il totale giornaliero.
+
+	input:
+
+	ALAT	R*4	latitudine in centesimale
+	IGG	I*4	giorno
+	IMM	I*4	mese
+	IAA	I*4	anno
+	IORA	I*4	ora a cui termina la sommatoria dalla mezzanotte (UTM)
+	IMIN	I*4	minuti a cui termina la sommatoria dalla mezzanotte
+
+	output:
+
+	INS	I*4	tempo di insolazione massimo possibile espresso in
+			minuti
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

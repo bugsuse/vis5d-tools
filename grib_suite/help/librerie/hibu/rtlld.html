@@ -1,0 +1,43 @@
+<HTML><HEAD><TITLE>
+ RTLLD
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">rtlld</H2> <HR>
+ trasforma le coordinate dal sistema ruotato al sistema geografico. <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/hibu/rtlld.f">/disk3/patruno/lib/hibu/rtlld.f</A> <HR>
+<PRE>
+
+ SUBROUTINE RTLLD (ALO1,ALA1,TLM0D,CTPH0,STPH0,ALO2,ALA2)
+
+ Trasforma le coordinate lat lon ruotate, tipiche dei modelli meteo LAMBO e
+ LOKAL, in coordinate nel sistema geografico.
+
+ input:
+
+  ALO1       real     longitudine nel sistema ruotato (rapp. decimale)
+  ALA1       real     latitudine nel sistema ruotato (rapp. decimale)
+  TLM0D      real      longitudine del punto intercetto del meridiano di
+                       Greenwich con l'equatore del sistema ruotato, nel
+                       sistema geografico (rapp. decimale)
+
+  CTPH0      real      coseno della latitudine del punto intercetto del
+                       meridiano di Greenwich con l'equatore del sistema
+                       ruotato nel sistema geografico
+  STPH0      real      seno della latitudine del punto intercetto del
+                       meridiano di Greenwich con l'equatore del sistema
+                       ruotato nel sistema geografico
+
+ output:
+
+  ALO2       real      longitudine sistema geografico (rapp. decimale)
+  ALA2       real      latitudine sistema geografico (rapp. decimale)
+
+</PRE>
+Vedi anche:
+<a href="tlld.html ">tlld</a>
+<a href="ltlwd.html ">ltlwd</a>
+<a href="rltlwd.html ">rltlwd</a>
+<a href="rot_grib_lambo.html ">rot_grib_lambo</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

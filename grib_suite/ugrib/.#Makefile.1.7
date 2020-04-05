@@ -1,0 +1,67 @@
+FC=pgf90
+
+
+
+all  : cong menogrib ged gribbo displgrib filtracrucchi
+
+cong : cong.o comuni.o
+	pgf90 -o cong cong.o comuni.o  -L$(USOHOME) -lgrib_util -lhibu -lemos
+#	$(EMOSLIB)
+#	$(gribexhome)/gribex.a
+
+
+cong.o : cong.f
+	pgf90 -c cong.f
+
+menogrib : menogrib.o
+	pgf90 -o menogrib menogrib.o -lemos
+#	$(EMOSLIB)
+#	 $(gribexhome)/gribex.a
+
+menogrib.o : menogrib.f
+	pgf90 -c menogrib.f
+
+
+ged : ged.o comuni.o
+	pgf90 -o ged ged.o comuni.o -L$(USOHOME) -lhibu -lgrib_util -lemos
+#		$(EMOSLIB)
+#		$(gribexhome)/gribex.a
+
+
+comuni.o : comuni.f
+	pgf90 -c comuni.f
+
+ged.o : ged.f
+	pgf90 -c ged.f
+
+gribbo : gribbo.o
+	pgf90 -o gribbo gribbo.o -L$(USOHOME) -lhibu -lemos
+#		$(EMOSLIB)
+#		$(gribexhome)/gribex.a
+
+
+gribbo.o : gribbo.f
+	pgf90 -c gribbo.f
+
+
+displgrib : displgrib.o
+	pgf90 -o displgrib displgrib.o -lemos
+#	$(EMOSLIB)
+#	$(gribexhome)/gribex.a
+
+
+displgrib.o : displgrib.f
+	pgf90 -c displgrib.f
+
+filtracrucchi : filtracrucchi.o
+	pgf90 -o filtracrucchi filtracrucchi.o -lemos
+#	$(EMOSLIB)
+#	$(gribexhome)/gribex.a
+
+
+clean :
+		rm -f cong cong.o menogrib menogrib.o ged.o ged ;
+		rm -f displgrib displgrib.o gribbo gribbo.o ;
+		rm -f filtracrucchi filtracrucchi.o
+
+

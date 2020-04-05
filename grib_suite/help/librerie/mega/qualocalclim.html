@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>
+ QUALOCALCLIM
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">qualocalclim</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/qualocalclim.f">/disk3/patruno/lib/mega/qualocalclim.f</A> <HR>
+<PRE>
+	FLAG(46)	BYTE	incrementato di uno se verificato errore
+				per le 43 variabili del record locali
+				su solglie strette, oppure increntato di 3
+				su soglie climatiche larghe.
+	IER		I*4	condizione di errore
+			IER=1	tipo messaggio errato
+			IER=-1	non trovo i dati anagrafici della stazione
+				e quindi faccio controlli piu` blandi oppure
+				le coordinate delle stazioni escono dalla
+				finestra ammessa (regione Emilia Romagna)
+			IER=-2	errore climaumidita` o climatemperatura
+				o radmax, faccio i relativi controlli
+				piu` blandi
+			ier=100 troppe unita` logiche aperte
+			IER&gt;100	codice iostat fortran+100
+
+	COMMON /RRW/RRW	I*2	RRW(89) per passare dati locali come dichiarato
+				in loc$inc:locali.inc
+
+	Per indirizzare il vettore FLAG alla variabile interessata si puo`
+	utilizzare, includendo nel proprio programma, il file
+	megainc$dir:qualocal.inc ed utilizzare come indici del; vettore le
+	variabili che hanno lo stesso nome della variabile (meteodata)
+	preceduto da 'IN'. Ad esempio:
+	per la temperatura        FLAG(INLISTT1)
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

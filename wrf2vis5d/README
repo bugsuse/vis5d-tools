@@ -1,0 +1,90 @@
+[WRF2Vis5d](https://www2.mmm.ucar.edu/wrf/src/wrf2vis5d.tar.gz)
+
+Updated May 2004
+
+- Fix to interpolation to height levels
+- Attribute change from CEN_LON to STAND_LON for Version 2 WRF data
+  Version 1 data will revert back to using CEN_LON
+
+-----------------------------------------------------------------------
+
+Updated 10 April 2002, wrfhelp
+
+This version of converter is for WRF mass-coordinate model data.
+
+10 November 2000, WCS
+
+wrf_to_v5d is a tool to convert wrf netcdf output to compressed Vis5d
+files.  The program is written in fortran90.  
+
+To build the code, first edit the makefile to specify the
+approriate paths for the netcdf and vis5d libraries.
+Then, type "make" or "make wrf_to_v5d" to build the converter.
+
+Compiler options are only provided for Alpha, Linux, Sun and SGI.
+If you are compiling this program on another computer, you need
+to modify the compiler options in Makefile.
+
+To run the code, first edit the ascii input file "wrf_v5d_input",
+specifying the times, the variables, and the wrf output files to use in
+constructing the desired in the Vis5d file.
+
+There is quite a bit of flexibility built into the converter that
+is accessed through the input file.
+
+  In the input file, the times can be specified as the time strings
+  contained in the netcdf file (that can be viewed using the netcdf
+  utility "ncdump"), or all the times in the output files can be
+  automatically included in the netcdf file.
+
+  Variables are specified using the variable names in the netcdf files.
+  again, the names in the netcdf files can be viewed using the netcdf
+  utility "ncdump".  A long list of names are included in the sample
+  input file.  To not have a variable be output to the vis5d file, just
+  indent the name with a single space - the converter will then ignore
+  that name.  Also note that the first five variables are not output
+  variables from the model, they are derived variables.  The converter
+  knows what data is needed to diagnose these variables and output them
+  to the vis5d file.
+
+  In this updated version, some 2D fields are added in the converter.
+  Background map is also added.
+
+  Next, there is a list of files for the converter to examine to find
+  the output times for which it is looking.  If you want all the times
+  in all the files, make sure that the file list is ordered from earliest
+  to latest times.  The converter will compare time strings to avoid
+  writing duplicate times into the Vis5d file.
+
+  The strings "end_of_file_list" and "end_of_variable_id list" exist so that
+  the converter knows that it has reached the end of that set of
+  information in the input file.  do not remove these strings.
+
+  The last piece of information is specification of vertical coordinate
+  for the output grid.  Specifying 0 means output the model grid
+  unchanged (i.e., sigma surfaces are flat in vis5d).  Specifying -1
+  causes the variables to be interpolated to a grid defined by the
+  heights in the column at the lowest terrain point in the domain.  The
+  vertical grid can also be specified, but we haven't tested this option
+  yet.
+
+To run the converter -> wrf_to_v5d wrf_v5d_input vis5d_output_file
+
+use vis5d to view the resulting output file.
+
+
+Notes:
+
+the include file "v5df.h" comes from the vis5d package.  The reason it
+is included here is that the file that comes with vis5d is not
+free-format but rather is fixed format.  So if you need to update this
+file with a later version (this file comes from Vis5d-5.2), you should
+copy the new v5df.h and reformat it for free form (which only requires 
+replacing "C" in column 1 with "!"
+
+Updates:
+
+28 November 2000:  compiles on linux with PG compilers.
+                   compiles on COMPAQ with DIGITAL Fortran 90 V5.2-705 compiler.
+
+10 April 2002:     options added for Sun and SGI

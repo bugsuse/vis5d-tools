@@ -1,0 +1,230 @@
+<HTML><HEAD><TITLE>
+ QUAMETARCONS_new
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quametarcons_new</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quametarcons_new.f">/disk3/patruno/lib/mega/quametarcons_new.f</A> <HR>
+<PRE>
+	SUBROUTINE QUAMETARCONS_new(FLAG,IER)
+	controllo di qualita` sulla consistenza internain un report metar.
+	OGNI VARIABILE metar VIENE CONFRONTATA CON le altre variabili presenti
+	nel report; ogni accoppiamento deve veder soddisfatte alcune condizioni
+	fisiche o inerenti la cifratura.
+
+                                               modificato 25/03/97
+                       versione dal 1/7/93
+
+	FLAG(23)	BYTE	incrementato di uno per ogni accoppiamento
+				tra le 23 variabili metar che ha segnalato
+				un errore
+	IER		I*4	condizione di errore
+			IER=1	tipo messaggio errato
+
+	COMMON /RRW/RRW
+	RRW(29)		I*2	RRW(29) per passare i dati synop come dichiarato
+				in met$inc:metar.inc
+	COMMON /CODER/CODER	
+	CODER(3)	BYTE	BIT MAP per la segnalazione dell'esito
+				di ogni specifico confronto. In questi otto
+				byte ogni bit e` associato a un particolare
+				accoppiamento tra variabili. Il bit settato
+				a 0 significa che non c'e` stata nessuna
+				segnalazione di errore. Il bit settato
+				a 1 significa che quell'accoppiamento di
+				variabili ha segnalato errore. La posizione
+				del bit da testare e` di seguito descritta.
+				Si consiglia di utilizzare la routine
+				BITR appositamente scritta (vedi propria
+				documentazione).
+
+	Per indirizzare il vettore FLAG alla variabile interessata si puo`
+	utilizzare, includendo nel proprio programma, il file
+	megainc$dir:quametar.inc ed utilizzare come indici del vettore le
+	variabili che hanno lo stesso nome della variabile (meteodata)
+	preceduto da 'IN'. Ad esempio:
+	per la temperatura        FLAG(INTT)
+
+I principi generali su cui sono basati questi controlli di qualita`
+sono stati ricavati con alcuni adattamenti da:
+
+    1) W.W.W. PLANNING REPORT N.26  'QUALITY CONTROL PROCEDURES
+       FOR METEOROLOGICAL DATA'
+
+    2) technical note  E.C.M.W.F.- operations department-
+       'quality control checks applied to observational data'
+
+    3) AERONAUTICA MILITARE ITALIANA REGOLAMENTO DI SERVIZIO N.7
+       'MESSAGGI METEOROLOGICI' MET RS 7  FM 15-V METAR
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+						N.B.
+
+ DAL I/7/93 LA CODIFICA DEL REPORT METAR E` STATA MODIFICATA SECONDO LE
+ DIRETTIVE W.M.O..
+
+ SONO QUINDI STATE APPORTATE LE NECESSARIE MODIFICHE AL SOFHTWARE DI
+ ARCHIVIAZIONE:
+
+	5/7/93	adapting to new WMO METAR coding:
+		- GGggZ handled
+		- KT, KMH, MPS handled (all values converted to knots)
+		  (370 in ddd means variable direction, 380 calm if fff=0)
+		- dddVddd group ignored
+		- Dv in VVVVDv ignored
+		- VxVxVxVxDv ignored
+		- Runway visibility groups ignored
+		- w'w'(ww) recorded as found (maximum 8 bytes)
+		- Cloud groups : Cloud type id recorded only if CB or TCU
+				 are present (TCU is reported as CU).
+				 Otherwise no data is recorded.
+				 SCT is reported as 2 oktas
+				 BKN as 6 oktas
+				 OVC as 8 oktas
+				 SKC means no clouds
+				 No change in cloud height handling
+				
+ VVhshshs is reported as 9 oktas an hshshs as given
+		- QPhPhPhPh handled
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+  anno 1997	attenzione aggiunta gestione :
+		- Cloud groups :
+				 FEW is reported as 1 oktas
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+POSIZIONE	VARIABILE	VARIABILI
+NELLA BIT MAP	DA CONTROLLARE	DI CONFRONTO
+
+	1	TT		iiww
+	2	iiww		TT
+	3	TT		TD
+	4	TT		TD iiww
+	5	TD		TT
+	6	TD		iiww TT
+	7	DDD		FFF
+	8	FFF		DDD
+	9	FF		iiww
+	10	iiww		FF
+	11	FM		FFF
+	12	FFF		FM
+	13	VVVV		iiww
+	14	VVVV		NTOT
+	15	iiww		VVVV
+	16	iiww		TT TD
+	17	iiww		NS(1)
+	18	NS(1)		iiww
+	19	CC(4)		CC(1,2,3)
+	20	CC(1,2,3)	CC(4)
+
+
+VARIABILE	CONFRONTO	CONDIZIONE DI ERRORE
+
+TT		WW		TT&lt;-2		WW=20,21,25 			PRECIPITAZIONI LIQUIDE ORA PRECEDENTE
+				TT&lt;-2		WW=50-55,58-65,80-82,91,92 	PRECIPITAZIONI LIQUIDE
+				TT&gt;6 O TT&lt;-7	WW=23,24 			PIOVIGGINE O PIOGGIA MISTA A NEVE O CONGELENTESI
+											ORA PRECEDENTE
+				TT&gt;6 O TT&lt;-7	WW=56,57,66,67,68,69,83,84	PIOVIGGINE O PIOGGIA CONGELANTESI O
+											PIOGGIA O ROVESCIO MISTO A NEVE
+				TT&gt;6		WW=22,26			NEVE ORA PRECEDENTE
+				TT&gt;6		WW=70-79,85-88			NEVE
+				TT&gt;4		WW=48,49			NEBBIA CHE FORMA UNO STRATO DI GHIACCIO
+				TT&gt;4		WW=36-39			SCACCIANEVE
+				TT&lt;4		WW=30-35			TEMPESTA DI SABBIA
+				TT&lt;-7		WW=17,91-99			TEMPORALE
+				TT&lt;-7		WW=27,89,90			GRANDINE
+
+		TD		TT&lt;TD	
+
+		TD-WW		TT&gt;TD+5	WW=40,41,50-97,99
+				TT&gt;TD+1	WW=42-49
+
+TD		TT		TT&lt;TD
+
+		WW-TT		TT&gt;TD+5	WW=40,41,50-97,99
+				TT&gt;TD+1	WW=42-49
+
+DDD		FFF		C'E` DDD E NON C'E` FFF
+				DDD= 0		FFF&lt;&gt;0
+				DDD&lt;&gt;0		FFF= 0
+				DDD=370		FFF&gt; 6
+
+FFF		DDD		C'E` FFF E NON C'E` DDD
+				FFF&lt;&gt;0		DDD= 0
+				FFF= 0		DDD&lt;&gt;0
+				FFF&gt;6		DDD=999
+
+		WW		FFF&lt;10		WW=09,30-39
+
+		FM		FM&lt;FFF+10
+
+FM		FFF		FM&lt;FFF+10
+
+
+VVVV		WW		WW=05,29,40	VVVV&lt;1000
+				WW=41-49,	VVVV&gt;1000
+				WW=74,75	VVVV&gt;2000
+				WW=10		VVVV&gt;=9999
+
+		NS(1)		VVVV=&gt;1000	NS(1)=9
+
+
+WW		NS(1)		WW=14-17,	NS(1)=MANCANTE
+				50-75,77-99
+				WW=43,45,	NS(1)&lt;&gt;9
+				47,49
+				WW=4-29	NS(1)=9
+				40,42,44,46,48
+
+		VVVV		WW=		VVVV&lt;1000
+				05,29,40
+				WW=41-49,	VVVV&gt;1000
+				WW=74,75	VVVV&gt;2000
+				WW=10		VVVV&gt;=9999
+
+		TT		TT&lt;-2		WW=20,21,25 			PRECIPITAZIONI LIQUIDE ORA PRECEDENTE
+				TT&lt;-2		WW=50-55,58-65,80-82,91,92 	PRECIPITAZIONI LIQUIDE
+				TT&gt;6 O TT&lt;-7	WW=23,24 			PIOVIGGINE O PIOGGIA MISTA A NEVE O CONGELENTESI
+											ORA PRECEDENTE
+				TT&gt;6 O TT&lt;-7	WW=56,57,66,67,68,69,83,84	PIOVIGGINE O PIOGGIA CONGELANTESI O
+											PIOGGIA O ROVESCIO MISTO A NEVE
+				TT&gt;6		WW=22,26			NEVE ORA PRECEDENTE
+				TT&gt;6		WW=70-79,85-88			NEVE
+				TT&gt;4		WW=48,49			NEBBIA CHE FORMA UNO STRATO DI GHIACCIO
+				TT&gt;4		WW=36-39			SCACCIANEVE
+				TT&lt;4		WW=30-35			TEMPESTA DI SABBIA
+				TT&lt;-7		WW=17,91-99			TEMPORALE
+				TT&lt;-7		WW=27,89,90			GRANDINE
+
+		TT-TD      	WW=40,41,	(TT-TD)&gt;5
+				50,97,99
+				WW=42-49,	(TT-TD)&gt;1
+
+		FFF		WW=09,30-39	FFF&lt;10
+
+NS(1)		WW		NS(1)=MANCANTE	WW=14-17,
+				     		50-75,77-99
+				NS(1)&lt;&gt;9	WW=43,45,47,49
+				NS(1)=9		WW=4-29,40,42,
+						44,46,48
+
+		
+		CC(1)		NS(1)&lt;&gt;9	CC(1)=MANCANTE
+				NS(1)=9		CC(1)=PRESENTE
+
+HHH(1)		VVVV		HHH(1)&lt;100	VVVV&gt;=9999
+
+		CC(1)		HHH(1)&lt;2500	CC(1)=CC,CI,CS
+
+		NS(1)		HHH(1)&lt;2500	NS(1)=MANCANTE
+
+CC(4)		CC(1,2,3)	CC(4)=CB/CU	CC(1,2,3)=CB/CU
+
+CC(1,2,3)	CC(4)		CC(1,2,3)=CB/CU	CC(4)=CB/CU
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

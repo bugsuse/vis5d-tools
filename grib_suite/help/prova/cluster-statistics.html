@@ -1,0 +1,47 @@
+<HTML><HEAD><TITLE>
+ cluster-statistics
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">cluster-statistics</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/nerozzi/src/cluster_analysis/cstat.f">/disk3/nerozzi/src/cluster_analysis/cstat.f</A> <HR>
+<PRE>
+
+     subroutine cstat(n,m,x,w,ixc,nxc,nc,var)
+
+ Description:
+     Calculate global and internal variances
+
+ Current Code Owner: Fabrizio Nerozzi
+
+ History:
+ Version   Date     Comment
+ -------   ----     -------
+ 1.00      31.07.01 Original code. F.Nerozzi
+
+ Code Description:
+   Language:           Fortran 77.
+   Software Standards:
+   &quot;European Standards for Writing and
+     Documenting Exchangeable Fortran 90 Code&quot;.
+
+ Declarations:
+
+ Array  arguments with intent(in):
+
+     integer ixc(n,n), nxc(n)
+     real    x(n,m), w(m)
+
+ Array  arguments with intent(out):
+
+     real    var(nc+1)
+
+</PRE>
+Vedi anche:
+<a href="complete-linkage-algorithm.html ">complete-linkage-algorithm</a>
+<a href="ward-s-algorithm.html ">ward-s-algorithm</a>
+<a href="cluster-representative-member.html ">cluster-representative-member</a>
+<a href="esempio.html ">esempio</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

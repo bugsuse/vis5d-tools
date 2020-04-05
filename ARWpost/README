@@ -1,0 +1,205 @@
+ARWpost 
+March 2010
+	Fix to RH calculation
+	Make sure snow and grauple is used in the dbz calculations if available in the model output
+	Bug fix to v5d output
+March 2009
+	Add extrapolation below ground for pressure output
+October 2008
+	Mode V3 compatible code
+	Add lat-lon projection - cannot deal with roated lat-lon grids yet
+	Add extrapolation option
+	Add fix to ensure xlat/xlong are always available for projection calculations
+March 2008
+	V3 compatible
+	Add td2 calculations
+	Improved array handling, so that memory footprint is as small as possible
+	Fix year on v5d plots
+	Fix to datetamp on v5d plots
+	Fix to v5d when truelat1=truelat2 (lambert projections)
+October 2007
+	Add diagnostic rh2
+	When testing fields to see if we want them, make sure to 
+	only tests fields with names longer than one character.
+September 2007
+        Add output splitting capabilities. 
+        To split the output file (grads only), set 
+		split_output = .true.
+        By default the file will be split into 1 time per output file.
+   	But the number of frames in the output file can be controlled with:
+ 		frames_per_outfile = 2
+	This is code adapted from some send in by:
+		Hara, Masayuki (Japan Agency for Marine-Earth Science and Technology)
+	Add fix to vis5d computation of projection arguments for lambert and mercator
+	Add some debug printout
+August 2007
+	Add tacc to allow for some time drifting
+June 2007
+	Add cloud fractions
+	Remove memory leaks
+November 2006
+
+The program read any wrf dataset in NETCDF/GRIB1 format and can produce either
+GrADS input data format or Vis5D input format.
+
+WRFV2 MUST be compiled and avaliable. If WRFV2 is not on the same level as 
+ARWpost, then configure.arwp needs to be edited to correct path.
+
+
+COMPILE
+	./configure  --- to get a list of compile options for your computer
+		         If your computer is not listed, you will need to add it under
+			 arch/configure.defaults
+	./compile    --- compile the code
+
+	./clean -a   --- clean 
+
+
+
+namelist.ARWpost
+
+datetime
+	start_date		:: In format YYYY-MM-DD_HH:MM:SS
+				:: Or specify 
+					start_year
+					start_month
+					start_day
+					start_hour
+	end_date		:: In format YYYY-MM-DD_HH:MM:SS
+				:: Or specify 
+					end_year   
+					end_month   
+					end_day   
+					end_hour
+        interval_seconds	:: Interval in seconds between plots required
+	tacc			:: To account for time drifting (seconds)
+	debug_level		:: 0 - 1000
+
+io
+	io_form_input		:: NETCDF=2, GRIB1=5
+	input_root_name		:: root name or full name of input file(s) to process
+				   Include path to file location
+				   './wrfout' will read all files with root name "wrfout"
+				   in the current directory
+	output_root_name	:: root name of output files
+				   for grads output 2 files will be created
+					output_root_name.ctl and output_root_name.dat
+				   for v5d output the one file will be craeted
+					output_root_name.v5d
+	output_title		:: Only used for GrADS output files.
+				   Will be added to the top of the output_root_name.ctl
+				   file. If not specified, the TITLE from input_root_name
+				   will be used.
+	mercator_defs		:: For very large domains on mercator projection, GrADS 
+				   may destort plots. In this case, setting mercator_defs
+				   to TRUE will fix the problem.
+	plot			:: Fields to be plotted. Options are:
+				   	all, basic, file, list, 
+					all_file, all_list, 
+					basic_file, basic_list, list_file, 
+					all_list_file, basic_list_file
+				   'all', get all the fields in the 'input_root_name' file
+				   	cannot use 'all' for Vis5D data
+				   'basic', get the fields (if available):
+					HGT (HGT_M), LANDMASK, LU_INDEX, MU, MUB, P, PB,
+					PBLH, PH, PHB, PSFC, Q2, RAINC, RAINNC, SST,
+					T (TT), T2, TH2, TMN, TSK, U (UU), U10, V (VV), V10,
+					VEGFRA, W, XLAND, XLAT (XLAT_M), XLONG (XLONG_M)
+					This list can be customize in the routine: 
+						gridinfo_module.F90
+				   'list', get all the fields listed in "fields"
+					fields are separated by ","
+				   'file', get all the fields in a file you created. The 
+					created filename must be supplied in "fields_file"
+				    Any conbination of 'all', 'basic', 'list', 'file' is valid.
+	fields			:: Used if you specifed 'list' in "plot"
+				   Fields are separated with ","
+	fields_file		:: Used if you specified 'file' in "plot"
+				   Fields are listed one below each other in your file
+				   "fields_file" is the name of your file
+	output_type		:: 'grads' (default) or 'v5d'
+	split_output		:: For long runs, split the .dat file. Only one .ctl file 
+				   will be generated
+	frames_per_outfile	:: How many times per .dat file
+
+interp
+	interp_method		::  0 = model levels
+				   -1 = calculated height levels
+				    1 = user specified pressure/height levels
+					For 1, must specify levels in 'interp_levels'
+	interp_levels		:: Only used if 'interp_method = 1'
+				   Height (km) or Pressure (hPa)
+				   No need to be equally spaced, must be bottom to top
+	extrapoalte		:: true/false (default is false)
+
+
+
+
+Diagnostics:
+	Currently the following diagnostics are available
+	   - module_calc_cape.f90
+		cape (3D CAPE) and cin (3D CIN)
+		mcape (2D CAPE), mcin (2D CIN)
+		lfc (LFC), lcl (LCL)
+	   - module_calc_clfr.f90
+		low/mid/high clouds
+	   - module_calc_dbz.f90
+		dbz (3D Reflectivity)
+		maz_dbz (Max Reflectivity)
+	   - module_calc_height.f90
+		height (Height above sea level)
+	   - module_calc_pressure.f90
+		pressure (Pressure)
+	   - module_calc_rh2.f90
+		rh at 2m 
+	   - module_calc_rh.f90
+		rh (Relative Humidity)
+	   - module_calc_slp.f90
+		slp (Sea Level Pressure)
+	   - module_calc_tc.f90
+		tc (Temperature in C)
+	   - module_calc_td2.f90
+		td at 2m
+	   - module_calc_td.f90
+		td (Dew Point Temperature)
+	   - module_calc_theta.f90
+		theta (Potential Temperature)
+	   - module_calc_tk.f90
+		tk (Temperature in K)
+	   - module_calc_uvmet.f90
+		umet, vmet, u10m, v10m (U and V rotated to earth coordiantes)
+	   - module_calc_wdir.f90
+		wdir, wdir10 (Wind Direction)
+	   - module_calc_wspd.f90
+		wspd, wspd10 (Wind Speed)
+		
+
+	TO ADD DIAGNOSTICS
+		First make sure that all the arrays needed for the calculations are 
+		available. The following are carried NOW.
+		XLAT, XLONG, HGT, PSFC, P, PB, PH, PHB, QV, T(theta-300), TT(temp in K from metdata)
+		U10, V10, UUU, VVV (if keep_wind_arrays = TRUE)
+		QR, QS, QG (if keep_moist_arrays = TRUE)
+
+		Logical variables have_* indicate if arrays are present.
+
+		See src/module_model_basics.f90, and src/module_arrays.f90
+
+		Create a new module (module_calc_*.f90) which will calculate the new
+		diagnostic variable. Look at one of the existing ones for an example.
+
+		Add CALL to src/module_diagmostics.f90
+			Must call the following 3 routines
+				CALL calc_* (new diagnostics)
+				CALL interp (to interpolate to output grid)
+				CALL write_dat (to write output)
+
+		Make appropriate changes to the Makefile
+
+		If a new 3D diagnostical field had been created, AND Vis5D output are
+		going to be generated, this new field must also be added to "known_3d_fields"
+		in src/v5d_module.f90
+
+		
+Special NOTES:
+Vis5D output, cannot have 'plot = "all"'

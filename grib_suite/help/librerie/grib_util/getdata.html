@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>
+ GETDATA
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">getdata</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/grib_util/getdata.f">/disk3/patruno/lib/grib_util/getdata.f</A> <HR>
+<PRE>
+	subroutine getdata (grib,idimg,imd,rmd,values,idimv,ibm,ier)
+
+	Restituisce i dati della sezione 3 e 4 di un grib fornito
+	in input
+
+	input:
+
+	grib(idimg)	I	buffer contenente il grib
+       idimg           I       dimensione massima di idimg (NB riscritta in out)
+	imd		I	valore intero segnalazione manca dato
+	rmd		R	valore reale segnalazione manca dato
+
+
+	output:
+
+	values(idimv)	R	vettore dei dati del grib
+       idimv           I       dimensione reale dei dati letti in values
+	ibm		I	bit map predefinita (=0 inclusa o non utlizzata)
+	ier		I	codice errore
+				=0 tutto o.k.
+				&gt;0 codice errore degribbing (gribex)
+
+  19/4/99 inizializzata variabile ibm altrimenti non corretta specialmente
+          per compilazioni non -static
+
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

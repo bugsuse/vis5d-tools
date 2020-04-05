@@ -1,0 +1,57 @@
+<HTML><HEAD><TITLE>
+ LEGGIKAL
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">leggikal</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/leggiscrivikal.f">/disk3/patruno/lib/mega/leggiscrivikal.f</A> <HR>
+<PRE>
+	subroutine leggikal(primo,IGG,IMM,IAA,iora,imin,ISTAZ,
+	1	ipunt,iscad,obs,dmo,prev,x,p,key,ier)
+
+	Legge il data base di kalman con accesso a chiave
+	(Per CHIAVE 0 o CHIAVE 1 , AD ACCESSO EQ OPPURE GE)
+	o sequenziale. Gestisce il file shared ed il record locked
+	ed effettua immediato unlock del record.
+	
+ input:	
+	PRIMO		LOGICAL	se =.TRUE. effettua accesso a chiave
+				altrimenti sequenziale
+	IGG,IMM,IAA	I*4	giorno mese ed anno del record richiesto
+	IORA,IMIN	I*4	ora e minuti del record richiesto
+	ISTAZ		I*4	stazione del record richiesto
+	IPUNT		I*4	punto del grigliato del grid di ECMWF
+				contato	da sinistra veso destra ad iniziare
+				da Nord.
+	ISCAD		I*4	scadenza in ore del record richiesto
+
+	key		I*4	key=1	accesso con chiave 0   &lt;EQ&gt;
+				key=2	accesso con chiave 1   &lt;EQ&gt;
+				key=-1	accesso con chiave 0   &lt;GE&gt;
+				key=-2	accesso con chiave 1   &lt;GE&gt;
+ output:
+	OBS		R*4	dato misura sulla stazione:
+				se la validita` della previsione (data del
+				record+scadenza) e` centrata alle ore 12 e` un
+				valore massimo, se e` centrata alle ore 00 e`
+				un valore minimo.
+				per il valore massimo si riferisce alla data
+				del record.
+				per il valore minimo si riferisce alla notte
+				tra la data del record e quella successiva.
+
+	DMO		R*4	valore del punto di griglia di ECMWF con
+				data di emissione pari a quella del record
+	PREV		R*4	previsione del filtro di Kalman con validita`
+				data del record+scadenza.
+	X(im,1)		R*4	matrice del filtro utilizzata per la previsione
+	P(im,im)	R*4	matrice del filtro utilizzata per la previsione
+				con im=2
+	IER		I*4	condizione di errore
+				ier=0 tutto ok
+				ier=-2 record non trovato
+				ier=1 altri errori fatali
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

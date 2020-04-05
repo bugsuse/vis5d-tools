@@ -1,0 +1,28 @@
+<HTML><HEAD><TITLE>
+ MISCHIONE
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">mischione</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/dball.f">/disk3/patruno/lib/mega/dball.f</A> <HR>
+<PRE>
+	SUBROUTINE MISCHIONE
+
+	Normalizza i messaggi in archivio meteodata di tipo synop metar e
+	locali su un nuovo e unico tracciato record.
+	Questa routine comunica tramite due common, uno in input e uno in
+	output. Il contenuto dei common viene definito includendo nel main
+	program le seguenti istruzioni
+
+	INCLUDE 'MEGAINC$DIR:METEODATA.INC'
+	INCLUDE 'MEGAINC$DIR:DBALL.INC'
+	COMMON /RRW/RRW			! in input
+	COMMON /WWR/WWR			! in output
+
+	I report letti dall'archivio meteodata dovranno essere quindi
+	memorizzati nel buffer RRW definito nell'include.
+
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

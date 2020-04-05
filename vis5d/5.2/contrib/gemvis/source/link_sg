@@ -1,0 +1,13 @@
+#!/bin/csh
+$GEMPAK/install/setup_links
+fcompile -c *.f
+/bin/rm main.o
+ar rv gemvis_sg.a *.o
+/bin/rm *.o
+fcompile -o ../gemvis_sg.x main.f gemvis_sg.a $GEMOLB/gemlib.a \
+     /export/sgi62/ddapp/source/vis5d/vis5d-3.3/util/libmain.a \
+     $GEMOLB/gemlib.a  $GEMOLB/appl.a $GEMOLB/syslib.a \
+     $GEMOLB/gemlib.a
+strip ../gemvis_sg.x
+$GEMPAK/install/remove_links
+/bin/rm *.o

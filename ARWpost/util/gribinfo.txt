@@ -1,0 +1,179 @@
+104     ij     -     LU_INDEX     LAND USE CATEGORY                                               
+104     ij     -     LU_MASK      0 land 1 water                                                  
+104     igj    X     UU           x-wind component                                  m s-1         
+104     igj    Y     VV           y-wind component                                  m s-1         
+104     igj    Z     TT           temperature                                       K             
+104     igj    Z     RH           relative humidity                                 %             
+104     igj    Z     GHT          geopotential height                               m             
+104     igj    Z     PRES         pressure                                          Pa            
+104     ij     -     XLAT_M       latitude, positive north                          degrees       
+104     ij     -     XLONG_M      longitude, positive east                          degrees       
+104     ij     -     HGT_M        topography elevation                              m             
+104     ij     -     SKINTEMP     skin temperature                                  K             
+104     ij     -     TAVGSFC      daily mean of surface air temperature             K             
+104     ij     -     SOILTEMP     annual mean deep soil temperature                 K             
+104     ij     -     PMSL         sea level pressure                                Pa            
+104     imj    Z     GREENFRAC    monthly greenness fraction                        0 - 1 fraction
+104     imj    Z     ALBEDO12M    background albedo                                 0 - 1 fraction
+104     igj    Z     QV           mixing ratio                                      kg kg-1       
+104     ikjb   X     U            x-wind component                                  m s-1         
+104     ikjb   Y     V            y-wind component                                  m s-1         
+104     ikjb   Z     W            z-wind component                                  m s-1         
+104     ikjb   Z     PH           perturbation geopotential                         m2 s-2        
+104     ikj    Z     PHB          base-state geopotential                           m2 s-2        
+104     ikjb   -     T            perturbation potential temperature (theta-t0)     K             
+104     ikj    -     T_INIT       initial potential temperature                     K             
+104     ij     -     MU           perturbation dry air mass in column               Pa            
+104     ij     -     MUB          base state dry air mass in column                 Pa            
+104     ij     -     MU0          initial dry mass in column                        Pa            
+104     ikj    -     P            perturbation pressure                             Pa            
+104     ikj    -     PB           BASE STATE PRESSURE                               Pa            
+104     ij     -     SR           fraction of frozen precipitation                                
+104     ij     -     POTEVP       whatever                                                        
+104     ij     -     SNOPCX       whatever                                                        
+104     ij     -     SOILTB       whatever                                                        
+104     k      -     FNM          upper weight for vertical stretching                            
+104     k      -     FNP          lower weight for vertical stretching                            
+104     k      -     RDNW         inverse d(eta) values between full (w) levels                   
+104     k      -     RDN          inverse d(eta) values between half (mass) levels                
+104     k      -     DNW          d(eta) values between full (w) levels                           
+104     k      -     DN           d(eta) values between half (mass) levels                        
+104     k      -     ZNU          eta values on half (mass) levels                                
+104     k      Z     ZNW          eta values on full (w) levels                                   
+104     k      -     T_BASE       BASE STATET T IN IDEALIZED CASES                  K             
+104     ij     -     Q2           QV at 2 M                                         kg kg-1       
+104     ij     -     T2           TEMP at 2 M                                       K             
+104     ij     -     TH2          POT TEMP at 2 M                                   K             
+104     ij     -     PSFC         SFC PRESSURE                                      Pa            
+104     ij     -     U10          U at 10 M                                         m s-1         
+104     ij     -     V10          V at 10 M                                         m s-1         
+104     ij     -     URATX        Ratio of U over U10 on mass points                dimensionless 
+104     ij     -     VRATX        Ratio of V over V10 on mass points                dimensionless 
+104     ij     -     TRATX        Ratio of T over TH2 on mass points                dimensionless 
+104     ikjftb -     QVAPOR       Water vapor mixing ratio                          kg kg-1       
+104     ikjftb -     QCLOUD       Cloud water mixing ratio                          kg kg-1       
+104     ikjftb -     QRAIN        Rain water mixing ratio                           kg kg-1       
+104     ikjftb -     QICE         Ice mixing ratio                                  kg kg-1       
+104     ikjftb -     QSNOW        Snow mixing ratio                                 kg kg-1       
+104     ikjftb -     QGRAUP       Graupel mixing ratio                              kg kg-1       
+104     ikjftb -     QNICE        Ice Number concentration                          # kg(-1)      
+104     ikjftb -     CWM          Total condensate mixing ratio                     kg kg-1       
+104     ij     -     SM000007     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SM007028     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SM028100     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SM100255     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     ST000007     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     ST007028     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     ST028100     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     ST100255     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     SM000010     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SM010040     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SM040100     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SM100200     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SM010200     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SOILM000     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SOILM005     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SOILM020     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SOILM040     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SOILM160     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SOILM300     LAYER SOIL MOISTURE                               m3 m-3        
+104     ij     -     SW000010     LAYER SOIL LIQUID                                 m3 m-3        
+104     ij     -     SW010040     LAYER SOIL LIQUID                                 m3 m-3        
+104     ij     -     SW040100     LAYER SOIL LIQUID                                 m3 m-3        
+104     ij     -     SW100200     LAYER SOIL LIQUID                                 m3 m-3        
+104     ij     -     SW010200     LAYER SOIL LIQUID                                 m3 m-3        
+104     ij     -     SOILW000     LAYER SOIL LIQUID                                 m3 m-3        
+104     ij     -     SOILW005     LAYER SOIL LIQUID                                 m3 m-3        
+104     ij     -     SOILW020     LAYER SOIL LIQUID                                 m3 m-3        
+104     ij     -     SOILW040     LAYER SOIL LIQUID                                 m3 m-3        
+104     ij     -     SOILW160     LAYER SOIL LIQUID                                 m3 m-3        
+104     ij     -     SOILW300     LAYER SOIL LIQUID                                 m3 m-3        
+104     ij     -     ST000010     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     ST010040     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     ST040100     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     ST100200     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     ST010200     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     SOILT000     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     SOILT005     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     SOILT020     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     SOILT040     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     SOILT160     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     SOILT300     LAYER SOIL TEMPERATURE                            K             
+104     ij     -     LANDMASK     LAND MASK (1 FOR LAND, 0 FOR WATER)                             
+104     ij     -     TOPOSTDV     ELEVATION STD DEV                                 m             
+104     ij     -     TOPOSLPX     ELEVATION X SLOPE                                               
+104     ij     -     TOPOSLPY     ELEVATION Y SLOPE                                               
+104     ij     -     SHDMAX       ANNUAL MAX VEG FRACTION                                         
+104     ij     -     SHDMIN       ANNUAL MIN VEG FRACTION                                         
+104     ij     -     SNOALB       ANNUAL MAX SNOW ALBEDO IN FRACTION                              
+104     ij     -     SLOPECAT     SLOPE CATEGORY                                                  
+104     ij     -     SOILHGT      ELEVATION OF LSM DATA                             m             
+104     iuj    Z     LANDUSEF     LANDUSE FRACTION BY CATEGORY                                    
+104     isj    Z     SOILCTOP     SOIL CAT FRACTION (TOP)                                         
+104     isj    Z     SOILCBOT     SOIL CAT FRACTION (BOTTOM)                                      
+104     ij     -     SOILCAT      SOIL CAT DOMINANT TYPE                                          
+104     ij     -     VEGCAT       VEGETATION CAT DOMINANT TYPE                                    
+104     ilj    Z     TSLB         SOIL TEMPERATURE                                  K             
+104     l      Z     ZS           DEPTHS OF CENTERS OF SOIL LAYERS                  m             
+104     l      Z     DZS          THICKNESSES OF SOIL LAYERS                        m             
+104     ilj    Z     SMOIS        SOIL MOISTURE                                     m3 m-3        
+104     ilj    Z     SH2O         SOIL LIQUID WATER                                 m3 m-3        
+104     ij     -     XICE         SEA ICE FLAG                                                    
+104     ij     -     SFROFF       SURFACE RUNOFF                                    mm            
+104     ij     -     UDROFF       UNDERGROUND RUNOFF                                mm            
+106     ij     -     IVGTYP       DOMINANT VEGETATION CATEGORY                                    
+106     ij     -     ISLTYP       DOMINANT SOIL CATEGORY                                          
+104     ij     -     VEGFRA       VEGETATION FRACTION                                             
+104     ij     -     GRDFLX       GROUND HEAT FLUX                                  W m-2         
+104     ij     -     SNOW         SNOW WATER EQUIVALENT                             kg m-2        
+104     ij     -     SNOWH        PHYSICAL SNOW DEPTH                               m             
+104     ij     -     RHOSN         SNOW DENSITY                                     kg m-3        
+104     ij     -     CANWAT       CANOPY WATER                                      kg m-2        
+104     ij     -     SST          SEA SURFACE TEMPERATURE                           K             
+104     ij     -     MAPFAC_M     Map scale factor on mass grid                                   
+104     ij     X     MAPFAC_U     Map scale factor on u-grid                                      
+104     ij     Y     MAPFAC_V     Map scale factor on v-grid                                      
+104     ij     -     F            Coriolis sine latitude term                       s-1           
+104     ij     -     E            Coriolis cosine latitude term                     s-1           
+104     ij     -     SINALPHA     Local sine of map rotation                                      
+104     ij     -     COSALPHA     Local cosine of map rotation                                    
+104     ij     -     HGT          Terrain Height                                    m             
+104     ij     -     TSK          SURFACE SKIN TEMPERATURE                          K             
+104     k      -     U_BASE       BASE STATE X WIND IN IDEALIZED CASES                            
+104     k      -     V_BASE       BASE STATE Y WIND IN IDEALIZED CASES                            
+104     k      -     QV_BASE      BASE STATE QV IN IDEALIZED CASES                                
+104     k      -     Z_BASE       BASE STATE HEIGHT IN IDEALIZED CASES                            
+104     ij     -     RAINC        ACCUMULATED TOTAL CUMULUS PRECIPITATION           mm            
+104     ij     -     RAINNC       ACCUMULATED TOTAL GRID SCALE PRECIPITATION        mm            
+104     ij     -     SNOWNC       ACCUMULATED TOTAL GRID SCALE SNOW AND ICE         mm            
+104     ij     -     GRAUPELNC    ACCUMULATED TOTAL GRID SCALE GRAUPEL              mm            
+104     ij     -     SWDOWN       DOWNWARD SHORT WAVE FLUX AT GROUND SURFACE        W m-2         
+104     ij     -     GLW          DOWNWARD LONG WAVE FLUX AT GROUND SURFACE         W m-2         
+104     ij     -     OLR          TOA OUTGOING LONG WAVE                            W m-2         
+104     ij     -     XLAT         LATITUDE, SOUTH IS NEGATIVE                       degree_north  
+104     ij     -     XLONG        LONGITUDE, WEST IS NEGATIVE                       degree_east   
+104     ij     X     XLAT_U       LATITUDE, SOUTH IS NEGATIVE                       degree_north  
+104     ij     X     XLONG_U      LONGITUDE, WEST IS NEGATIVE                       degree_east   
+104     ij     Y     XLAT_V       LATITUDE, SOUTH IS NEGATIVE                       degree_north  
+104     ij     Y     XLONG_V      LONGITUDE, WEST IS NEGATIVE                       degree_east   
+104     ij     -     ALBEDO       ALBEDO                                                          
+104     ij     -     ALBBCK       BACKGROUND ALBEDO                                               
+104     ij     -     TMN          SOIL TEMPERATURE AT LOWER BOUNDARY                K             
+104     ij     -     XLAND        LAND MASK (1 FOR LAND, 2 FOR WATER)                             
+104     ij     -     ZNT          TIME-VARYING ROUGHNESS LENGTH                     m             
+104     ij     -     UST          U* IN SIMILARITY THEORY                           m s-1         
+104     ij     -     PBLH         PBL HEIGHT                                        m             
+104     ij     -     HFX          UPWARD HEAT FLUX AT THE SURFACE                   W m-2         
+104     ij     -     QFX          UPWARD MOISTURE FLUX AT THE SURFACE               kg m-2 s-1    
+104     ij     -     LH           LATENT HEAT FLUX AT THE SURFACE                   W m-2         
+104     ij     -     SNOWC        FLAG INDICATING SNOW COVERAGE (1 FOR SNOW COVER)                
+104     ikjf   X     U_NDG_NEW    NEW X WIND FOR FDDA GRID NUDGING                  m s-1         
+104     ikjf   Y     V_NDG_NEW    NEW Y WIND FOR FDDA GRID NUDGING                  m s-1         
+104     ikjf   -     T_NDG_NEW    NEW PERT POT TEMP FOR FDDA GRID NUDGING           K             
+104     ikjf   -     Q_NDG_NEW    NEW WATER VAPOR MIX RATIO FOR FDDA GRID NUDGING   kg/kg         
+104     ikjf   Z     PH_NDG_NEW   NEW PERT GEOPOTENTIAL FOR FDDA GRID NUDGING       kg/kg         
+104     ikjf   X     U_NDG_OLD    OLD X WIND FOR FDDA GRID NUDGING                  m s-1         
+104     ikjf   Y     V_NDG_OLD    OLD Y WIND FOR FDDA GRID NUDGING                  m s-1         
+104     ikjf   -     T_NDG_OLD    OLD PERT POT TEMP FOR FDDA GRID NUDGING           K             
+104     ikjf   -     Q_NDG_OLD    OLD WATER VAPOR MIX RATIO FOR FDDA GRID NUDGING   kg/kg         
+104     ikjf   Z     PH_NDG_OLD   OLD PERT GEOPOTENTIAL FOR FDDA GRID NUDGING       kg/kg         

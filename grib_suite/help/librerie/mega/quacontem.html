@@ -1,0 +1,77 @@
+<HTML><HEAD><TITLE>
+ QUACONTEM
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quacontem</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quacontem_old.f">/disk3/patruno/lib/mega/quacontem_old.f</A> <HR>
+<PRE>
+	SUBROUTINE QUACONTEM (IMINUTI,DATI,FLAG,INTMAX,RJUMP,GRADMAX,
+				N2,NB,NE,IER)
+
+ Esegue un test temporale sui dati.
+
+ L'asse dei tempi che viene espresso in minuti e` contenuto in IMINUTI.
+ Per effettuare il controllo i dati non devono essere distanziati nel tempo
+ piu` di INTMAX nel qual caso la serie viene spezzata in serie piu` piccole.
+ Gli estremi delle serie non potranno essere controllati con il test dei
+ massimi e minimi
+ Non vengono trattati i dati &gt; 32767 o con flag &gt;=iatt.
+ (vedi :	COMMON /FLAGSOGLIA/IATT	
+		DATA IATT/3/	
+	nella function vf(flag)		)
+
+ 1) test di variazione assoluta nel tempo
+ Fa un controllo sui dati in maniera temporale controllando che la variazione
+ assoluta tra due dati non superi RJUMP. Nel caso vengono settati tutti e due i
+ dati errati e ricomincia col controllare il dato successivo. Se il test
+ viene superato la flag non viene alterata altrimenti la flag viene
+ incrementata di una unita`
+
+ 2) test massimi e minimi	
+ Solo se viene superato il primo test viene controllato che il dato considerato
+ non sia un massimo o un minimo e che contemporaneamente non differisca dai
+ valori intorno piu` di GRADMAX  per minuto. Se il test
+ viene superato la flag viene decrementata altrimenti la flag viene
+ incrementata di una unita`. Gli estremi delle serie non potranno essere
+ controllati con il test dei massimi e minimi e la flag non verra` alterata.
+
+===============================================================================
+	INPUT:
+
+	IMINUTI(N2) :	I*4	CONTIENE LA COORDIMATA TEMPO (IN MINUTI)
+	DATI(N2): 	I*4	VETTORE CONTENENTE TUTTI I DATI
+	FLAG(N2)	BYTE	VETTORE DELLE FLAG ASSOCIATE AI DATI
+	INTMAX		I*4	DISTANZA MASSIMA TEMPORALE TRA I DATI
+	RJUMP		R*4	VARIAZIONE TEMPORALE ASSOLUTA ACCETTATA
+				ESPRESSA IN
+			(UNITA` DI MIS. DATI/UNITA` MIS. COORDINATA TEMPO)
+	GRADMAX		R*4	VARIAZIONE TEMPORALE PER MASSIMI E MINIMI
+				ACCETTATA ESPRESSA IN
+			(UNITA` DI MIS. DATI/UNITA` MIS. COORDINATA TEMPO)
+	N2	:	I*4	DIMENSIONE DEI VETTORI: IMINUTI(N2),
+							DATI(N2),
+							FLAG(N2).
+				INDICE DELL' ELEMENTO CON CUI SI FINISCE
+				IL CONTROLLO
+
+===============================================================================
+	OUTPUT:
+
+	FLAG(N2) :    BYTE	FLAG ASSOCIATE AI DATI
+	NB	:	I*4	NUMERI DI DATI A CUI LA FLAG E` STATA
+				DECREMENTATA
+	NE	:	I*4	NUMERO DI DATI A CUI LA FLAG E` STATA
+				INCREMENTATA
+	IER	:	I*4	INDICATORE DI ERRORE
+
+	IER =  0    : 	TUTTO O.K.
+	IER =  1    :   L'indice  N2 &lt; 1
+	IER =  2    :	Nessun dato buono nell' intervallo
+	IER = -1    :   esiste un buco fra i dati superiore a INTMAX
+	IER = -2    :   Ci sono piu` di tre dati considerati errati
+
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

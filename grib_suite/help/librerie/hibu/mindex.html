@@ -1,0 +1,41 @@
+<HTML><HEAD><TITLE>
+ mindex
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">mindex</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/hibu/ngetpoint.f">/disk3/patruno/lib/hibu/ngetpoint.f</A> <HR>
+<PRE>
+index ricalcola l'indice di un vettore data una matrice comunque rigirata.
+	integer function mindex(id,jd,imhv,jmhv,ija)
+
+  Restituisce l'ndice di un vettore corrisponedente ad una matrice comunque
+ organizzata fornendo gli indici corrispondenti ad una matrice
+ in cui gli indici sono paragonabili alle coordinate di un sistema cartesiano
+ di dimensioni imhv,jmhv quindi con scansione dei punti nella direzione
+ +i,+j con i punti adiacenti nella direzione i consecutivi
+
+
+       id,jd      i*4  indici della matrice (i,j) ordinata nel verso ija=010
+                       (cartesiana)
+       imhv,jmhv  i*4  dimensioni della matrice come sopra (cartesiana)
+	ija	   i*4	indicatore del modo di scansione
+			puo` essere espresso :
+			1) tre cifre binarie (0/1) indicanti il bit 1,2,3
+				 (es. ija=110)
+			2) numero decimale che imposta correttamente i bit
+				della variabile (es. ija=128)
+			bit 1	0	scansione dei punti nella direzione +i
+				1	scansione dei punti nella direzione -i
+			bit 2	0	scansione dei punti nella direzione -j
+				1	scansione dei punti nella direzione +j
+			bit 3	0	i punti adiacenti nella direzione i
+					sono consecutivi
+			bit 3	1	i punti adiacenti nella direzione j
+					sono consecutivi
+			direzione i: da Owest a Est lungo un parallelo
+			direzione j: da Sud a Nord lungo un meridiano
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

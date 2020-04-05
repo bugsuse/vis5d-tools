@@ -1,0 +1,8 @@
+FC = f77
+#F90 = pgf90
+DESTDIR = /usr/local/lib
+libdir = $(USOHOME)/lib
+AR = ar rc
+
+#enable for gf77 compiler only
+EXTRAOBJ_HIBU = math_func.o

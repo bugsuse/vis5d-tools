@@ -1,0 +1,83 @@
+<HTML><HEAD><TITLE>
+ GETINFO
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">getinfo</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/grib_util/getinfo.f">/disk3/patruno/lib/grib_util/getinfo.f</A> <HR>
+<PRE>
+
+	subroutine getinfo (iug,grib,idimg,data,ora,scad,level,var,
+	1	ala1,ala2,alo1,alo2,nj,ni,dj,di,idrt
+	1	,alarot,alorot,rot,ija,ier)
+
+
+	Restituisce informazioni rispetto ad un grib.
+	Se fornita unita` di lettura provvede anche alla lettura (sequenziale)
+	di un grib.
+	N.B.
+	Gestisce solo grib con data rappresentation type 0 oppure 10.
+
+	input:
+
+	iug		I	unita` restituita da PBOPEN se si vuole
+					una lettura sequenziale da file
+				=-1 se il grib viene fornito in input
+	grib(idimg)	I	buffer contenente il grib se iug=-1
+
+	output:
+
+	grib(idimg)	I	buffer contenente il grib se iug&lt;&gt;0
+	data(1)		I	giorno		)	
+	data(2)		I	mese		)
+	data(3)		I	anno			)  emissione
+	ora(1)		I	ora		)
+	ora(2)		I	minuti		)
+	scad(1)		I	indicator of unit of time range	(table 4)
+	scad(2)		I	periodo di tempo 1
+	scad(3)		I	periodo di tempo 2
+	scad(4)		I	time range indicator 		(table 5)
+	level(1)	I	indicator of type of level	(table 3)
+	level(2)	I	height, pressure etc. of levels
+	level(3)	I	height, pressure etc. of levels
+	var(1)		I	identification of originating/generating
+				 centre  (table 0)
+	var(2)		I	table 2 version number
+	var(3)		I	parameter			(table 2)
+	ala1	I	latitudine del primo punto di vet
+	ala2 	I	latitudine dell'ultimo punto di vet
+	alo1 	I	longitudine del primo punto di vet
+	alo2 	I	longitudine dell'ultimo punto di vet
+	nj	I	numero di punti lungo un meridiano
+	ni	I	numero di punti lungo un parallelo
+	dj 	I	passo di griglia in latitudine
+	di 	I	passo di griglia in longitudine
+	idrt	I	data representation type	(table 6)
+	alarot alorot rot	R
+		latitudine longitudine e rotazione del polo di rotazione
+		espresso in gradi.decimi......
+	ija	I	indicatore del modo di scansione
+			numero decimale che imposta correttamente i bit
+			della variabile (es. ija=128)
+		bit 1	0	scansione dei punti nella direzione +i
+			1	scansione dei punti nella direzione -i
+		bit 2	0	scansione dei punti nella direzione -j
+			1	scansione dei punti nella direzione +j
+		bit 3	0	i punti adiacenti nella direzione i
+				sono consecutivi
+		bit 3	1	i punti adiacenti nella direzione j
+				sono consecutivi
+
+	ier		I	codice errore
+				=0 tutto o.k.
+				=-1 end of file
+				=7000 errore data representation type
+					code table 6
+				=8000 errore sezione 2 omessa
+					non vengono restituiti i parametri
+					descrittori dell'area
+				altri &gt; vedi errori pbgrib/gribex
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

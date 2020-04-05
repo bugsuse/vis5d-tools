@@ -1,0 +1,46 @@
+<HTML><HEAD><TITLE>
+ grib_section_3
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">grib_section_3</H2> <HR>
+ documentazione codifica grib <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/cesari/helpdoc/grib/gribdoc.txt">/disk3/cesari/helpdoc/grib/gribdoc.txt</A> <HR>
+<PRE>
+
+SECTION 3: BIT MAP SECTION (BMS).
+
+     The purpose of the (optional) BMS is to provide either a bit map
+or a reference to a bit map pre-defined by the center.  The bit map
+consists of contiguous bits with a bit-to-data-point correspondence as
+defined in the grid description.  A bit set equal to 1 implies the
+presence of a datum for that grid point in the BDS; a value of zero
+implies the absence of such.  This is useful in shrinking fields where
+fair portions of the field are not defined.  An example would be global
+grids of sea surface temperature; the bit map would be used to suppress
+the &quot;data&quot; at grid points over land.  One would not want to use the BMS
+if the data were un-defined at only a small number of grid points as
+the overhead of adding the bit map array (one bit for each grid point)
+might add more bits to the overall message that were subtracted by the
+removal of a few data values.
+
+     Octet no.
+
+      1 - 3       Length in octets of Bit Map Section
+
+      4           Number of unused bits at end of Section 3.
+
+      5 - 6       Numeric:
+
+                  = 0:        a bit map follows;
+                  otherwise:  the numeric refers to a
+                              predefined bit map provided
+                              by the center
+
+      7 - nnn     Bit map, zero filled to an even number of octets
+
+</PRE>
+Vedi anche:
+<a href="grib_refrence.html ">grib_refrence</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

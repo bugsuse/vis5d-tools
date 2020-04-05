@@ -1,0 +1,474 @@
+<HTML><HEAD><TITLE>
+ LYNX
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">lynx</H2> <HR>
+  Lynx Users Guide v2.8 <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/cesari/helpdoc/Lynx_users_guide.txt">/disk3/cesari/helpdoc/Lynx_users_guide.txt</A> <HR>
+<PRE>
+
+
+   Lynx is a fully-featured World Wide Web (WWW) client for users running
+   cursor-addressable, character-cell display devices (e.g., vt100
+   terminals, vt100 emulators running on PCs or Macs, or any other
+   character-cell display). It will display Hypertext Markup Language
+   (HTML) documents containing links to files on the local system, as
+   well as files on remote systems running http, gopher, ftp, wais, nntp,
+   finger, or cso/ph/qi servers, and services accessible via logins to
+   telnet, tn3270 or rlogin accounts (see URL Schemes Supported by Lynx).
+   Current versions of Lynx run on Unix, VMS, Windows95/NT, 386DOS and
+   OS/2 EMX.
+
+   Lynx can be used to access information on the WWW, or to build
+   information systems intended primarily for local access. For example,
+   Lynx has been used to build several Campus Wide Information Systems
+   (CWIS). In addition, Lynx can be used to build systems isolated within
+   a single LAN.
+
+ Table of Contents
+
+     * Lynx online help
+     * Viewing local files with Lynx
+     * Leaving Lynx
+     * Starting Lynx with a Remote File
+     * Starting Lynx with the WWW_HOME environment variable.
+     * Navigating hypertext documents with Lynx
+     * Printing, Mailing, and Saving rendered files to disk.
+     * Viewing the HTML document source and editing documents
+     * Downloading and Saving source files.
+     * Reloading files and refreshing the display
+     * Lynx searching commands
+     * Lynx Options Menu
+     * Comments and mailto: links
+     * USENET News posting
+     * Lynx bookmarks
+     * Jump command
+     * Directory Editing
+     * Scrolling and Other useful commands
+     * Lynx and HTML Forms
+     * Lynx and HTML Tables | Lynx and HTML Tabs
+     * Lynx and HTML Frames | Lynx and HTML Banners
+     * Lynx and HTML Footnotes | Lynx and HTML Notes
+     * Lynx and HTML Lists
+     * Lynx and HTML Quotes
+     * Lynx and Client-Side-Image-Maps
+     * Lynx and Client-Side-Pull
+     * Lynx and State Management (Me want cookie!)
+     * The Lynx command line
+     * Lynx development history
+
+ Lynx online help
+
+   Online help is available while viewing any document. Press the '?' or
+   'H' key (or the 'h key if vi-like key movement is not on) to see a
+   list of help topics. See the section titled Navigating hypertext
+   documents with Lynx for information on navigating through the help
+   files.
+
+   In addition, a summary description of all the Lynx keystroke commands
+   and their key bindings is available by pressing the 'K' key (or the
+   'k' key if vi-like key movement is not on). [ToC]
+
+ Viewing local files with Lynx
+
+   Lynx can be started by entering the Lynx command along with the name
+   of a file to display. For example these commands could all be used to
+   display an arbitrary ASCII text or HTML file:
+
+   UNIX
+          lynx filename
+          lynx /home/my-dir/filename
+          lynx ~/filename
+
+   VMS
+          lynx filename
+          lynx dua5:[my-directory]filename
+          lynx /dua5/my-directory/filename
+          lynx ~/filename
+          lynx sys$login:filename
+          lynx /sys$login/filename
+
+   Win32/DOS
+          lynx file:///filename
+          lynx filename
+          lynx c:/dir/filename
+          lynx //n/dir/filename
+
+   When executed, Lynx will clear the screen and display as much of the
+   specified file as will fit on the screen. Pressing a down-arrow will
+   bring up the next screen, and pressing an up-arrow will bring up the
+   previous screen. If no file is specified at startup, a default file
+   will be displayed. (The default is configured by the system
+   administrator when the command is installed.)
+
+   Lynx will display local files written in the HyperText Markup Language
+   (HTML), if the file's name ends with the characters .html, .htm,
+   .shtml, .htmlx, .html3, or .ht3. HTML is a file format that allows
+   users to create a file that contains (among other things) hypertext
+   links to other files. Several files linked together may be described
+   as a hypertext document. If the filename does not have one of the
+   suffixes mapped by Lynx to HTML, the -force_html command line option
+   can be included to force treatment of the file as hypertext.
+
+   When Lynx displays an HTML file, it shows links as &quot;bold face&quot; text,
+   except for one link, which is shown as &quot;highlighted&quot; text. Whether
+   &quot;boldface&quot; or &quot;highlighted&quot; text shows up as reverse video, boldface
+   type, or a color change, etc. depends on the display device being used
+   (and the way in which that device has been configured). Lynx has no
+   control over the exact presentation of links.
+
+   The one link displayed as &quot;highlighted&quot; text is the currently
+   &quot;selected&quot; link. Lynx will display the file associated with the
+   selected link when a right-arrow or a Return key is pressed. To select
+   a particular link, press the up-arrow or down-arrow keys until the
+   desired link becomes &quot;highlighted,&quot; and then press the right-arrow or
+   Return key to view the linked information. Information included in the
+   HTML file tells Lynx where to find the linked file and what kind of
+   server will provide it (i.e. HTTP, Gopher, etc.).
+
+   Lynx renders HTML files and saves the rendition, not the source, for
+   initial display and should you select the link again. If you do select
+   a link again and have reason to desire a new fetch and rendering of
+   the file, use the NOCACHE command, normally mapped to 'x' and 'X',
+   instead of the right-arrow or Return key when positioned on the link.
+   You also can force a new fetch and rendering of the currently
+   displayed document via the RELOAD command, normally mapped to
+   Control-R.
+
+   When a binary file is encountered Lynx will ask the user if he/she
+   wishes to download the file or cancel. If the user selects 'D' for
+   download, Lynx will transfer the file into a temporary location and
+   present the user with a list of options. The only default option is
+   Save to disk, which is disabled if Lynx is running in anonymous mode.
+   Any number of additional download methods may be defined in the
+   lynx.cfg file by the system administrator. Programs like kermit,
+   zmodem and FTP are some possible options. [ToC]
+
+ Leaving Lynx
+
+   To exit Lynx use the 'q' command. You will be asked whether you really
+   want to quit. Answering 'y' will exit and 'n' will return you to the
+   current document. Use 'Q' or Control-D to quit without verification.
+   [ToC]
+
+ Starting Lynx with a Remote File
+
+   If you wish to view a remote file (that is, a file residing on some
+   computer system other than the one upon which you are running Lynx)
+   without first viewing a local file, you must identify that file by
+   using a Uniform Resource Locator (URL). URLs take the general form:
+
+   PROTOCOL :// HOST / PATH
+
+   where
+
+   PROTOCOL
+          identifies the communications protocol (scheme) used by the
+          server that will provide the file. As mentioned earlier, Lynx
+          (and any WWW client) can interact with a variety of servers,
+          each with its own protocol.
+
+   HOST
+          is the Internet address of the computer system on which the
+          server is running, and
+
+   PATH
+          is a scheme-specific field which for some schemes may
+          correspond to a directory path and/or filename.
+
+   Here are some sample URLs.
+
+   HTTP (HyperText Transfer Protocol)
+          http://www.crl.com/~subir/lynx.html
+
+   Gopher
+          gopher://gopher.micro.umn.edu/11/
+
+   FTP (File Transfer Protocol)
+          ftp://ftp2.cc.ukans.edu/pub/lynx/README
+
+   WAIS (Wide Area Information Service protocol)
+          wais://cnidr.org/directory-of-servers
+
+   A URL may be specified to Lynx on the command line, as in:
+          lynx http://kufacts.cc.ukans.edu/cwis/kufacts_start.html
+
+   Lynx also will attempt to create a complete URL if you include
+   adequate portions of it in the startfile argument. For example:
+                 wfbr          will be expanded to:
+      http://www.wfbr.edu/     and:
+             ftp.more.net/pub  will be expanded to:
+       ftp://ftp.more.net/pub
+   See URL Schemes Supported by Lynx for more detailed information. [ToC]
+
+ Starting Lynx with the WWW_HOME environment variable.
+
+   You may also specify a starting file for Lynx using the WWW_HOME
+   environment variable,
+
+   UNIX
+
+        ksh
+                export WWW_HOME=http://www.w3.org/
+
+        csh
+                setenv WWW_HOME http://www.w3.org/
+
+   VMS
+          define &quot;WWW_HOME&quot; &quot;http://www.w3.org/&quot;
+
+   win32
+          WWW_HOME=http://www.w3.org/ [or in registry]
+
+   Note that on VMS the double-quoting must be included to preserve
+   casing.
+
+ Navigating hypertext documents with Lynx
+
+   The process of moving within a hypertext web, selecting and displaying
+   links is known as &quot;navigation.&quot; With Lynx almost all navigation can be
+   accomplished with the arrow keys and the numeric keypad.
+
+                                       +-------+-------+-------+
+                                       | TOP   |  /|\  | Page  |
+              arrow keys               | of    |   |   | UP    |
+                                       | text 7|   |  8|      9|
+              +---------+              +-------+-------+-------+
+              | SELECT  |              |       |       |       |
+              | prev /|\|              | &lt;---  |       |  ---&gt; |
+              | link  | |              |      4|      5|      6|
+    +---------+---------+---------+    +-------+-------+-------+
+    |    BACK | SELECT  | DISPLAY |    | END   |   |   | Page  |
+    |&lt;-- prev | next  | | sel. --&gt;|    | of    |   |   | DOWN  |
+    |    doc. | link \|/| link    |    | text 1|  \|/ 2|      3|
+    +---------+---------+---------+    +-------+-------+-------+
+
+   There are also a few other keyboard commands to aid in navigation. The
+   Control and Function keys used for navigation within the current
+   document are described in Scrolling and Other useful commands. Some
+   additional commands depend on the fact that Lynx keeps a list of each
+   link you visited to reach the current document, called the History
+   Page, and a list of all links visited during the current Lynx session,
+   called the Visited Links Page. The HISTORY keystroke command, normally
+   mapped to Backspace or Delete, will show you the History Page of links
+   leading to your access of the current document. Any of the previous
+   documents shown in the list may be revisited by selecting them from
+   the history screen. The VLINKS keystroke command, normally mapped to
+   uppercase 'V', will show the Visited Links Page, and you similarly can
+   select links in that list. The MAIN_MENU keystroke command, normally
+   mapped to 'm' and 'M', will take you back to the starting document
+   unless you specified the -homepage=URL option at the command line.
+   Also, the LIST keystroke command, normally mapped to 'l' and L', will
+   create a compact list of all the links in the current document, and
+   they can be selected via that list.
+
+   The 'i' key presents an index of documents. The default index is
+   usually a document pointing to servers around the world, but the index
+   can be changed by the system administrator or on the command line
+   using the -index=URL switch, and therefore depends on how the Lynx
+   program you are using was configured.
+
+   If you choose a link to a server with active access authorization,
+   Lynx will automatically prompt for a username and a password. If you
+   give the correct information, you will then be served the requested
+   information. Lynx will automatically send your username and password
+   to the same server if it is needed again. [ToC]
+
+ Printing, Mailing, and Saving rendered files to disk.
+
+   Rendered HTML documents, and plain text files, may be printed using
+   the 'p' command while viewing the document. After pressing the 'p' key
+   a menu of Print Options will be displayed. The menu will vary
+   according to several factors. First, some sites set up special
+   accounts to let users run Lynx to access local information systems.
+   Typically these accounts require no passwords and do not require users
+   to identify themselves. As a result such accounts are called
+   &quot;anonymous&quot; accounts, and their users are considered &quot;anonymous&quot;
+   users. In most configurations, all Lynx users (including anonymous
+   users) are able to mail files to themselves and print the entire file
+   to the screen.
+
+   Additional print options are available for users who are using Lynx
+   from their own accounts (that is, so-called &quot;non-anonymous users&quot;). In
+   particular, the Save to a local file option allows you to save the
+   document into a file on your disk space. Any number of additional
+   print options may also be available as configured by your system
+   administrator.
+
+   Some options, such as Save to a local file, involve prompting for an
+   output filename. All output filename entries are saved in a circular
+   buffer, and any previous entries can be retrieved for re-use by
+   pressing the up-arrow or down-arrow keys at the prompt.
+
+   Note that if you want exact copies of text files without any
+   expansions of TAB characters to spaces you should use the Download
+   options. [ToC]
+
+ Viewing the HTML document source and editing documents
+
+   When viewing HTML documents it is possible to retrieve and display the
+   unrendered (i.e., the original HTML) source of the document by
+   pressing the '\' (backslash) key. The document must be reloaded from
+   the server or disk to be displayed on the screen unrendered, since
+   Lynx originally rendered what it received and does not still have it
+   as source. When viewing unrendered documents you may print them as any
+   normal document.
+
+   Selecting the Print to a local file option from the Print Menu, makes
+   it possible to save the source of the document to disk so that you may
+   have a local copy of the document source, but it is better to Download
+   the source.
+
+   NOTE: When saving an HTML document it is important to name the
+   document with a .html extension, if you want to read it with Lynx
+   again later.
+
+   Lynx can allow users to edit documents that reside on the local
+   system. To enable editing, documents must be referenced using a
+   &quot;file:&quot; URL or by specifying a plain filename on the command line as
+   in the following two examples:
+
+   Command
+          lynx file://localhost/FULL/PATH/FILENAME
+          lynx path/filename.html
+
+   In addition, the user must also specify an editor in the Options Menu
+   so that Lynx knows which editor to use. If the file is specified
+   correctly and an editor is defined, then you may edit documents by
+   using the 'e' command. When the 'e' command is entered your specified
+   editor is spawned to edit the file. After changes are completed, exit
+   your editor and you will return to Lynx. Lynx will reload and render
+   the file so that changes can be immediately examined. [ToC]
+
+ Downloading and Saving source files.
+
+   If the DOWNLOAD keystroke command ('d' or D) is used when positioned
+   on a link for an HTML, plain text, or binary file, Lynx will transfer
+   the file, without rendering or modification, into a temporary location
+   and present the user with a list of options, as when a link for a
+   binary file of a type for which no viewer has been mapped is
+   activated. As described above, the only default Download option is
+   Save to disk, which is disabled if Lynx is running in anonymous mode,
+   and any number of additional download methods such as kermit and
+   zmodem may be defined in the lynx.cfg file by the system
+   administrator. Downloading the sources of HTML and plain text files,
+   instead of toggling to display the source ('\') and then using
+   Printing options, ensures that no modifications of the source (e.g.,
+   expansions of TAB characters to a series of spaces) will occur.
+
+   Some options, such as Save to disk, involve prompting for an output
+   filename. All output filename entries are saved in a circular buffer,
+   and any previous entries can be retrieved for re-use by pressing the
+   up-arrow or down-arrow keys at the prompt. [ToC]
+
+ Reloading files and refreshing the display
+
+   The RELOAD (Control-R) command will reload and re-render the file that
+   you are currently viewing. The REFRESH (Control-L or Control-W)
+   command will refresh or wipe the screen to remove or correct any
+   errors that may be caused by operating system or other messages.
+
+   The NOCACHE ('x' or 'X') command can be used in lieu of ACTIVATE
+   (Return or right-arrow) to request an uncached copy and new rendition
+   for the current link, or resubmission of a FORM, if a cache from a
+   previous request or submission exits. The request or submission will
+   include Pragma: no-cache and Cache-Control: no-cache in its headers.
+   Note that FORMs with POST content will be resubmitted regardless of
+   whether the NOCACHE or ACTIVATE command is used (see Lynx and HTML
+   Forms). [ToC]
+
+ Lynx searching commands
+
+   Two commands activate searching in Lynx: '/' and 's'.
+
+   While viewing a normal document use the '/' command to find a word or
+   phrase within the current document. The search type will depend on the
+   search option setting in the Options Menu. The search options are case
+   sensitive and case insensitive. These searches are entirely local to
+   Lynx.
+
+   Some documents are designated index documents by virtue of an ISINDEX
+   element in their HEAD section. These documents can be used to retrieve
+   additional information based on searches using words or phrases
+   submitted to an index server. The Lynx statusline will indicate that
+   you are viewing such a document, and if so, the 's' key will invoke a
+   statusline prompt to enter a query string. The prompt can be specified
+   via a PROMPT attribute in the ISINDEX element. Otherwise, Lynx will
+   use an internally configured prompt. The address for submitting the
+   search can be specified via an HREF or ACTION attribute. Otherwise,
+   Lynx will use the current document's URL and append your query string
+   as a ?searchpart (see Supported URLs).
+
+   All search words or strings which you have entered during a Lynx
+   session are saved in a circular buffer, and can be retrieved for
+   re-use by pressing the up-arrow or down-arrow keys at the prompt for a
+   search word or string. Also, you can use the 'n'ext command to repeat
+   a search with the last-entered search word or phrase, starting from
+   the current position in the document. The word or phrase matches will
+   be highlighted throughout the document, but such highlighting will not
+   persist for new documents, or if the current document is reloaded. The
+   search cycles to the top of the document if the word or phrase is not
+   located below your current position.
+
+   Although HTML Forms have largely replaced index documents for searches
+   via http servers, they are still useful for performing searches
+   directly via WAIS or Gopher servers in conjunction with the internal
+   gateways for such servers. For example, an HTML index document can act
+   as a cover page describing a WAIS database and how to formulate query
+   strings for searching it, and include an element such as:
+      &lt;ISINDEX PROMPT=&quot;Enter WAIS query:&quot;
+               HREF=&quot;wais://net.bio.net/biologists-addresses&quot;&gt;
+   for submitting a search of the Biologist's Addresses database directly
+   to the net.bio.net WAIS server. [ToC]
+
+ Lynx Options Menu
+
+   The Lynx Options Menu may be accessed by pressing the 'o' key. The
+   current Options Menu contains the following configurable options.
+
+                      Options Menu
+
+     E)ditor                      : emacs
+     D)ISPLAY variable            : aixtest.cc.ukans.edu:0.0
+     mu(L)ti-bookmarks: OFF       B)ookmark file: lynx_bookmarks.html
+     F)TP sort criteria           : By Filename
+     P)ersonal mail address       : montulli@netscape.com
+     S)earching type              : CASE INSENSITIVE
+     preferred document lan(G)uage: en
+     preferred document c(H)arset : NONE
+     display (C)haracter set      : ISO Latin 1
+     raw 8-bit or CJK m(O)de      : ON      show color (&amp;)  : OFF
+     V)I keys: OFF    e(M)acs keys: OFF     sho(W) dot files: OFF
+     popups for selec(T) fields   : ON      show cursor (@) : OFF
+     K)eypad mode                 : Numbers act as arrows
+     li(N)e edit style            : Default Binding
+     l(I)st directory style       : Mixed style
+     U)ser mode                   : Advanced
+     user (A)gent                 : [User-Agent header]
+     local e(X)ecution links      : FOR LOCAL FILES ONLY
+
+   An option can be changed by entering the capital letter or character
+   in parentheses for the option you wish to change (e.g. 'E' for Editor
+   or '@' for show cursor). For fields where text must be entered, simply
+   enter the text by typing on the keyboard. The Line Editor can be used
+   to correct mistakes, and Control-U can be used to erase the whole
+   line. When you are done entering a change press the Return key to get
+   back to the Command? prompt.
+
+   For fields where you must choose one of two choices, press any key to
+   toggle the choices and press the Return key to finish the change.
+
+   For fields where you potentially have more than two choices, popup
+   windows may be evoked which function homologously to those for select
+   fields in HTML Forms. The popup windows will be invoked only if you
+   have popups for select fields set to ON (see below). Otherwise, your
+   cursor will be positioned at the current choice, and you can press any
+   key to cycle through the choices, then press the Return key to finish
+   the change.
+
+   When you are done changing options use
+
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

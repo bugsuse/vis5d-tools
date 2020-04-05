@@ -1,0 +1,949 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="StarOffice/5.1 (Linux)">
+	<META NAME="CREATED" CONTENT="19991014;14475500">
+	<META NAME="CHANGED" CONTENT="16010101;0">
+	<STYLE>
+	<!--
+		@page { size: 20.99cm 29.7cm; margin-left: 2cm; margin-right: 2cm; margin-top: 1.3cm; margin-bottom: 1.53cm }
+	-->
+	</STYLE>
+</HEAD>
+<BODY>
+<DIV TYPE=HEADER>
+	<P STYLE="margin-bottom: 0cm"><B><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Sistema
+	Archiviazione GRIB</FONT></FONT></B><FONT FACE="Times New Roman, serif">		<IMG SRC="sv3113121.gif" NAME="Immagine1" ALIGN=BOTTOM WIDTH=49 HEIGHT=48 BORDER=0></FONT></P>
+</DIV>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.2
+  Importazione nuovi GRIB</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Tramite
+le funzioni di questa sezione si pu&ograve; guidare il caricamento di
+nuovi GRIB nelle sezioni on line, gestendo anche le fasi di modifica
+e aggiornamento delle tabelle collegate.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Le
+voci selezionabili sono:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Generazione identificativo univoco per accoglienza (solo UNIX)</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Accoglienza manuale</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Editing del file di log dopo accoglienza manuale</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Modifica guidata del file di log dopo accoglienza manuale</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Importazione manuale in archivio in linea</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Importazione effettiva in archivio in linea (BATCH)</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Accoglienza ed importazione effettiva (tutto BATCH)</FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Che
+attivano rispettivamente (eccetto la prima voce) le procedure di
+comandi:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	GRB_COM:GRB_ACCOGLI.COM		(.csh
+per UNIX)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	GRB_COM:GRB_EDIT.COM		(.csh
+per UNIX)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	GRB_COM:GRB_EDITLOG.COM		(.csh
+per UNIX)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	GRB_COM:GRB_LOAD_COM.COM		(.csh
+per UNIX)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	GRB_COM:GRB_LOAD.COM		(.csh
+per UNIX)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	GRB_COM:GRB_ACCOGLI_LOAD.COM	(.csh
+per UNIX)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">La
+prima voce (valida solo per UNIX) serve a determinare un
+identificativo di lavoro: viene presentata una mascherina che chiede
+questo identificativo il quale viene assegnato alla variabile logica
+GRB_ID.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Le
+successive tre voci consentono un caricamento completamente guidato e
+seguito a videoterminale.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">La
+seconda, una volta selezionata, formula la richiesta:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Dare
+filespec di ricerca GRIB : </FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">a
+cui l'operatore risponder&agrave; con una filespec valida (ad es.
+DISK1:[NEWGRIB]*.GRB,  il path prima della specifica del grippo di
+files &egrave; obbligatorio). Il sistema provvede a visualizzare il
+dettagli della filespec a video. Domanda poi il valore del passo di
+emissione in minuti da attribuire per default alle nuove aree che
+verranno generate dal caricamento, e quindi agli archivi ad esse
+appoggiati, e a chiedere conferma dell'esecuzione. A conferma
+effettuata viene eseguito il programma XGRB_ACCOGLI con GRB_LOG
+assegnato a GRB_WORK:&lt;pid&gt;.ACCOGLI .</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">La
+terza voce deve essere utilizzata dopo esito favorevole della prima e
+d&agrave; semplicemente in editor all'operatore il file
+GRB_WORK:&lt;pid&gt;.ACCOGLI creato al punto precedente, in maniera
+tale che possano essere ricercati i caratteri &quot;|&quot; e
+modificati all'occorrenza i parametri da inserire nelle tabelle.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">La
+quarta voce pu&ograve; essere utilizzata in alternativa (o in unione)
+alla terza per modificare in maniera guidata le informazioni relativa
+alle nuove aree e ai nuovi dataset.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">La
+quinta voce provvede a caricare tabelle e GRIB con il programma
+XGRB_LOAD come richiesto dal file GRB_WORK:&lt;pid&gt;.ACCOGLI creato
+dalla prima ed eventualmente modificato con la seconda e/o la terza.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">La
+sesta voce compie esattamente le stesse funzioni della quinta, ma
+lanciando XGRB_LOAD in background o in batch tramite il comando VMS:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	submit/keep/noprint/log=GRB_WORK:&lt;pid&gt;.loadlog-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	/par=(GRB_WORK:&lt;pid&gt;.ACCOGLI)
+ GRB_com:grb_load.bat</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	at
+-c-f $GRB_WORK/$GRB_ID.loadbat now +1 minutes</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	(in
+$GRB_ID.loadbat &egrave; presente il lancio del programma XGRB_LOAD)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">L'ultima
+voce andrebbe usata solo quando si abbia la certezza che i GRIB da
+caricare non generino modifiche inaspettate delle tabelle, in quanto
+esegue di seguito ed in un unico batch sia XGRB_ACCOGLI che
+XGRB_LOAD, senza consentire editing intermedi di GRB_LOG. Questa
+funzione ha la fase di richiesta filespec e conferma come la prima
+(per UNIX richiede il direttorio di ricerca), poi provvede a lanciare
+il comando in background o in batch per VMS:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	submit/keep/noprint/log=GRB_work:&lt;pid&gt;.loadlog
+-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	/par=(&lt;filespec_dei_GRIB_da_importare&gt;,GRB_work:&lt;pid&gt;.accogli)
+-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	GRB_com:grb_accogli_load.bat</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	at
+-c-f $GRB_WORK/$GRB_ID.loadbat now +1 minutes</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	(in
+$GRB_ID.loadbat &egrave; presente il lancio dei programmi</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	XGRB_ACCOGLI
+e XGRB_LOAD)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.3
+  Travasi tra archivi e ripuliture</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Tramite
+le funzioni di questa sezione &egrave; possibile guidare il passaggio
+dei dati tra le diverse sezioni di un archivio. Le procedure sono
+organizzate in maniera tale da consentire sempre e solo passaggi
+senza sovrapposizione di date tra i segmenti di sezioni sullo stesso
+livello di salvataggio.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Le
+voci selezionabili sono:</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Inizializzazione di un nuovo device di salvataggio</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Travaso da archivio in linea a storico su disco</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Travaso da primo livello storico ad archivio su nastro</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Ripulitura archivio in linea dai dati travasati</FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt">	-
+Ripulitura archivio storico su disco dai dati travasati</FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.3.1
+Inizializzazione nastro di salvataggio</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Questa
+funzione crea il primo record di un nastro o inizializza un disco
+removibile, da utilizzare per la memorizzazione di una sezione su
+supporto ad accesso sequenziale o random. Nel caso di nastro deve
+essere utilizzata su di un nastro vergine o comunque da
+inizializzare, che dopo il buon fine di questa funzione diventa un
+supporto utilizzabile per memorizzare la sezione dichiarata per il
+dataset dichiarato.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Compare
+la seguente maschera:</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Dopo aver selezionato il
+tipo di supporto (disco o nastro), occorre impostare i seguenti
+campi:</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>-	Device
+di destinazione:</B> (selezionabile anche dalla lista di quelli
+disponibili, corrispondente al file associato ai nomi logici DISCHI o
+NASTRI) &egrave; il nome di un device ad accesso random (es
+DK200:[000000] o DK200:[BASE]) o sequenziale su cui deve essere
+montato un disco o un nastro da inizializzare come sezione (es.
+MK500:, MUA0:, ecc).</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>-	Dataset:</B>
+(selezionabile anche dalla lista di quelli presenti) nome del dataset
+a cui la sezione apparterr&agrave;.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>-	Nome
+sezione:</B> &egrave; l'identificativo che caratterizzer&agrave; la
+sezione su supporto ad accesso sequenziale o random. </FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif"><B>-	Densit&agrave;
+nastro:</B> va dato solo per i devices che lo supportano e viene
+utilizzato come parametro del comando VMS INIT/DENSITY=&lt;densit&agrave;&gt;.</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">La conferma
+dell'operazione avviene con il tasto OK.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Per inizializzare un
+disco (non &egrave; possibile in questa modalit&agrave; inizializzare
+nastri) per utilizzarlo come supporto per la memorizzazione di una
+sezione off-line di un archivio da linea di comando dare:</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">&gt; $GRB_EXE/xgrb_initdev.exe  p1 p2
+p3 p4</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm">	p1	nome dataset</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm">	p2	nome sezione</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm">	p3	device su cui trovo
+sezione</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">	p4	nome directory che
+conterr&agrave; i dati su p3</P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.3.2
+Travaso da archivio in linea a storico su disco</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Guida
+l'operatore a salvare alcuni segmenti dalla sezione on line ad una
+sezione ad accesso diretto off line. Prima di attivare questa
+procedura l'operatore deve inserire e montare su di un drive di disco
+rimovibile (per VMS usare il qualificatore /GROUP o /SYS del comando
+MOUNT) il supporto contenente la directory di salvataggio dei dati
+relativi al dataset che verr&agrave; selezionato ed avente come label
+l'identificativo delle sezione interessata al salvataggio. Per VMS al
+primo salvataggio relativo ad una sezione off line, il supporto va
+inizializzato con label uguale all'identificativo prescelto per la
+sezione e quindi montato.</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">L'operatore, dopo aver
+montato il disco rimovibile contenente la sezione off line su cui
+salvare, digita il nome del dataset su cui operare e il device di
+destinazione (o li seleziona da lista), dopo conferma (freccia gi&ugrave;)
+il controllo passa all'impostazione dei campi ausiliari: qui occorre
+impostare il numero segmenti da riversare, da eliminare dopo
+riversamento ed il nome directory su device di destinazione. Solo i
+segmenti non ancora salvati verranno presi in considerazione e solo i
+segmenti gi&agrave; salvati possono essere cancellati.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Se conferma (OK) viene
+poi richiesto se l'esecuzione della procedura deve essere in linea o
+batch, nel primo caso viene attivato il comando VMS:</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	@GRB_COM:GRB_TRAV_0_1
+&lt;nome_dataset&gt; &lt;id_sezione&gt; &lt;nome_device&gt; -
+	&lt;n_segm_da_salvare&gt; &lt;n_segm_da_cancellare&gt;
+&lt;flag_compressione (S)&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_trav_0_1
+&lt;nome_dataset&gt; &lt;id_sezione&gt; &lt;nome_device&gt; -
+	&lt;n_segm_da_salvare&gt; &lt;n_segm_da_cancellare&gt;
+&lt;flag_compressione (S)&gt; 0</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+l'output della diagnostica viene mandato a video. Nel secondo caso
+viene attivato il comando VMS:</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	SUBM/KEEP/NOPRIN/LOG=GRB_WORK:T01_&lt;nome_dataset&gt;_aammgg.LOG
+-	GRB_COM:GRB_TRAV_0_1/PARAM=(&quot;&lt;nome_dataset&gt;&quot;,&quot;&lt;id_sezione&gt;&quot;,-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&quot;&lt;nome_device&gt;&quot;,&quot;&lt;n_segm_da_salvare&gt;&quot;,&quot;&lt;n_segm_da_cancellare&gt;&quot;,-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&quot;&lt;flag_compressione
+(S)&gt;&quot;)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_trav_0_1
+&lt;nome_dataset&gt;,&lt;id_sezione&gt;,&lt;nome_device&gt;,</B></I></FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&lt;n_segm_da_salvare&gt;,&lt;n_segm_da_cancellare&gt;,-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&lt;flag_compressione
+(S)&gt; $GRB_WORK:T01_&lt;nome_dataset&gt;_aammgg.LOG -</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+l'output della diagnostica viene mandato sul log file.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Per travasare da on line a primo
+salvataggio off-line da linea di comando dare:</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><I>&gt; xgrb_trav_0_1 p1 p2 p3 p4</I></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">	p1	nome dataset</P>
+<P STYLE="margin-bottom: 0cm">	p2	nome sezione</P>
+<P STYLE="margin-bottom: 0cm">	p3	device su cui trovo sezione</P>
+<P STYLE="margin-bottom: 0cm">	p4	numero dei segmenti da salvare</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.3.3
+  Travaso da primo livello storico ad archivio su 			nastro</B></FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Guida l'operatore a
+salvare su supporto ad accesso sequenziale i segmenti di un archivio
+presente in supporto ad accesso random.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Dopo
+aver montato il disco rimovibile e il nastro, l'operatore digita il
+nome del dataset su cui operare e i devices di origine e destinazione
+(o li seleziona da lista), dopo conferma (freccia gi&ugrave;) il
+controllo passa all'impostazione dei campi ausiliari: qui occorre
+impostare il numero segmenti da riversare e da eliminare dopo
+riversamento.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Su
+conferma (OK) viene poi richiesto se l'esecuzione della procedura
+deve essere in linea o batch, nel primo caso viene attivato il
+comando VMS:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	@GRB_COM:GRB_TRAV_1_2
+&lt;nome_dataset&gt; &lt;id_sezione_1&gt; &lt;nome_device_1&gt; -</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&lt;id_sezione_2&gt;
+&lt;nome_device_2&gt; &lt;n_segm_da_salvare&gt;
+&lt;n_segm_da_cancellare&gt; -</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&lt;flag_di_compressione
+(S)&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_trav_1_2
+&lt;nome_dataset&gt; &lt;id_sezione_1&gt; &lt;nome_device_1&gt; -</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&lt;id_sezione_2&gt;
+&lt;nome_device_2&gt; &lt;n_segm_da_salvare&gt;
+&lt;n_segm_da_cancellare&gt; -</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&lt;flag_di_compressione
+(S)&gt; 0</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+l'output della diagnostica viene mandato a video. Nel secondo caso
+viene attivato il comando VMS:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	SUBM/KEEP/NOPRIN/LOG=GRB_WORK:T12_&lt;nome_dataset&gt;_aammgg.LOG
+-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	GRB_COM:GRB_TRAV_1_2/PARAM=(&quot;&lt;nome_dataset&gt;&quot;,&quot;&lt;id_sezione_1&gt;&quot;,-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&quot;&lt;nome_device_1&gt;&quot;,&quot;&lt;id_sezione_2&gt;&quot;,&quot;&lt;nome_device_2&gt;&quot;,&quot;&lt;n_segm_da_salvare&gt;&quot;,-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&quot;&lt;n_segm_da_cancellare&gt;&quot;,&quot;&lt;flag_di_compressione
+(S)&gt;&quot;)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_trav_1_2
+&lt;nome_dataset&gt; &lt;id_sezione_1&gt; &lt;nome_device_1&gt; -</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&lt;id_sezione_2&gt;
+&lt;nome_device_2&gt; &lt;n_segm_da_salvare&gt;
+&lt;n_segm_da_cancellare&gt; -</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&lt;flag_di_compressione
+(S)&gt; $GRB_WORK:T12_&lt;nome_dataset&gt;_aammgg.LOG</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Per
+travasa da primo salvataggio off-line a nastro da linea di comando
+dare:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><I>&gt; xgrb_trav_1_2 p1 p2 p3 p4 p5 p6</I></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">	p1	nome dataset</P>
+<P STYLE="margin-bottom: 0cm">	p2	nome sezione da salvare</P>
+<P STYLE="margin-bottom: 0cm">	p3	device su cui trovo sezione da
+salvare</P>
+<P STYLE="margin-bottom: 0cm">	p4	nome sezione su cui salvare</P>
+<P STYLE="margin-bottom: 0cm">	p5	device su cui trovo sezione su cui
+salvare salvare</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">	p6	numero dei segmenti
+da salvare</P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.3.4
+  Ripulitura archivio in linea dai dati travasati</B></FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Guida l'operatore ad
+eliminare dall'archivio in linea i segmenti travasati su supporto ad
+accesso random.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">L'operatore
+digita il nome del dataset su cui operare (o lo seleziona da lista),
+dopo conferma (freccia gi&ugrave;) il controllo passa
+all'impostazione dei campi ausiliari in cui occorre impostare il
+numero dei segmenti da eliminare.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Su
+conferma (OK) viene poi richiesto se l'esecuzione della procedura
+deve essere in linea o batch, nel primo caso viene attivato il
+comando VMS:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	@GRB_COM:GRB_PULI_0_1
+&lt;nome_dataset&gt; ON_LINE NULL &lt;n_segm_da_cancellare&gt; 	-
+&lt;flag_di_compressione (S)&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_puli_0_1
+&lt;nome_dataset&gt; ON_LINE NULL &lt;n_segm_da_cancellare&gt; 	-
+&lt;flag_di_compressione (S)&gt; 0</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+l'output della diagnostica viene mandato a video. Nel secondo caso
+viene attivato il comando VMS:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	SUBM/KEEP/NOPRIN/LOG=GRB_WORK:P0_&lt;nome_dataset&gt;_aammgg.LOG
+-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	GRB_COM:GRB_PULI_0_1/PARAM=(&quot;&lt;nome_dataset&gt;&quot;,&quot;ON_LINE&quot;,&quot;NULL&quot;,-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&quot;&lt;n_segm_da_cancellare&gt;&quot;,&quot;&lt;flag_di_compressione
+(S)&gt;&quot;)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_puli_0_1
+&lt;nome_dataset&gt; ON_LINE NULL &lt;n_segm_da_cancellare&gt; 	-
+&lt;flag_di_compressione (S)&gt;
+$GRB_WORK:P0_&lt;nome_dataset&gt;_aammgg.LOG</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Per
+pulire da una sezione on line il numero dichiarato di salvati con
+linea di comando dare</FONT></FONT><FONT FACE="Times New Roman, serif">:</FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><I>&gt; xgrb_puli_0_1.f p1 ON_LINE NULL
+p4</I></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">	p1	nome dataset</P>
+<P STYLE="margin-bottom: 0cm">	p2	nome sezione (ON_LINE se on line)</P>
+<P STYLE="margin-bottom: 0cm">	p3	device su cui trovo sezione</P>
+<P STYLE="margin-bottom: 0cm">	p4	numero dei segmenti da pulire (solo
+se salvati)</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.3.5
+  Ripulitura archivio storico su disco dai dati 			travasati</B></FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Guida l'operatore ad
+eliminare dall'archivio in device ad accesso random i segmenti
+travasati su supporto ad accesso sequenziale.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Dopo
+aver montato il disco rimovibile, l'operatore digita il nome del
+dataset su cui operare e il device ad accesso random (o li seleziona
+da lista), dopo conferma (freccia gi&ugrave;) il controllo passa
+all'impostazione dei campi ausiliari in cui occorre impostare il
+numero dei segmenti da eliminare.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Su
+conferma (OK) viene poi richiesto se l'esecuzione della procedura
+deve essere in linea o batch, nel primo caso viene attivato il
+comando VMS:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	@GRB_COM:GRB_PULI_0_1
+&lt;nome_dataset&gt; &lt;id_sezione&gt; &lt;nome_device&gt; -</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&lt;n_segm_da_cancellare&gt;
+&lt;flag_di_compressione (S)&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_puli_0_1
+&lt;nome_dataset&gt; &lt;id_sezione&gt; &lt;nome_device&gt; -</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&lt;n_segm_da_cancellare&gt;
+&lt;flag_di_compressione (S)&gt; 0</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+l'output della diagnostica viene mandato a video. Nel secondo caso
+viene attivato il comando VMS:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	SUBM/KEEP/NOPRIN/LOG=GRB_WORK:P1_&lt;nome_dataset&gt;_aammgg.LOG
+-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	GRB_COM:GRB_PULI_0_1/PARAM=(&quot;&lt;nome_dataset&gt;&quot;,&quot;&lt;id_sezione&gt;&quot;,&quot;&lt;nome_device&gt;	&quot;,-
+&quot;&lt;n_segm_da_cancellare&gt;&quot;,&quot;&lt;flag_di_compressione
+(S)&gt;&quot;)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_puli_0_1
+&lt;nome_dataset&gt; &lt;id_sezione&gt; &lt;nome_device&gt; -</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&lt;n_segm_da_cancellare&gt;
+&lt;flag_di_compressione (S)&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_WORK:P1_&lt;nome_dataset&gt;_aammgg.LOG</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Per
+pulire da una sezione su disco il numero dichiarato di salvati con
+linea di comando dare</FONT></FONT><FONT FACE="Times New Roman, serif">:</FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><I>&gt; xgrb_puli_0_1.f p1 p2 p3 p4</I></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">	p1	nome dataset</P>
+<P STYLE="margin-bottom: 0cm">	p2	nome sezione (ON_LINE se on line)</P>
+<P STYLE="margin-bottom: 0cm">	p3	device su cui trovo sezione</P>
+<P STYLE="margin-bottom: 0cm">	p4	numero dei segmenti da pulire (solo
+se salvati)</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm; page-break-before: always">
+<BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.4
+  Manutenzione archivi</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Tramite
+le funzioni di questa sezione &egrave; possibile aggiornare con
+eventuali dati di segmenti fuori ordine le opportune sezioni su
+supporto magnetico ad accesso diretto ed eliminare quindi i segmenti
+dal buffer on line; e ricostruire la situazione dell'indice e dei
+contatori di testata delle sezioni on line ed off line ad accesso
+diretto a partire dai dati GRIB memorizzati nei segmenti della
+sezione, con queste procedure vengono anche compattati verso l'alto i
+segmenti dati contenenti GRIB duplicati.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.4.1
+  Infittimento archivio storico su disco</B></FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Guida
+l'operatore ad allineare, una sezione alla volta, per un dato
+archivio tutte le sezioni non on line e ad accesso diretto con i dati
+dei segmenti fuori ordine presenti nella sezione on line. Le sezioni
+su device ad accesso diretto non sono allineabili in maniera
+semplice, e comunque non vengono prese in considerazione dalle
+procedure guidate.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Dopo
+aver montato su device ad accesso random il disco con label uguale al
+nome di una delle sezioni da allineare, l'operatore digita il nome
+del dataset da allineare con i dati OOO e il device ad accesso random
+(o li seleziona da lista), dopo conferma (freccia gi&ugrave;) il
+controllo passa alla sezione di conferma (OK) o rinuncia (USCITA)
+dell'operazione</FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Su
+conferma (OK) viene poi richiesto se l'esecuzione della procedura
+deve essere in linea o batch, nel primo caso viene attivato il
+comando VMS:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	@GRB_COM:GRB_OOO_1
+&lt;nome_dataset&gt; &lt;id_sezione&gt; &lt;nome_device&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_ooo_1
+&lt;nome_dataset&gt; &lt;id_sezione&gt; &lt;nome_device&gt; 0</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+l'output della diagnostica viene mandato a video. Nel secondo caso
+viene attivato il comando VMS:</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	SUBM/KEEP/NOPRIN/LOG=GRB_WORK:O1_&lt;nome_dataset&gt;_aammgg.LOG
+-	GRB_COM:GRB_OOO_1/PARAM=(&quot;&lt;nome_dataset&gt;&quot;,&quot;&lt;id_sezione&gt;&quot;,-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&quot;&lt;nome_device&gt;&quot;)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_ooo_1
+&lt;nome_dataset&gt; &lt;id_sezione&gt; &lt;nome_device&gt; </B></I></FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_WORK:O1_&lt;nome_dataset&gt;_aammgg.LOG</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+l'output della diagnostica viene mandato sul log file.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><I>&gt; xgrb_ooo_1 p1 p2 p3</I></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">	p1	nome dataset</P>
+<P STYLE="margin-bottom: 0cm">	p2	nome sezione off line ad accesso
+diretto</P>
+<P STYLE="margin-bottom: 0cm">	p3	device su cui trovo sezione</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.4.2.
+ Eliminazione segmenti fuori ordine da archivio  	        in linea</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Questa
+procedura domanda in input semplicemente il nome del dataset da
+servire e presenta poi (freccia) la situazione dei segmenti fuori
+ordine attualmente in linea con l'elenco delle sezioni interessate
+all'aggiornamento. Domanda poi conferma all'operatore prima di
+procedere alla cancellazione dei segmenti fuori ordine. E'
+responsabilit&agrave; dell'operatore cancellare i segmenti solo dopo
+aver allineato tutte le sezioni allineabili interessate, se ci&ograve;
+&egrave; di interesse.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Il comando equivalente, dato da linea
+di comando &egrave; il seguente:</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><I>&gt; xgrb_ooo_puli p1 p2 p3</I></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">	p1	nome dataset</P>
+<P STYLE="margin-bottom: 0cm">	p2	nome sezione off line ad accesso
+diretto</P>
+<P STYLE="margin-bottom: 0cm">	p3	device su cui trovo sezione</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-left: 2cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.4.3
+  Riorganizzazione e costruzione indice su 			        archivio in
+linea</B></FONT></FONT></P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Questa procedura guida l'operatore a
+ricostruire la situazione della sezione in linea partendo dal
+contenuto dei file tipo nnnnn.aaaammgg relativi ad un dataset. La
+procedura ricostruisce tutte le testate dei segmenti, l'indice
+nnnnn.XON tutti gli indici GRIDlike (vedere apposita sezione) e le
+informazioni contenute nel record di descrizione dell'archivio on
+line nella tabella GRB_DS.FIL . Provvede inoltre ad eliminare
+eventuali GRIB duplicati o monchi dagli archivi. 
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Il sistema domanda come
+al solito il nome dell'archivio da ricostruire, poi, freccia gi&ugrave;,
+passa all'impostazione dei campi ausiliari.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Il bottone &quot;fast
+remake&quot; premuto, provoca la ricostruzione solo degli indici.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Viene poi richiesto se
+l'esecuzione della procedura deve essere in linea o batch, nel primo
+caso viene attivato il comando VMS:</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	@GRB_COM:GRB_REMA_0_1
+&lt;nome_dataset&gt; ON_LINE NULL &lt;flag_GRIDlike&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_rema_0_1
+&lt;nome_dataset&gt; ON_LINE NULL &lt;flag_GRIDlike&gt; 0</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+l'output della diagnostica viene mandato a video. Nel secondo caso
+viene attivato il comando VMS:</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	SUBM/KEEP/NOPRIN/LOG=GRB_WORK:R0_&lt;nome_dataset&gt;_aammgg.LOG
+-	GRB_COM:GRB_REMA_0_1/PARAM=(&quot;&lt;nome_dataset&gt;&quot;,&quot;ON_LINE&quot;,-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	NULL,&quot;&lt;flag_GRIDlike&gt;&quot;)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_rema_0_1
+&lt;nome_dataset&gt; ON_LINE NULL &lt;flag_GRIDlike&gt; </B></I></FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_WORK:R0_&lt;nome_dataset&gt;_aammgg.LOG</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+l'output della diagnostica viene mandato sul log file.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Il comando equivalente, dato da linea
+di comando &egrave; il seguente:</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><I>&gt; xgrb_rema_0_1 p1 ON_LINE NULL
+p4</I></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">	p1	nome dataset</P>
+<P STYLE="margin-bottom: 0cm">	p2	nome sezione (ON_LINE se on line)</P>
+<P STYLE="margin-bottom: 0cm">	p3	device su cui trovo sezione</P>
+<P STYLE="margin-bottom: 0cm">	p4	flag di FAST REMAKE o NORMAL REMAKE</P>
+<P STYLE="margin-bottom: 0cm">		(SF_ppppp_aaaammgghhmm=fast,
+SN=normale</P>
+<P STYLE="margin-bottom: 0cm">		 dove: 	ppppp		passo emissione in
+minuti</P>
+<P STYLE="margin-bottom: 0cm"> 				aaaammgghhmm	data inferiore
+archivio)</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm; page-break-before: always"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>5.4.4
+  Riorganizzazione e costruzione indice su 			        archivio
+storico su disco</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">Compie
+le stesse operazioni della funzione precedente su di una sezione off
+line su device ad accesso diretto.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Il sistema richiede il
+dataset ed il device su cui l'operatore avr&agrave; montato un disco
+con label uguale al nome della sezione da ricostruire, poi, freccia
+gi&ugrave;, passa all'impostazione dei campi ausiliari.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Il bottone &quot;fast
+remake&quot; premuto provoca la ricostruzione solo degli indici.</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=JUSTIFY STYLE="margin-bottom: 0cm">Viene poi richiesto se
+l'esecuzione della procedura deve essere in linea o batch, nel primo
+caso viene attivato il comando VMS:</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	@GRB_COM:GRB_REMA_0_1
+&lt;nome_dataset&gt; &lt;id_sezione&gt; &lt;nome_device&gt; -
+	&lt;flag_GRIDlike&gt;</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_rema_0_1
+&lt;nome_dataset&gt; &lt;id_sezione&gt; &lt;nome_device&gt; -
+	&lt;flag_GRIDlike&gt; 0</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+l'output della diagnostica viene mandato a video. Nel secondo caso
+viene attivato il comando VMS:</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	SUBM/KEEP/NOPRIN/LOG=GRB_WORK:R1_&lt;nome_dataset&gt;_aammgg.LOG
+-	GRB_COM:GRB_REMA_0_1/PARAM=(&quot;&lt;nome_dataset&gt;&quot;,&quot;&lt;id_sezione&gt;&quot;,-</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	&quot;&lt;nome_device&gt;&quot;,&quot;&lt;flag_GRIDlike&gt;&quot;)</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">o
+UNIX:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt"><I><B>	$GRB_COM/grb_rema_0_1
+&lt;nome_dataset&gt; &lt;id_sezione&gt; &lt;nome_device&gt; -
+	&lt;flag_GRIDlike&gt; $GRB_WORK:R1_&lt;nome_dataset&gt;_aammgg.LOG</B></I></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Helvetica, sans-serif"><FONT SIZE=2 STYLE="font-size: 11pt">e
+l'output della diagnostica viene mandato sul log file.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Il comando equivalente, dato da linea
+di comando &egrave; il seguente:</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><I>&gt; xgrb_rema_0_1 p1 p2 p3 p4</I></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">	p1	nome dataset</P>
+<P STYLE="margin-bottom: 0cm">	p2	nome sezione (ON_LINE se on line)</P>
+<P STYLE="margin-bottom: 0cm">	p3	device su cui trovo sezione</P>
+<P STYLE="margin-bottom: 0cm">	p4	flag di FAST REMAKE o NORMAL REMAKE</P>
+<P STYLE="margin-bottom: 0cm">		(SF_ppppp_aaaammgghhmm=fast,
+SN=normale</P>
+<P STYLE="margin-bottom: 0cm">		 dove: 	ppppp		passo emissione in
+minuti</P>
+<P STYLE="margin-bottom: 0cm"> 				aaaammgghhmm	data inferiore
+archivio)</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<DIV TYPE=FOOTER>
+	<P STYLE="margin-top: 1.27cm; margin-bottom: 0cm"><B><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">PICO
+	data s.r.l.	</FONT></FONT></B><FONT FACE="Times New Roman, serif">	</FONT><B><FONT SIZE=2 STYLE="font-size: 11pt"><FONT FACE="Helvetica, sans-serif">Pagina
+	- <SDFIELD TYPE=PAGE SUBTYPE=RANDOM FORMAT=ARABIC>64</SDFIELD></FONT></FONT></B></P>
+</DIV>
+</BODY>
+</HTML>

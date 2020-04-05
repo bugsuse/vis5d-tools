@@ -1,0 +1,109 @@
+#!/bin/sh
+
+# Vis5D version 4.2
+
+
+# Compile and link a VIS-5D external function.
+# usage:
+#    externf function [lib1 lib2 ... libn]
+# where:
+#    function.f is the user-written function in FORTRAN
+#    lib1..libn are other user-specified libraries to link with
+
+
+### NOTE FOR IRIX 6.0.1 USERS ###
+# Remove all occurances of -n32 from this file!
+
+
+
+EXTFUNC=$1
+EXTLIBS="$2 $3 $4 $5 $6"
+
+
+# Make a quick check to see if the function conforms to the
+# version 4.0 calling conventions
+
+check=`grep -i PROJECTION $1.f`
+
+if [ "$check" ] ; then
+	echo "Compiling $EXTFUNC.f..."
+else
+	echo "Error: $EXTFUNC.f doesn't appear to be a version 4.0 function."
+	echo "  Verify that your function accepts the arguments as seen"
+	echo "  in the example.f file.  Functions which worked with previous"
+	echo "  versions of VIS-5D will have to be updated to work with this"
+	echo "  version."
+	echo "  Note: the error was detected because the PROJECTION argument"
+	echo "  is missing from USERFUNC."
+	exit 1
+fi
+
+
+# Determine what system we're running on to set appropriate variables
+
+id=`uname`
+
+if [ $id = 'IRIX' ] ; then
+	# SGI
+	CFLAGS='-c -O2 -DUNDERSCORE'
+	FFLAGS='-c -O2'
+elif [ $id = 'IRIX64' ] ; then
+	# SGI
+	CFLAGS='-c -n32 -O2 -DUNDERSCORE'
+	FFLAGS='-c -n32 -O2'
+	LFLAGS='-n32'
+elif [ $id = 'AIX' ] ; then
+	# IBM RS/6000
+	CFLAGS='-c -O -Dibm'
+	FFLAGS='-c -O'
+elif [ $id = 'FreeBSD' ] ; then
+	# FreeBSD
+	echo "Fortran needed for external functions"
+	exit 1
+elif [ $id = 'HP-UX' ] ; then
+	# HP
+	CFLAGS='-c -Aa -O -D_HPUX_SOURCE'
+	FFLAGS='-c -O'
+elif [ $id = 'SunOS' ] ; then
+	# Sun
+	if [ `uname -r | grep '^5'` ] ; then
+		# SunOS 5.x
+		LFLAGS='-lF77 -lsocket'
+		CFLAGS='-Xa -c -O -DUNDERSCORE'
+		FFLAGS='-c -O'
+	else
+		# SunOS 4
+		if [ ! -r libF77.a ] ; then
+			ln -s /usr/lang/SC1.0/libF77.a .
+		fi
+		LFLAGS='-L./ -lF77'
+		CFLAGS='-c -O -DUNDERSCORE'
+		FFLAGS='-c -O'
+	fi
+elif [ $id = 'OSF1' ] ; then
+	# DEC Alpha / Denali
+	CFLAGS='-c -traditional -O -DUNDERSCORE'
+	FFLAGS='-c -O -nofor_main'
+	LFLAGS='-nofor_main'
+elif [ $id = 'Linux' ] ; then
+	# Linux
+	echo "Fortran needed for external functions"
+	exit 1
+elif [ $id = 'FOO' ] ; then
+	# Other
+	CFLAGS='-c -O'
+	FFLAGS='-c -O'
+else
+	echo "externf error:  can't determine system type"
+	exit 1
+fi
+
+
+export CFLAGS
+export FFLAGS
+export LFLAGS
+export EXTFUNC
+export EXTLIBS
+
+
+make -f externf.m

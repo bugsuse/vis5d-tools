@@ -1,0 +1,69 @@
+<HTML><HEAD><TITLE>
+ SET_CLUSTER
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">set_cluster</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/set_cluster.f">/disk3/patruno/lib/mega/set_cluster.f</A> <HR>
+<PRE>
+ SUBROUTINE SET_CLUSTER (K,LAT,LON,HSTAZ,IMESE,ICLUSTER,IER)
+
+	Questa routine definisce, dato un vettore di stazioni, il cluster di
+	appartenenza di ogni stazione. I cluster sono stati definiti sulla base
+	della climatologia indentificata da Nanni.
+
+	Vengono definiti cluster diversi a seconda del mese relativo.
+
+===============================================================================
+	Sempre valido
+
+	CLUSTER = 0 		Fuori dai limiti regionali
+				(lat. min.= 43.4, lat. max.= 45.1,
+				 lon. min.=  9.1, lon. max.= 12.5,
+				 definiti in centesimali)
+===============================================================================
+	OTTOBRE-APRILE (Inverno)
+
+	CLUSTER = 0 		Stazione di montagna HSTAZ &gt; 500. metri
+	CLUSTER = 1		Stazione di pianura
+===============================================================================
+	AGOSTO-SETTEMBRE
+
+	CLUSTER = 0		Se Lat.&lt; 44.7 e Lon &lt; 10.5
+	CLUSTER = 1		Se Lat.&gt; 44.7
+	CLUSTER = 2		Se Lat.&lt; 44.7 e 10.5 &lt; Lon. &lt; 11.5
+	CLUSTER = 3		Se Lat.&lt; 44.7 e Lon. &gt; 11.5
+===============================================================================
+	MAGGIO-LUGLIO
+
+	CLUSTER = 0 		Stazioni di montagna HSTAZ &gt; 500. metri
+	CLUSTER = 1		Se Lon. &lt; 10.2 		
+	CLUSTER = 2		Se 10.2 &lt; Lon. &lt; 11.2
+	CLUSTER = 3		Se Lon. &gt; 11.2
+===============================================================================
+
+	dove Lat. e Lon. sono  le coordinate delle stazioni in gradi
+	centesimali e HSTAZ le altezze delle stazioni
+
+===============================================================================
+	INPUT:
+
+	K		I*4	Numero stazioni da suddividere in cluster
+	LAT(K)	     Real*4	Vettore latitudine stazioni espresse in
+				gradi centesimali
+	LON(K)	     Real*4	Vettore longitudine stazioni espresse in
+				gradi centesimali
+	HSTAZ(K)     Real*4	Vettore altezze stazioni espresse in metri
+	IMESE		I*4	Mese relativo alla suddivisione in cluster
+
+===============================================================================
+	OUTPUT:
+
+	ICLUSTER(K)	I*4	Vettore contenente il cluster relativo ad ogni
+				stazione
+	IER		I*4	IER=0 (non utilizzato)
+
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

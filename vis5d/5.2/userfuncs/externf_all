@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Compile all the functions in the userfuncs directory
+
+
+for file in *.f; do
+	x=`echo $file | sed "s/\.f//g"`
+	./externf $x
+done

@@ -1,0 +1,247 @@
+LICENZA PUBBLICA GENERICA (GPL) DI ARPA SMR - Versione 1, Aprile 2000
+
+Copyright (C) 2000 Agenzia Regionale Prevenzione e Ambiente (ARPA) Servizio
+Meteorologico Regionale (SMR), Viale Silvani 6, 40122 Bologna, Italia
+
+Tutti possono copiare e distribuire copie letterali di questo documento di
+licenza, ma non è permesso modificarlo.
+
+Seguono i termini e le condizioni precisi per la copia, la distribuzione e
+la modifica.
+
+LICENZA PUBBLICA GENERICA GNU - TERMINI E CONDIZIONI PER LA COPIA, LA
+DISTRIBUZIONE E LA MODIFICA
+
+0. Questa Licenza si applica a ogni Programma o altra opera che contenga una
+nota da parte del detentore del diritto d'autore che dica che tale opera può
+essere distribuita nei termini di questa Licenza Pubblica Generica. Il
+termine «Programma» nel seguito indica ognuno di questi programmi o lavori,
+e l'espressione «lavoro basato sul Programma» indica sia il Programma sia
+ogni opera considerata «derivata» in base alla legge sul diritto d'autore:
+cioè un lavoro contenente il Programma o una porzione di esso, sia
+letteralmente sia modificato e/o tradotto in un'altra lingua; da qui in
+avanti, la traduzione è in ogni caso considerata una «modifica». Vengono ora
+elencati i diritti dei detentori di licenza.
+
+Attività diverse dalla copiatura, distribuzione e modifica non sono coperte
+da questa Licenza e sono al di fuori della sua influenza. L'atto di eseguire
+il programma non viene limitato, e l'output del programma è coperto da
+questa Licenza solo se il suo contenuto costituisce un lavoro basato sul
+Programma (indipendentemente dal fatto che sia stato creato eseguendo il
+Programma). In base alla natura del Programma il suo output può essere o
+meno coperto da questa Licenza.
+
+1. È lecito copiare e distribuire copie letterali del codice sorgente del
+Programma così come viene ricevuto, con qualsiasi mezzo, a condizione che
+venga riprodotta chiaramente su ogni copia un'appropriata nota di diritto
+d'autore e di assenza di garanzia; che si mantengano intatti tutti i
+riferimenti a questa Licenza e all'assenza di ogni garanzia; che si dia a
+ogni altro acquirente del Programma una copia di questa Licenza insieme al
+Programma.
+
+È possibile richiedere un pagamento per il trasferimento fisico di una copia
+del Programma, è anche possibile a propria discrezione richiedere un
+pagamento in cambio di una copertura assicurativa.
+
+2. È lecito modificare la propria copia o copie del Programma, o parte di
+esso, creando perciò un lavoro basato sul Programma, e copiare o distribuire
+queste modifiche e questi lavori secondo i termini del precedente comma 1, a
+patto che vengano soddisfatte queste condizioni:
+
+a) Bisogna indicare chiaramente nei file che si tratta di copie modificate e
+la data di ogni modifica.
+
+b) Bisogna fare in modo che ogni lavoro distribuito o pubblicato, che in
+parte o nella sua totalità derivi dal Programma o da parti di esso, sia
+utilizzabile gratuitamente da terzi nella sua totalità, secondo le
+condizioni di questa licenza.
+
+c) Se di solito il programma modificato legge comandi interattivamente
+quando viene eseguito, bisogna fare in modo che all'inizio dell'esecuzione
+interattiva usuale, stampi un messaggio contenente un'appropriata nota di
+diritto d'autore e di assenza di garanzia (oppure che specifichi che si
+offre una garanzia). Il messaggio deve inoltre specificare agli utenti che
+possono ridistribuire il programma alle condizioni qui descritte e deve
+indicare come consultare una copia di questa licenza. Se però il programma
+di partenza è interattivo ma normalmente non stampa tale messaggio, non
+occorre che un lavoro derivato lo stampi.
+
+Questi requisiti si applicano al lavoro modificato nel suo complesso. Se
+sussistono parti identificabili del lavoro modificato che non siano derivate
+dal Programma e che possono essere ragionevolmente considerate lavori
+indipendenti, allora questa Licenza e i suoi termini non si applicano a
+queste parti quando vengono distribuite separatamente. Se però queste parti
+vengono distribuite all'interno di un prodotto che è un lavoro basato sul
+Programma, la distribuzione di questo prodotto nel suo complesso deve
+avvenire nei termini di questa Licenza, le cui norme nei confronti di altri
+utenti si estendono a tutto il prodotto, e quindi a ogni sua parte, chiunque
+ne sia l'autore.
+
+Sia chiaro che non è nelle intenzioni di questa sezione accampare diritti su
+lavori scritti interamente da altri, l'intento è piuttosto quello di
+esercitare il diritto di controllare la distribuzione di lavori derivati o
+dal Programma o di cui esso sia parte.
+
+Inoltre, se il Programma o un lavoro derivato da esso viene aggregato a un
+altro lavoro non derivato dal Programma su di un mezzo di memorizzazione o
+di distribuzione, il lavoro non derivato non ricade nei termini di questa
+licenza.
+
+3. È lecito copiare e distribuire il Programma (o un lavoro basato su di
+esso, come espresso al comma 2) sotto forma di codice oggetto o eseguibile
+secondo i termini dei precedenti commi 1 e 2, a patto che si applichi una
+delle seguenti condizioni:
+
+a) Il Programma sia corredato dal codice sorgente completo, in una forma
+leggibile dal calcolatore e tale sorgente deve essere fornito secondo le
+regole dei precedenti commi 1 e 2 su di un mezzo comunemente usato per lo
+scambio di programmi.
+
+b) Il Programma sia accompagnato da un'offerta scritta, valida per almeno
+tre anni, di fornire a chiunque ne faccia richiesta una copia completa del
+codice sorgente, in una forma leggibile dal calcolatore, in cambio di un
+compenso non superiore al costo del trasferimento fisico di tale copia, che
+deve essere fornita secondo le regole dei precedenti commi 1 e 2 su di un
+mezzo comunemente usato per lo scambio di programmi.
+
+c) Il Programma sia accompagnato dalle informazioni che sono state ricevute
+riguardo alla possibilità di ottenere il codice sorgente. Questa alternativa
+è permessa solo in caso di distribuzioni non commerciali e solo se il
+programma è stato ricevuto sotto forma di codice oggetto o eseguibile in
+accordo al precedente punto b).
+
+Per «codice sorgente completo» di un lavoro si intende la forma
+preferenziale usata per modificare un lavoro. Per un programma eseguibile,
+«codice sorgente completo» significa tutto il codice sorgente di tutti i
+moduli in esso contenuti, più ogni file associato che definisca le
+interfacce esterne del programma, più gli script usati per controllare la
+compilazione e l'installazione dell'eseguibile. In ogni caso non è
+necessario che il codice sorgente fornito includa nulla che sia normalmente
+distribuito (in forma sorgente o in formato binario) con i principali
+componenti del sistema operativo sotto cui viene eseguito il Programma
+(compilatore, kernel, e così via), a meno che tali componenti accompagnino
+l'eseguibile.
+
+Se la distribuzione dell'eseguibile o del codice oggetto è effettuata
+indicando un luogo dal quale sia possibile copiarlo, permettere la copia del
+codice sorgente dallo stesso luogo è considerata una valida forma di
+distribuzione del codice sorgente, anche se copiare il sorgente è
+facoltativo per l'acquirente.
+
+4. Non è lecito copiare, modificare, sublicenziare, o distribuire il
+Programma in modi diversi da quelli espressamente previsti da questa
+Licenza. Ogni tentativo contrario di copiare, modificare, sublicenziare o
+distribuire il Programma è legalmente nullo, e farà cessare automaticamente
+i diritti garantiti da questa Licenza. D'altra parte ogni acquirente che
+abbia ricevuto copie, o diritti, coperti da questa Licenza da parte di
+persone che violano la Licenza come qui indicato non vedranno invalidare la
+loro Licenza, purché si comportino conformemente a essa.
+
+5. L'acquirente non è obbligato ad accettare questa Licenza, poiché non l'ha
+firmata. D'altra parte nessun altro documento garantisce il permesso di
+modificare o distribuire il Programma o i lavori derivati da esso. Queste
+azioni sono proibite dalla legge per chi non accetta questa Licenza; perciò,
+modificando o distribuendo il Programma o un lavoro basato sul programma, si
+accetta implicitamente questa Licenza e quindi di tutti i suoi termini e le
+condizioni poste sulla copia, la distribuzione e la modifica del Programma o
+di lavori basati su di esso.
+
+6. Ogni volta che il Programma o un lavoro basato su di esso vengono
+distribuiti, l'acquirente riceve automaticamente una licenza d'uso da parte
+del licenziatario originale. Tale licenza regola la copia, la distribuzione
+e la modifica del Programma secondo questi termini e queste condizioni. Non
+è lecito imporre restrizioni ulteriori all'acquirente nel suo esercizio dei
+diritti qui garantiti. Chi distribuisce programmi coperti da questa Licenza
+non è comunque responsabile per la conformità alla Licenza da parte di
+terzi.
+
+7. Se, come conseguenza del giudizio di un tribunale, o di un'imputazione
+per la violazione di un brevetto o per ogni altra ragione (anche non
+relativa a questioni di brevetti), vengono imposte condizioni che
+contraddicono le condizioni di questa licenza, che queste condizioni siano
+dettate dal tribunale, da accordi tra le parti o altro, queste condizioni
+non esimono nessuno dall'osservazione di questa Licenza. Se non è possibile
+distribuire un prodotto in un modo che soddisfi simultaneamente gli obblighi
+dettati da questa Licenza e altri obblighi pertinenti, il prodotto non può
+essere distribuito affatto. Per esempio, se un brevetto non permettesse a
+tutti quelli che lo ricevono di ridistribuire il Programma senza obbligare
+al pagamento di diritti, allora l'unico modo per soddisfare
+contemporaneamente il brevetto e questa Licenza è di non distribuire affatto
+il Programma.
+
+Se parti di questo comma sono ritenute non valide o inapplicabili per
+qualsiasi circostanza, deve comunque essere applicata l'idea espressa da
+questo comma; in ogni altra circostanza invece deve essere applicato il
+comma 7 nel suo complesso.
+
+Non è nello scopo di questo comma indurre gli utenti a violare alcun
+brevetto né ogni altra rivendicazione di diritti di proprietà, né di
+contestare la validità di alcuna di queste rivendicazioni; lo scopo di
+questo comma è solo quello di proteggere l'integrità del sistema di
+distribuzione del software libero, che viene realizzato tramite l'uso della
+licenza pubblica. Molte persone hanno contribuito generosamente alla vasta
+gamma di programmi distribuiti attraverso questo sistema, basandosi
+sull'applicazione consistente di tale sistema. L'autore/donatore può
+decidere di sua volontà se preferisce distribuire il software avvalendosi di
+altri sistemi, e l'acquirente non può imporre la scelta del sistema di
+distribuzione.
+
+Questo comma serve a rendere il più chiaro possibile ciò che crediamo sia
+una conseguenza del resto di questa Licenza.
+
+8. Se in alcuni paesi la distribuzione e/o l'uso del Programma sono limitati
+da brevetto o dall'uso di interfacce coperte da diritti d'autore, il
+detentore del copyright originale che pone il Programma sotto questa Licenza
+può aggiungere limiti geografici espliciti alla distribuzione, per escludere
+questi paesi dalla distribuzione stessa, in modo che il programma possa
+essere distribuito solo nei paesi non esclusi da questa regola. In questo
+caso i limiti geografici sono inclusi in questa Licenza e ne fanno parte a
+tutti gli effetti.
+
+9. All'occorrenza ARPA SMR può pubblicare revisioni o nuove versioni di
+questa Licenza Pubblica Generica. Tali nuove versioni saranno simili a
+questa nello spirito, ma potranno differire nei dettagli al fine di coprire
+nuovi problemi e nuove situazioni.
+
+Ad ogni versione viene dato un numero identificativo. Se il Programma
+asserisce di essere coperto da una particolare versione di questa Licenza e
+«da ogni versione successiva», l'acquirente può scegliere se seguire le
+condizioni della versione specificata o di una successiva. Se il Programma
+non specifica quale versione di questa Licenza deve applicarsi, l'acquirente
+può scegliere una qualsiasi versione tra quelle pubblicate da ARPA SMR.
+
+10. Se si desidera incorporare parti del Programma in altri programmi liberi
+le cui condizioni di distribuzione differiscano da queste, è possibile
+scrivere all'autore del Programma per chiederne l'autorizzazione. Per il
+software il cui copyright è detenuto da ARPA SMR, si scriva a ARPA SMR;
+talvolta facciamo eccezioni alle regole di questa Licenza. La nostra
+decisione sarà guidata da due scopi: preservare la libertà di tutti i
+prodotti derivati dal nostro software libero e promuovere la condivisione e
+il riutilizzo del software in generale.
+
+NESSUNA GARANZIA
+
+11. POICHÉ IL PROGRAMMA È CONCESSO IN USO GRATUITAMENTE, NON C'È ALCUNA
+GARANZIA PER IL PROGRAMMA, NEI LIMITI PERMESSI DALLE VIGENTI LEGGI. SE NON
+INDICATO DIVERSAMENTE PER ISCRITTO, IL DETENTORE DEL COPYRIGHT E LE ALTRE
+PARTI FORNISCONO IL PROGRAMMA "COSI` COM'È", SENZA ALCUN TIPO DI GARANZIA,
+NÉ ESPLICITA NÉ IMPLICITA; CIÒ COMPRENDE, SENZA LIMITARSI A QUESTO, LA
+GARANZIA IMPLICITA DI COMMERCIABILITÀ E UTILIZZABILITÀ PER UN PARTICOLARE
+SCOPO. L'INTERO RISCHIO CONCERNENTE LA QUALITÀ E LE PRESTAZIONI DEL
+PROGRAMMA È DELL'ACQUIRENTE. SE IL PROGRAMMA DOVESSE RIVELARSI DIFETTOSO,
+L'ACQUIRENTE SI ASSUME IL COSTO DI OGNI MANUTENZIONE, RIPARAZIONE O
+CORREZIONE NECESSARIA.
+
+12. NÉ IL DETENTORE DEL COPYRIGHT NÉ ALTRE PARTI CHE POSSONO MODIFICARE O
+RIDISTRIBUIRE IL PROGRAMMA COME PERMESSO IN QUESTA LICENZA SONO RESPONSABILI
+PER DANNI NEI CONFRONTI DELL'ACQUIRENTE, A MENO CHE QUESTO NON SIA RICHIESTO
+DALLE LEGGI VIGENTI O APPAIA IN UN ACCORDO SCRITTO. SONO INCLUSI DANNI
+GENERICI, SPECIALI O INCIDENTALI, COME PURE I DANNI CHE CONSEGUONO DALL'USO
+O DALL'IMPOSSIBILITÀ DI USARE IL PROGRAMMA; CIÒ COMPRENDE, SENZA LIMITARSI A
+QUESTO, LA PERDITA DI DATI, LA CORRUZIONE DEI DATI, LE PERDITE SOSTENUTE
+DALL'ACQUIRENTE O DA TERZE PARTI E L'INABILITÀ DEL PROGRAMMA A LAVORARE
+INSIEME AD ALTRI PROGRAMMI, ANCHE SE IL DETENTORE O ALTRE PARTI SONO STATE
+AVVISATE DELLA POSSIBILITÀ DI QUESTI DANNI.
+
+FINE DEI TERMINI E DELLE CONDIZIONI
+

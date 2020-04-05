@@ -1,0 +1,424 @@
+comstart ged
+
+				GED
+				---
+			    Grib EDitor
+
+		LINGUAGGIO PER L'ELABORAZIONE DEI GRIB
+
+ VERSIONE 1.03					Paolo Patruno
+ BOLOGNA	17/11/1998
+
+
+			BASI DEL LINGUAGGIO
+
+ il programma in linguaggio GED e' composto da una sequenza di linee
+ simili a quelle del linguaggio BASIC.
+
+ Una linea puo' essere una linea vuota, di commento o di programma.
+ Una linea vuota o di commento non influenza l'esecuzione del
+ programma.  Una linea di commento e' caratterizzata dal carattere #
+ oppure ! in prima colonna.  
+
+ Ogni linea di programma e' composta da un identificativo di linea
+ seguito da uno statment e i parametri richiesti dallo statment
+ separati da almeno uno spazio.
+
+ L'identificativo di linea e' composto da un numero intero compreso tra
+ 1 e 1000. Il programma esegue le linee di programma ordinandole
+ secondo l'identificativo di linea.
+
+ L'interprete del linguaggio e' sensibile ai caratteri minuscoli o maiuscoli.
+
+ L'interprete vine richiamato con il comando
+
+   ged file_programma [-t]
+
+ -t abilita la funzione TRACE
+
+
+ In questo testo i campi delimitati da [] sono opzionali.
+
+ Variabili, statment, parametri e funzioni  vengono qui di seguito descritti
+
+ VARIABILI:
+
+ i tipi di dati utilizzabili possono essere:
+
+ -costanti numeriche reali
+		rappresentate come dal fortran nel formato floating point
+
+ -costanti numeriche intere
+		rappresentate come dal fortran nel formato integer
+
+ -grib (contenenti ovviamente tutte le sezioni del grib)
+		rappresentati dalle lettere dell'alfabeto maiuscole
+		sono attualmente utilizzabili 10 lettere
+		A,B,C,D,E,F,G,H,I,J
+
+ STATMENT e loro PARAMETRI:
+			CONTROLLO DI FLUSSO
+
+ goto 		line
+
+  esegue un salto incondizionato alla linea LINE
+
+ onerrorgoto 	line1 [line2] [line3] ....
+
+  esegue un salto condizionato alle linee specificate
+  se la precedente istruzione ha prodotto un errore di valore inferiore a 1
+  prosegue alla linea successiva
+  se la precedente istruzione ha prodotto un errore di valore uguale a 1
+  salta a LINE1
+  se la precedente istruzione ha prodotto un errore di valore uguale a 2
+  salta a LINE2; se LINE2 non e` specificato il salto viene fatto a LINE1
+  similmente per una condizione di errore uguale a 3 e LINE3 e cosi` via.
+
+ gosub 		line
+
+  esegue la subroutine alla linea LINE. Il numero massimo di nidificazioni 
+  e` 10.
+
+ return
+
+  termina l'esecuzione della subroutine
+
+ exit		[iostat]
+
+  termina l'esecuzione del programma con l'eventuale condizione di errore
+  IOSTAT. Se IOSTAT e' omesso esce con condizione di errore 0.
+
+
+			INPUT E OUTPUT
+
+ open 		[unit] [mode] [file]
+
+  apre il file FILE nella modalita' MODE associandolo all'unita' logica UNIT.
+  Sono tutti parametri opzionali che possono essere omessi pero' nell'ordine
+  da sinistra a destra.
+  UNIT	unita' logica associata al file, da 1 a 10 . (default: 1)
+  MODE   modalita' di apertura del file "r" per read , "w" per write , 
+	"a" per append. (default: r )
+  FILE	nome del file da aprire. (default: grib.intera)
+
+  Ritorna con stato:
+   0 tutto o.k.
+   >0 errore
+
+ close 		[unit]
+
+  chiude il file associato all'unita' logica UNIT
+  se non specificata UNIT viene utilizzata quella della precedente open.
+
+  Ritorna con stato:
+   0 tutto o.k.
+   >0 errore
+
+ read 		[unit] [grib]
+
+  legge dal file un grib depositandolo nella variabile GRIB.
+  Se GRIB viene omesso viene utilizzata la variabile A.
+  UNIT	unita' logica associata al file, da 1 a 10 . 
+	(default: quella dell'ultima operazione eseguita su file)
+
+  Ritorna con stato:
+   0 tutto o.k.
+   1 end of file
+   7000 errore data representation type 
+        code table 6
+   8000 errore sezione 2 omessa
+        non vengono restituiti i parametri descrittori dell'area
+   altri > vedi errori pbgrib/gribex
+
+
+ write 		[unit] [grib]
+
+  scrive nel file un grib depositato nella variabile GRIB
+  Se GRIB viene omesso viene utilizzata la variabile A.
+  UNIT	unita' logica associata al file, da 1 a 10 . 
+	(default: quella dell'ultima operazione eseguita su file)
+
+  Ritorna con stato:
+   0 tutto o.k.
+   >0 errore
+
+ rewind 		[unit]
+
+  UNIT	unita' logica associata al file, da 1 a 10 . 
+	(default: quella dell'ultima operazione eseguita su file)
+
+  Ritorna con stato:
+   0 tutto o.k.
+   >0 errore
+
+			RICERCA GRIB
+
+ setkey		[data:d1,d2,d3] [ora:o1,o2] [scadenza:s1,s2,s3,s4]
+		[livello:l1,l2,l3] [variabile:v1,v2,v3]
+  Imposta la chiave per la ricerca dei grib.
+  Tutti i parametri sono opzionali e le virgole possono essere sostituite
+  da spazi. Se utilizzata senza parametri annulla tutte le impostazioni
+  precedenti altrimenti aggiunge definizioni a quelle gia' presenti.
+  Tutti i campi non definiti assumono valore "giolli". I campi a sinistra
+  dei due punti possono essere abbreviati fino ad essere rappresentati
+  con un solo carattere; i campi a destra dei due punti sono definiti come
+  segue:
+
+	d1	giorno		)	
+	d2	mese		)
+	d3	anno			)  emissione
+	o1	ora		)
+	o2	minuti		)
+	s1	indicator of unit of time range	(table 4)
+	s2	periodo di tempo 1
+	s3	periodo di tempo 2
+	s4	time range indicator 		(table 5)
+	l1	indicator of type of level	(table 3)
+	l2	height, pressure etc. of levels
+	l3	height, pressure etc. of levels
+	v1	identification of originating/generating
+					 centre (table 0)
+	v2	table 2 version number
+	v3	parameter			(table 2)
+
+
+ testkey 	[grib]
+
+  effettua un test di corrispondenza tra la chiave contenuta nella
+  variabile GRIB e quella impostata con setkey. Se GRIB viene
+  omesso viene utilizzata la variabile A.
+  Ritorna con stato:
+	0 se la chiave corrisponde
+	1 se la chiave non corrisponde
+	>1 se ci sono errori nella decodifica del grib
+
+ find		[unit] [grib]
+
+  effettua la ricerca in modo sequenziale nel file partendo dalla
+  posizione corrente. Il file e' definito da UNIT. Il grib deve corrispondere
+  alla chiave come da precedente setkey . Se si raggiunge il termine del file
+  viene effettuata, senza possibilita' di replica, la rewind del file.
+
+  UNIT	unita' logica associata al file, da 1 a 10 . 
+	(default: quella dell'ultima operazione eseguita su file)
+
+  GRIB grib eventualmente trovato. Se viene omesso viene utilizzata la 
+      variabile A.
+
+  Ritorna con stato:
+	0 se la chiave corrisponde
+	1 se la chiave non corrisponde
+	>1 se ci sono errori nella decodifica del grib
+
+			OPERAZIONI SU GRIB
+
+
+ print       	[string1] [string2] [string3] ....
+
+  stampa sullo standard output le stringhe fornite come parametri, una per riga.
+
+ printkey	[grib]
+
+  stampa sullo standard output la chiave corrispondente alla variabile GRIB.
+  Se GRIB viene omesso viene utilizzata la variabile A.
+  I dati riportati sono:
+  data ora scadenza livello variabile 
+
+ printdati	[grib]
+
+  stampa sull'unita' fortran 1 (fort.1) il numero dei dati e i dati 
+  corrispondenti alla variabile GRIB .
+  Se GRIB viene omesso viene utilizzata la variabile A.
+
+ let 		grib funzione [variabile1] [variabile2]  ......
+
+  esegue sulla variabile GRIB una funzione come descritto successivamente
+
+
+ FUNZIONI:
+
+ somma		variabile1
+  somma la VARIABILE1
+
+ sottrai	variabile1
+  sottrae la VARIABILE1
+
+ moltiplica	variabile1
+  moltiplica la VARIABILE1
+
+ dividi		variabile1
+  divide la VARIABILE1
+
+ media		variabile1
+  esegue la media sulla VARAIBILE1 considerando il numero di elementi
+  contati nella somma fino all'ultima funzione reset
+
+ uguale		variabile1
+  attribuisce il valore della VARIABILE1
+
+ filtro		variabile1
+  applica un filtro passabasso al campo (media pesata con i 4 punti circostanti:
+  peso 4 al punto stesso, 1 ai punti circostanti)
+
+ reset
+  azzera i valori e i contatori associati a GRIB utili per la funzione media
+
+ norma variabile1
+  calcola la norma del campo vettoriale date le 2 componenti in grib e variabile1
+
+<<<<<<< ged.doc
+ thetae temperatura(Kelvin) umidita_specifica(Kg/Kg) pressione(hPa)
+  calcola la temperatura potenziale equivalente
+  pressione e' una costante
+
+ theta temperatura(Kelvin) pressione(hPa)
+  calcola la temperatura potenziale
+
+ rh2q umid_rel(%) temperatura(Kelvin) pressione(hPa)
+  calcola l'umidita' specifica da quella relativa
+  pressione e' una costante
+
+=======
+ massimo	variabile1
+  trova il valore massimo punto a punto con la  VARIABILE1
+
+ minimo		variabile1
+  trova il valore minimo punto a punto con la  VARIABILE1
+
+
+
+
+>>>>>>> 1.3
+ PROBLEMI e COSE DA FARE:
+
+
+ Problemi:
+
+ -I grib devono essere assolutamente sullo stesso grigliato se si ha
+  intenzione di eseguire funzioni.
+
+ -Quando si eseguono funzioni sui grib le sezioni 1 e 2 e 3 non vengono
+  modificate cosi' che il grib risultante e' descritto in modo piu'
+  o meno casuale (o meglio dal grib su cui si scrivono i risultati)
+
+
+ ESEMPI:
+
+ -------------------------------------------------------
+
+ # programma di filtro di Z di LAMBO
+
+ 100 open 1 r grib.geopote
+ 101 onerrorgoto 900
+ 102 open 2 w grib.filtro
+ 103 onerrorgoto 900
+
+ 104 read 1 A
+ 105 onerrorgoto 110 900 
+ 106 let A filtro A
+ 107 write 2 A
+ 108 onerrorgoto 900
+ 109 goto 104
+
+ 110 close 1
+ 111 close 2
+ 112 exit 0
+
+ 900 print errore
+ 910 exit 1
+
+ -------------------------------------------------------
+
+ # inizio programma per effettuare la media in linguaggio ged
+
+ 1  print inizio                   ! diamo il via alla giostra
+
+ 2  open 1  r  climaneve.grb       ! primo file
+ 3  onerrorgoto 90
+ 4  print aperto_file_1
+
+ 5  open 2 w  out.grb              ! secondo file
+ 6  onerrorgoto 90
+ 7  print aperto_file_2
+
+ 8 setkey var:-1,-1,141
+ 10 gosub 110
+
+ 81 close 1
+ 82 close 2
+ 83 print termino_bene
+ 84 exit 0
+
+ 90 print errore
+ 91 exit 1
+
+ # routine scansione mesi
+
+ 110 setkey data:-1,10,-1
+ 111 gosub 500
+ 112 setkey data:-1,11,-1
+ 113 gosub 500
+ 114 setkey data:-1,12,-1
+ 115 gosub 500
+ 116 setkey data:-1,1,-1
+ 117 gosub 500
+ 118 setkey data:-1,2,-1
+ 119 gosub 500
+ 120 setkey data:-1,3,-1
+ 121 gosub 500
+ 122 setkey data:-1,4,-1
+ 123 gosub 500
+ 124 setkey data:-1,5,-1
+ 125 gosub 500
+
+ 499 return
+
+ # routine elaborazione media
+
+ 500 read 1 A
+ 510 onerrorgoto 570
+ #511 printkey A
+ 520 testkey A
+ 530 onerrorgoto 500
+ 540 printkey A
+ 550 let B media A
+ 560 goto 500
+ 570 write 2 B
+ 580 let B reset
+ 590 rewind 1
+ 600 return
+
+ -------------------------------------------------------
+
+ # inizio programma prova linguaggio ged
+
+ 2  open 1  r  grib.tmp          !primo file
+ 5 open 2 w out.grb
+
+ 10 setkey scad:1,0,6,4 var:-1,-1,61
+ 20 find 1 A
+ 25 onerrorgoto 90
+ 30 setkey scad:1,6,12,4
+ 35 find 1 B
+ 39 onerrorgoto 90
+ 40 setkey scad:1,12,18,,4
+ 45 find 1 C
+ 49 onerrorgoto 90
+ 50 setkey scad:1,18,24,4
+ 55 find 1 D
+ 59 onerrorgoto 90
+
+ 61 let A somma B
+ 62 let A somma C
+ 63 let A somma D
+
+ 65 write 2 A
+ 81 close 1
+ 82 close 2
+ 83 print termino_bene
+ 84 exit 0
+ 90 print errore
+ 91 exit 1
+
+ -------------------------------------------------------
+comend

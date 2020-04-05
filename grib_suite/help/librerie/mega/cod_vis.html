@@ -1,0 +1,28 @@
+<HTML><HEAD><TITLE>
+ COD_VIS
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">cod_vis</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/cod_vis.f">/disk3/patruno/lib/mega/cod_vis.f</A> <HR>
+<PRE>
+	subroutine COD_VIS(vis,ivis)
+
+	Per codificare la visibilita` come da specifiche codice synop.
+	accetta in ingresso la visibilita` in ettometri come in archivio
+	meteodata.
+
+	IN:
+	VIS	I*2	visibilita` espressa in Hm. (tra 0 e 700 o 9999)
+		(visibilita` inferiore a 100 m. = 0 Hm      codice =0;
+		 visibilita` superiore a 50 Km. = 9999 Hm.  codice =99)
+
+	OUT:
+	IVIS	I*2	codice synop corrispondente
+		( -9 valore in ingresso errato)
+
+	by Mantovani Marina  1989
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

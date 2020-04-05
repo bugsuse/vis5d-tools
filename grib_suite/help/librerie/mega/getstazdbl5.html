@@ -1,0 +1,51 @@
+<HTML><HEAD><TITLE>
+ GETSTAZDBL5
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">getstazdbl5</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/getstazdbl.f">/disk3/patruno/lib/mega/getstazdbl.f</A> <HR>
+<PRE>
+	SUBROUTINE GETSTAZDBL5(ALAMX,ALAMN,ALOMX,ALOMN,HMX,HMN,
+	1	   IWMO1,IWMO2,
+	1	IWMO,ANOME,HHPOZ,ALAT,ALON,COD,IER)
+
+	
+	Serve ad estrarre dall'archivio meteodata le stazioni ed i
+	relativi parametri anagrafici letti dall' archivio meteodata
+	contenute nei limiti definiti lat. lon. alt.
+
+	Input	:	ALATMX	= R*4	Latitudine max finestra
+			ALATMN	= R*4	Latitudine min finestra
+			ALONMX	= R*4	Longitudine max finestra	
+			ALONMN	= R*4	Longitudine min finestra
+			HMX	= R*4	Altezza max finestra
+			HMN	= R*4	Altezza min finestra
+			IWMO1	= I*4	Codice W.M.O. stazione min finestra
+			IWMO2	= I*4	Codice W.M.O. stazione max finestra
+			IWMO    = I*4	inizializzato ad un valore inferiore
+					ad IWMO1 per il primo accesso
+
+	Output	:	IWMO	= I*4	Codice W.M.O. stazione
+			ANOME   = C*24	Nome della stazione
+			HHPOZ	= R*4   Altezza del pozzetto (m.)
+			ALAT	= R*4	Latitudine ( Gradi,primi)
+			ALON	= R*4	Longitudine (Gradi,primi)
+			COD(18)	= I*4	codici sensori
+			IER	= I*4	0=O.K.; &gt;0=errore fatale;
+					&lt;0=segnalazione errore triviale
+
+	COMMON	Utilizzati	: /CONTRO/	CONTRO(17) CONTIENE IL NUMERO DI
+						UNITA` DA UTILIZZARE
+
+	Chiamate 		: GETSTAZDBL2,GETSTAZDBL3
+
+	IER=-2	record non trovato
+	IER=0	tutto O.K.
+	IER=1	errore apertura file archivio stazioni
+	IER=2	fine file
+	IER=3	altri errori su lettura record
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

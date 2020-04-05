@@ -1,0 +1,40 @@
+#!/bin/csh -f
+
+if ( ! -e configure.arwp ) then
+	echo "Do 'configure' first"
+	exit ( 1 ) 
+endif
+
+if  ( ( ! $?NETCDF ) && ( -d netcdf_links ) ) then
+	setenv NETCDF `pwd`/netcdf_links
+	setenv temp_netcdf 1
+else
+	setenv temp_netcdf 0
+endif
+
+set DEV_TOP = `pwd`
+set first_char = `grep ^WRF_DIR configure.arwp | awk '{print $3}' | cut -c -1`
+
+if ( "$first_char" == "/" ) then
+        set WRF_DIR_PRE =
+else
+        set WRF_DIR_PRE =       ${DEV_TOP}/
+endif
+
+
+echo " "
+echo "**** Compiling ARWpost ****"
+echo " "
+
+echo ${WRF_DIR_PRE}
+( cd src ; make -i -r WRF_DIR_PRE="${WRF_DIR_PRE}" all )
+     if ( -e src/ARWpost.exe ) then
+             ln -sf src/ARWpost.exe .
+     endif
+
+
+if ( $temp_netcdf == 1 ) then
+	unsetenv NETCDF
+endif
+
+exit(0)

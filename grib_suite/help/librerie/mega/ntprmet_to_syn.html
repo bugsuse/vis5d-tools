@@ -1,0 +1,164 @@
+<HTML><HEAD><TITLE>
+ nTPRmet_to_syn
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">ntprmet_to_syn</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/dball.f">/disk3/patruno/lib/mega/dball.f</A> <HR>
+<PRE>
+	function	NTPRmet_to_syn(ww,ns)
+
+	Restituisce il valore del tempo presente corrispettivo del synop
+	espresso con il codice ww del synop stesso.
+
+	integer function nTPRmet_to_syn :  in input richiede il tempo presente
+	del metar ww e la copertura nuvolosa
+	del primo livello ns(1)  -
+
+	input:
+	character	ww*8		tempo presente metar
+	integer*2	ns		copertura ns(1) metar
+
+	se non c'e` ww allora non ho niente da segnalare (=0)
+	se riesco a convertire &gt; bene!
+	altrimenti mancante (=32767)
+
+	il cielo invisibile viene codificato con VV??? che il meteodata
+	riporta nel gruppo nubi con ns(1)=9 e hs appropriato
+
+
+	prima versione   13-02-96				Andrea Selvini
+       seconda versione 25-10-96				Sala Operativa
+       terza versione    3-02-97				Paolo Patruno
+       4ta versione      7-03-97				Paolo Patruno
+       5ta versione      25-03-97				Patruno Grazzini
+								Selvini
+
+ Tabella di conversione
+
+ cod. syn         cod. met           Copertura (ns)
+
+  10		   BR
+  12		   MIFG
+  17		   TS
+  18		   SQ
+  19	 	   FC
+  41		   BCFG
+  44		   FG 			&lt;9
+  45		   FG			=9
+  48		   FZFG			&lt;9
+  49		   FZFG			=9
+  51		   -DZ
+  53		   DZ
+  55		   +DZ
+  56		   -FZDZ
+  57		   FZDZ
+  57		   +FZDZ
+  58	  	   -DZRA
+  58		   -RADZ
+  59		   DZRA
+  59		   RADZ
+  59	 	   +DZRA
+  59		   +RADZ
+  61		   -RA
+  63		   RA
+  65		   +RA
+  66		   -FZRA
+  66		   -RAFZ
+  67		   FZRA
+  67		   RAFZ
+  67		   +FZRA
+  67		   +RAFZ
+  68		   -DZSN
+  68		   -SNDZ
+  68              -RASN
+  68		   -SNRA
+  69		   DZSN
+  69		   SNDZ
+  69		   +DZSN
+  69		   +SNDZ
+  69		   RASN
+  69		   SNRA
+  69		   +RASN
+  69		   +SNRA
+  71		   -SN
+  73		   SN
+  75		   +SN
+  76		   IC
+  77		   SG
+  79		   PE
+  80		   -SHRA
+  81		   SHRA
+  82		   +SHRA
+  83		   -SHRASN
+  83		   -SHSNRA
+  84		   SHRASN
+  84		   SHSNRA
+  84		   +SHRASN
+  84		   +SHSNRA
+  85		   -SHSN
+  86		   SHSN
+  86		   +SHSN
+  87		   -SHGS
+  87		   -SHGSRA
+  87		   -SHGSRASN
+  87		   -SHGSSNRA
+  87		   -SHSG
+  87		   -SHSGRA
+  87		   -SHSGRASN
+  87		   -SHSGSNRA
+  88		   SHGS
+  88		   SHGSRA
+  88		   SHGSRASN
+  88		   SHGSSNRA
+  88		   +SHGS
+  88		   +SHGSRA
+  88		   +SHGSRASN
+  88		   +SHGSSNRA
+  88		   SHSG
+  88		   SHSGRA
+  88		   SHSGRASN
+  88		   SHSGSNRA
+  88		   +SHSG
+  88		   +SHSGRA
+  88		   +SHSGRASN
+  88		   +SHSGSNRA
+  89		   -SHGR
+  89              -SHGRRA
+  89              -SHGRRASN
+  89              -SHGRSNRA
+  90		   SHGR
+  90              SHGRRA
+  90              SHGRRASN
+  90              SHGRSNRA
+  90              +SHGR
+  90              +SHGRRA
+  90              +SHGRRASN
+  90              +SHGRSNRA
+  95		   -TSRA
+  95		   -TSSN
+  95		   -TSRASN
+  95		   -TSSNRA
+  95		   TSRA
+  95              TSSN
+  95              TSRASN
+  95              TSSNRA
+  96		   -TSGR
+  96		   TSGR
+  96		   -TSSG
+  96		   TSSG
+  96		   -TSGS
+  96		   TSGS
+  97   	   +TSRA
+  97              +TSSN
+  97              +TSRASN
+  97              +TSSNRA	
+  98		   TSSS
+  98		   TSDS
+  99		   +TSGR
+  99		   +TSSG
+  99		   +TSGS
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

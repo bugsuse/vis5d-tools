@@ -1,0 +1,359 @@
+###########################################################
+#ARCH	AIX	(no vis5d) 
+#
+FC		=	xlf90_r
+FFLAGS		=	-qfree=f90
+F77FLAGS	=	-qfixed
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	cc
+CFLAGS		=	
+CPP		=	/usr/lib/cpp -C -P
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 
+
+###########################################################
+#ARCH	AIX	(vis5d)
+#
+FC		=	xlf90_r
+FFLAGS		=	-qfree=f90
+F77FLAGS	=	-qfixed
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	cc
+CFLAGS		=	
+CPP		=	/usr/lib/cpp -C -P
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+
+###########################################################
+#ARCH	Compaq OSF1 alpha	(no vis5d)
+#
+FC		=	f90
+FFLAGS		=	-free -convert big_endian
+F77FLAGS	=	-convert big_endian
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	cc
+CFLAGS		=	
+CPP		=	/usr/bin/cpp -C -P -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw
+
+###########################################################
+#ARCH	Compaq OSF1 alpha	(vis5d)
+#
+FC		=	f90
+FFLAGS		=	-free -convert big_endian
+F77FLAGS	=	-convert big_endian
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	cc
+CFLAGS		=	
+CPP		=	/usr/bin/cpp -C -P -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+
+###########################################################
+#ARCH	PC Linux i486 i586 i686 x86_64, PGI compiler	(no vis5d)
+#
+FC		=	pgf90
+FFLAGS		=	-Mfree -byteswapio -O
+F77FLAGS	=	-byteswapio -O
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	gcc
+CFLAGS		=	-O
+CPP		=	/lib/cpp -C -P -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw 
+
+###########################################################
+#ARCH	PC Linux i486 i586 i686 x86_64, PGI compiler	(vis5d)
+#
+FC		=	pgf90
+FFLAGS		=	-Mfree -byteswapio -O
+F77FLAGS	=	-byteswapio -O
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	gcc
+CFLAGS		=	-O
+CPP		=	/lib/cpp -C -P -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+
+###########################################################
+#ARCH	PC Linux ia64, PGI compiler	(no vis5d)
+#
+FC		=	pgf90
+FFLAGS		=	-Mfree -byteswapio -O
+F77FLAGS	=	-byteswapio -O
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	gcc
+CFLAGS		=	-O
+CPP		=	/lib/cpp -C -P -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -Dbytesw 
+
+###########################################################
+#ARCH	PC Linux ia64, PGI compiler	(vis5d)
+#
+FC		=	pgf90
+FFLAGS		=	-Mfree -byteswapio -O
+F77FLAGS	=	-byteswapio -O
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	gcc
+CFLAGS		=	-O
+CPP		=	/lib/cpp -C -P -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -Dbytesw -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+
+###########################################################
+#ARCH	PC Linux i486 i586 i686 x86_64, Intel compiler	(no vis5d)
+#
+FC		=	ifort
+FFLAGS		=	-FR -convert big_endian
+F77FLAGS	=	-convert big_endian
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	 gcc -DFSEEKO64_OK
+CFLAGS		=	
+CPP		=	/lib/cpp -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -Dbytesw 
+
+###########################################################
+#ARCH	PC Linux i486 i586 i686 x86_64, Intel compiler	(vis5d)
+#
+FC		=	ifort
+FFLAGS		=	-FR -convert big_endian
+F77FLAGS	=	-convert big_endian
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	 gcc -DFSEEKO64_OK
+CFLAGS		=	
+CPP		=	/lib/cpp -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -Dbytesw -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+
+###########################################################
+#ARCH PC Linux i486 i586 i686 x86_64, gfortran compiler (no vis5d)
+#
+FC 		= 	gfortran
+FFLAGS 		= 	-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 
+F77FLAGS 	= 	-ffixed-form -O -fno-second-underscore -fconvert=big-endian
+FNGFLAGS 	= 	$(FFLAGS)
+LDFLAGS 	=
+CC 		= 	gcc
+CFLAGS 		=  	-m64
+CPP 		= 	/lib/cpp -C -P -traditional
+CPPFLAGS 	= 	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4  -Dbytesw
+
+###########################################################
+#ARCH PC Linux i486 i586 i686 x86_64, gfortran compiler (vis5d)
+#
+FC 		= 	gfortran
+FFLAGS 		= 	-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 
+F77FLAGS 	= 	-ffixed-form -O -fno-second-underscore -fconvert=big-endian
+FNGFLAGS 	= 	$(FFLAGS)
+LDFLAGS 	=
+CC 		= 	gcc
+CFLAGS 		=  	-m64
+CPP 		= 	/lib/cpp -C -P -traditional
+CPPFLAGS 	= 	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4  -Dbytesw  -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+
+###########################################################
+#ARCH	PC Linux ia64, Intel compiler	(no vis5d)
+#
+FC		=	ifort
+FFLAGS		=	-FR -convert big_endian
+F77FLAGS	=	-convert big_endian
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	gcc
+CFLAGS		=	-DFSEEK064_OK  
+CPP		=	/lib/cpp -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -Dbytesw 
+
+###########################################################
+#ARCH	PC Linux ia64, Intel compiler	(vis5d)
+#
+FC		=	ifort
+FFLAGS		=	-FR -convert big_endian
+F77FLAGS	=	-convert big_endian
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	gcc
+CFLAGS		=	-DFSEEK064_OK  
+CPP		=	/lib/cpp -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -Dbytesw -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+
+###########################################################
+#ARCH	SGI 64 bit IRIX64	(no vis5d)
+#
+FC		=	f90
+FFLAGS		=	-freeform -64
+F77FLAGS	=	-64
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	cc
+CFLAGS		=	-64
+CPP		=	/lib/cpp -C -P
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw
+
+###########################################################
+#ARCH	SGI 64 bit IRIX64	(vis5d)
+#
+FC		=	f90
+FFLAGS		=	-freeform -64
+F77FLAGS	=	-64
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	cc
+CFLAGS		=	-64
+CPP		=	/lib/cpp -C -P
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+
+###########################################################
+#ARCH	Sun SunOS	(no vis5d)
+#
+FC		=	f90
+FFLAGS		=	-free
+F77FLAGS	=	
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	cc
+CFLAGS		=	-O
+CPP		=	/usr/ccs/lib/cpp -C -P
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw
+
+###########################################################
+#ARCH	Sun SunOS	(vis5d)
+#
+FC		=	f90
+FFLAGS		=	-free
+F77FLAGS	=	
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	cc
+CFLAGS		=	-O
+CPP		=	/usr/ccs/lib/cpp -C -P
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+
+###########################################################
+#ARCH	Darwin, PGI compiler		(no vis5d)
+#
+FC		=	pgf90
+FFLAGS		=	-Mfree -byteswapio -O
+F77FLAGS	=	-byteswapio -O
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	pgcc
+CFLAGS		=	-O
+CPP		=	/usr/bin/cpp -C -P -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 
+
+###########################################################
+#ARCH	Darwin, PGI compiler		(vis5d)
+#
+FC		=	pgf90
+FFLAGS		=	-Mfree -byteswapio -O
+F77FLAGS	=	-byteswapio -O
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	
+CC		=	pgcc
+CFLAGS		=	-O
+CPP		=	/usr/bin/cpp -C -P -traditional
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+
+###########################################################
+#ARCH	Darwin, g95 compiler		(no vis5d)
+#
+FC		=	g95
+FFLAGS		=	-ffree-form -fendian=big
+F77FLAGS	=	-ffixed-form -fendian=big
+FNGFLAGS	=	$(FFLAGS) 
+LDFLAGS		=	-Wl,-stack_size,10000000,-stack_addr,0xc0000000
+CC		=	gcc
+CFLAGS		=	
+CPP		=	/usr/bin/cpp -C -P -traditional
+CPPFLAGS	=	-DIO_NETCDF -DRECL4 -Dbytesw 
+RANLIB		=	
+
+###########################################################
+#ARCH	Darwin, g95 compiler		(vis5d)
+#
+FC		=	g95
+FFLAGS		=	-ffree-form -fendian=big
+F77FLAGS	=	-ffixed-form -fendian=big
+FNGFLAGS	=	$(FFLAGS)
+LDFLAGS		=	-Wl,-stack_size,10000000,-stack_addr,0xc0000000
+CC		=	gcc
+CFLAGS		=	
+CPP		=	/usr/bin/cpp -C -P -traditional
+CPPFLAGS	=	-DIO_NETCDF -DRECL4 -Dbytesw -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+RANLIB		=	
+
+###########################################################
+#ARCH	Darwin	with xlf compiler	(no vis5d)
+#
+FC		=	xlf90_r
+FFLAGS		=	-qfree
+F77FLAGS	=	-qfixed
+FNGFLAGS	=	$(FFLAGS) -qextname
+LDFLAGS		=	-Wl,-stack_size,10000000,-stack_addr,0xc0000000
+CC		=	cc
+CFLAGS		=	-O
+CPP		=	/usr/bin/cpp -C -P
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw 
+RANLIB		=	ranlib
+
+###########################################################
+#ARCH	Darwin	with xlf compiler	(vis5d)
+#
+FC		=	xlf90_r
+FFLAGS		=	-qfree
+F77FLAGS	=	-qfixed
+FNGFLAGS	=	$(FFLAGS) -qextname
+LDFLAGS		=	-Wl,-stack_size,10000000,-stack_addr,0xc0000000
+CC		=	cc
+CFLAGS		=	-O
+CPP		=	/usr/bin/cpp -C -P
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+RANLIB		=	ranlib
+
+###########################################################
+#ARCH	Darwin - with SystemStuds (xlf compiler)	(no vis5d)
+#
+FC		=	xlf90_r
+FFLAGS		=	-qfree
+F77FLAGS	=	-qfixed
+FNGFLAGS	=	$(FFLAGS) -qextname
+LDFLAGS		=	-Wl,-stack_size,10000000,-stack_addr,0xc0000000 -L/usr/lib -lSystemStubs
+CC		=	gcc-3.3
+CFLAGS		=	-O
+CPP		=	/usr/bin/cpp -C -P
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw 
+RANLIB		=	ranlib
+
+###########################################################
+#ARCH	Darwin - with SystemStuds (xlf compiler)	(vis5d)
+#
+FC		=	xlf90_r
+FFLAGS		=	-qfree
+F77FLAGS	=	-qfixed
+FNGFLAGS	=	$(FFLAGS) -qextname
+LDFLAGS		=	-Wl,-stack_size,10000000,-stack_addr,0xc0000000 -L/usr/lib -lSystemStubs
+CC		=	gcc-3.3
+CFLAGS		=	-O
+CPP		=	/usr/bin/cpp -C -P
+CPPFLAGS	=	-DIO_NETCDF -DIO_GRIB1 -DIO_BINARY -DRECL4 -Dbytesw -DV5D
+LIBVIS5D	=	/usr/local/vis5d/src/binio.o /usr/local/vis5d/src/v5d.o
+RANLIB		=	ranlib
+
+##################################################################
+#ARCH	NULL

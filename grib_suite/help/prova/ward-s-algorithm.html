@@ -1,0 +1,53 @@
+<HTML><HEAD><TITLE>
+ ward-s-algorithm
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">ward-s-algorithm</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/nerozzi/src/cluster_analysis/wards_save.f">/disk3/nerozzi/src/cluster_analysis/wards_save.f</A> <HR>
+<PRE>
+
+     subroutine wards(n,m,x,w,dx,ixc,nxc,nc)
+
+ Description:
+     Ward's hierarchical scheme for clustering
+
+ Method:
+     Merge two clusters who have the lowest variance increment
+
+ Current Code Owner: Fabrizio Nerozzi
+
+ History:
+ Version   Date     Comment
+ -------   ----     -------
+ 1.00      31.07.01 Original code. F.Nerozzi
+
+ Code Description:
+   Language:           Fortran 77.
+   Software Standards:
+   &quot;European Standards for Writing and
+     Documenting Exchangeable Fortran 90 Code&quot;.
+
+ Declarations:
+
+ Array  arguments with intent(in):
+
+     real    x(n,m), w(m)
+
+ Array  arguments with intent(inout):
+
+     real    dx(n,m)
+
+ Array  arguments with intent(out):
+
+     integer ixc(n,n), nxc(n)
+
+</PRE>
+Vedi anche:
+<a href="complete-linkage-algorithm.html ">complete-linkage-algorithm</a>
+<a href="cluster-statistics.html ">cluster-statistics</a>
+<a href="cluster-representative-member.html ">cluster-representative-member</a>
+<a href="esempio.html ">esempio</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

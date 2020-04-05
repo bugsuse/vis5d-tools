@@ -1,0 +1,33 @@
+<HTML><HEAD><TITLE>
+ REGVET_V
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">regvet_v</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/hibu/conv_rout_new.f">/disk3/patruno/lib/hibu/conv_rout_new.f</A> <HR>
+<PRE>
+	SUBROUTINE REGvet_V(AIN,AOUT,IMJM,IMHV,JMHV)
+
+	INPUT:
+	AIN(IM,JM)	REAL	MATRICE ENTRANTE
+	IM		INTEGER	
+	JM		INTEGER	
+	IMHV		INTEGER	
+	JMHV		INTEGER	
+
+	OUTPUT:
+	AOUT(imhv,jmhv)
+
+=======================================================================
+
+	E' l' analogo di REGLH per un campo vettoriale: vedi REGLH per
+	i commenti. La differenza sostanziale e' negli indici i,j che
+	caratterizzano i punti u,v nella griglia E-staggered, che sono
+	diversi, (Iuv=Ih+1;Juv=Jh+1), da quelli che individuano i punti
+	h.
+
+-----------------------------------------------------------------------
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

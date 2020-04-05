@@ -1,0 +1,54 @@
+Readglobe reads the GLOBE elevation dataset (and the its previous
+variants Etopo5 and EROS) available at
+
+http://www.ngdc.noaa.gov/seg/topo/globe.shtml
+
+and writes a Vis5d topography file on an arbitrary area of the world.
+
+You need to download only the tiles covering your area of interest.
+You are also required to download, along with the data files, the esri
+header files .hdr for Arc/INFO and ArcView that accompany the
+dataset. They are currently available at the address
+
+ftp://ftp.ngdc.noaa.gov/GLOBE_DEM/data/elev/esri/hdr
+
+Readglobe should work also with older versions of the dataset which
+came in different tiles, provided that the proper header files are
+available.
+
+For compiling there is no configure script, so you should edit the
+Makefile and uncomment the proper sections depending on having
+standard Vis5d or Vis5d+ and working on a little endian machines such
+as i386 (PC's) and Alpha or on a big endian machine like most of the
+others.
+
+The syntax for running readglobe is:
+readglobe -b <lonmin> <lonmax> <latmin> <latmax> [options] file1.hdr \
+ [file2.hdr ...]
+
+options currently available are:
+-o <output file> name differently the output file (default EARTH.TOPO)
+-s               shrink the requested area to the innner closest gridpoints
+                 rather than enlarging it (as done by default)
+-a <n>           average the data over nXn points boxes
+
+-m <z>           set the height of the missing (sea) points to <z>, default 0.
+
+You can specify as many header files as you want, those that describe
+an area outside the requested one are just skipped.  The data files
+must be in the current directory.  Notice that the program understands
+only a minimal subset of the esri header file keywords necessary to
+identify the GLOBE data, so it is not guaranteed to work with other
+header/data files; moreover it contains a workaround for the problem
+that currently the header files indicate, as data file name, the
+header file itself and not the data file (I wonder whether this is a
+bug or a "feature" of the dataset).
+
+The program is experimental, it appears to work on the European area,
+but I cannot guarantee that there isn't any one-grid-point shift
+somewhere or that it doesn't crash if used with tiles different from
+the ones I tested; if you think you found a bug, or you have
+suggestions for improvement to readglobe, let me know.
+
+Davide Cesari <dcesari@smr.arpa.emr.it>
+

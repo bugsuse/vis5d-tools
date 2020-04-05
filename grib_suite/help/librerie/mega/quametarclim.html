@@ -1,0 +1,110 @@
+<HTML><HEAD><TITLE>
+ QUAMETARCLIM
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quametarclim</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quametarclim_new.f">/disk3/patruno/lib/mega/quametarclim_new.f</A> <HR>
+<PRE>
+	SUBROUTINE QUAMETARCLIM_new(FLAG,IER)
+						modificato 12/04/94
+						modificato 10/02/97
+	controllo di qualita` di tipo climatologico sui dati metar.
+			versione dal 1/7/93
+	OGNI VARIABILE SYNOP VIENE CONFRONTATA CON DEI LIMITI DI VALIDITA`
+	entro i quali deve essere compresa.
+
+	FLAG(23)	BYTE	incrementato di tre se verificato errore
+				per le 23 variabili metar
+	IER		I*4	condizione di errore
+			IER=1	tipo messaggio errato
+
+	COMMON /RRW/RRW	I*2	RRW(29) per passare i dati metar come dichiarato
+				in met$inc:metar.inc
+
+	Per indirizzare il vettore FLAG alla variabile interessata si puo`
+	utilizzare, includendo nel proprio programma, il file
+	megainc$dir:quametar.inc ed utilizzare come indici del vettore le
+	variabili che hanno lo stesso nome della variabile (meteodata)
+	preceduto da 'IN'. Ad esempio:
+	per la temperatura        FLAG(INFFF)
+
+I principi generali su cui sono basati questi controlli di qualita`
+sono stati ricavati con alcuni adattamenti da:
+
+    1) W.W.W. PLANNING REPORT N.26  'QUALITY CONTROL PROCEDURES
+       FOR METEOROLOGICAL DATA'
+
+    2) technical note  E.C.M.W.F.- operations department-
+       'quality control checks applied to observational data'
+
+    3) AERONAUTICA MILITARE ITALIANA REGOLAMENTO DI SERVIZIO N.7
+       'MESSAGGI METEOROLOGICI' MET RS 7  FM 15-V METAR
+
+    4) W.M.O. UNESCO 1970  MAPPE DI TEMPERATURA MEDIA E PRECIPITAZIONE
+       'ATLANTE CLIMATICO DI EUROPA'
+
+     FLAG    NOME VAR.	  SOGLIA MIN.  SOGLIA MAX.        NOTE
+
+	1	DDD		0	360	vento variabile 370, calma 380
+	2	FFF		0	199
+	3	FM		10	199
+	4	VVVV		0	10000
+	5	WW	codice esistente
+	6	NS(1)		1	9
+	7	NS(2)		2	8	n.b.limite inf dovrebbe essere 3
+	8	NS(3)		5	8
+	9	NS(4)		1	8
+	10	CC(1)		TIPO NUBE ESISTENTE
+	11	CC(2)		TIPO NUBE ESISTENTE
+	12	CC(3)		TIPO NUBE ESISTENTE
+	13	CC(4)		TIPO NUBE ESISTENTE e presente (CB,CU)
+	14	HHH(1)		25	30000
+	15	HHH(2)		25	30000
+	16	HHH(3)		25	30000
+	17	HHH(4)		25	30000
+	18	TT		-29	49
+	19	TD		-29	49
+	20	PH		960	1060
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+						N.B.
+
+ DAL I/7/93 LA CODIFICA DEL REPORT METAR E` STATA MODIFICATA SECONDO LE
+ DIRETTIVE W.M.O..
+
+ SONO QUINDI STATE APPORTATE LE NECESSARIE MODIFICHE AL SOFHTWARE DI
+ ARCHIVIAZIONE:
+
+	5/7/93	adapting to new WMO METAR coding:
+		- GGggZ handled
+		- KT, KMH, MPS handled (all values converted to knots)
+		  (370 in ddd means variable direction, 380 calm if fff=0)
+		- dddVddd group ignored
+		- Dv in VVVVDv ignored
+		- VxVxVxVxDv ignored
+		- Runway visibility groups ignored
+		- w'w'(ww) recorded as found (maximum 8 bytes)
+		- Cloud groups : Cloud type id recorded only if CB or TCU
+				 are present (TCU is reported as CU).
+				 Otherwise no data is recorded.
+				 SCT is reported as 2 oktas
+				 BKN as 6 oktas
+				 OVC as 8 oktas
+				 SKC means no clouds
+				 No change in cloud height handling
+				
+ VVhshshs is reported as 9 oktas an hshshs as given
+		- QPhPhPhPh handled
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+  anno 1997    attenzione aggiunta gestione :
+               - Cloud groups :
+                                FEW is reported as 1 oktas
+
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

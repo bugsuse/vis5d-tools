@@ -1,0 +1,991 @@
+<HTML><HEAD><TITLE>
+ grib_section_1
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">grib_section_1</H2> <HR>
+ documentazione codifica grib <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/cesari/helpdoc/grib/gribdoc.txt">/disk3/cesari/helpdoc/grib/gribdoc.txt</A> <HR>
+<PRE>
+
+SECTION 1: THE PRODUCT DEFINITION SECTION (PDS).
+
+     The PDS contains indicators for the Parameter table Version, the
+originating center, the numerical model (or &quot;generating process&quot;) that
+created the data, the geographical area covered by the data, the
+parameter itself, the values for the appropriate vertical level or
+layer where the data reside, the decimal scale factor, and date/time
+information.  The PDS is normally 28 octets long but it may be longer
+if an originating center chooses to make it so.  Users of GRIB messages
+are strongly urged to use the length-of-section portion of the PDS to
+determine where the next section begins.  Never assume a fixed octet
+length in this, or any other, section.
+
+      Octet no.                    PDS Content
+
+     1 - 3      Length in octets of the Product Definition Section
+
+
+            4  Parameter Table Version number.
+                Currently Version 2 for international exchange.
+                Parameter table version numbers 128-254 are
+                reserved for local use.
+
+      5        Identification of center (Table 0 - Part 1)
+
+      6         Generating process ID number
+                (allocated by the originating center; See Table A)
+
+      7        Grid Identification (geographical location and
+                                   area; See Table B)
+
+      8        Flag specifying the presence or absence of a GDS
+                    or a BMS       (See Table 1)
+
+      9         Indicator of parameter and units (Table 2)
+
+      10        Indicator of type of level or layer
+                         (See Tables 3 &amp; 3a)
+
+      11-12     Height, pressure, etc. of the level or layer
+                         (See Table 3)
+
+      13        Year of century     \  Initial (or Reference)
+                                    |  time of forecast - UTC
+      14        Month of year       |
+                                    |          or
+      15        Day of month         &gt;
+                                    |  Start of time period
+      16        Hour of day         |    for averaging or
+                                    |    accumulation of
+      17        Minute of hour      /    analyses
+
+      18        Forecast time unit (see Table 4)
+
+      19        P1 - Period of time (Number of time units)
+                    (0 for analysis or initialized analysis.)
+                    Units of time given by content of octet 18.
+
+      20        P2 - Period of time (Number of time units)
+                         or
+                    Time interval between successive analyses,
+                    successive initialized analyses, or forecasts,
+                    undergoing averaging or accumulation.
+                    Units given by octet 18.
+
+      21        Time range indicator (See Table 5)
+
+      22-23     Number included in average, when octet 21
+                  (Table 5) indicates an average or
+                  accumulation; otherwise set to zero.
+
+      24        Number Missing from averages or accumulations.
+
+      25        Century of Initial (Reference) time
+                    (=20 until Jan. 1, 2001)
+
+      26        Identification of sub-center (Table 0 - Part 2)
+
+      27-28     The decimal scale factor D.  A negative value
+                is indicated by setting the high order bit
+                (bit No. 1) in octet 27 to 1 (on).
+
+      29-40     Reserved (need not be present)
+
+      41-...    Reserved for originating center use.
+
+     Note: Octet 8 may indicate the presence of the Grid Description
+Section (GDS) even though octet 7 specifies a predefined grid.  In this
+case the GDS must describe that grid - this device serves as a
+mechanism for transmitting new &quot;predefined&quot; grids to users prior to
+their formal publication in this or the official WMO documentation.  It
+is, however, the desired practice to always include the GDS in GRIB
+bulletins.
+
+     Another Note:  The use of octet 26 to indicate a &quot;sub-center&quot; is
+not (yet) an officially sanctioned WMO practice.  The Manual indicates
+the octet is to be &quot;reserved&quot;, and set to 0.  The use arises out of an
+upcoming change in the Manual in which the &quot;originating centers&quot; for
+both GRIB and BUFR (FM 94) will reference a single common table.  The
+difficulty is that BUFR has two octets available for an originating
+center number while GRIB has only one.  The compromise solution is to
+allow the use of octet 26 as the &quot;second&quot; octet for GRIB, but only in a
+national context.  The WMO will coordinate the assignment of the
+numbers  for octet 5 for national and international centers (for both
+GRIB and BUFR), while each national center will then be free to assign
+sub-center numbers at will to be placed in the octet 26.  A zero value
+in octet 26 will serve as the default indicating that there is no sub-
+center associated with a particular center.  Table 0, in this document,
+shows, in Part 1, a selection of the WMO recognized originating centers
+(those that are currently active) as would be found in octet 5.
+
+
+
+                          TABLES FOR THE PDS
+
+
+                           TABLE 0 - Part 1
+
+                        NATIONAL/INTERNATIONAL
+                          ORIGINATING CENTERS
+                         (Assigned By The WMO)
+                             (PDS Octet 5)
+
+
+
+          VALUE               CENTER
+
+
+            07      US Weather Service - National Met. Center
+            08      US Weather Service - NWS Telecomms Gateway
+            09      US Weather Service - Field Stations
+            34      Japanese Meteorological Agency - Tokyo
+            52      National Hurricane Center, Miami
+            54      Canadian Meteorological Service - Montreal
+            57      U.S. Air Force - Global Weather Center
+            58      US Navy  - Fleet Numerical Oceanography Center
+            59      NOAA Forecast Systems Lab, Boulder CO
+            74      U.K. Met Office - Bracknell
+            85      French Weather Service - Toulouse
+            97      European Space Agency (ESA)
+            98      European Center for Medium-Range Weather
+                    Forecasts - Reading
+            99      DeBilt, Netherlands
+
+
+                           TABLE 0 - Part 2
+
+                               NATIONAL
+                              SUB-CENTERS
+                       (Assigned By The Nation)
+                            (PDS Octet 26)
+
+
+          National sub-centers, if any, would be found here.
+
+
+              TABLE A.       Generating Process or Model
+                             (PDS Octet 6)
+
+
+          VALUE          MODEL
+
+       These values and model (&quot;generating process&quot;) numbers would be
+                  supplied by the individual centers.
+
+
+
+                    TABLE B.   GRID IDENTIFICATION
+                             (PDS Octet 7)
+
+     Various National Grids would be identified here by the Center
+            International exchange grids are included here.
+
+
+ VALUE                GRID
+
+ 21-26       International Exchange grids - see below
+
+ 37-44       Eight lat-long 1.25x1.25 &quot;thinned&quot; grids,
+             covering the globe by octants of 3447 points.
+             Full GRIB specifications below.
+             For WAFC, ICAO, and International exchange.
+
+ 61-64       International Exchange grids - see below.
+
+ 255         (non-defined grid - specified in the GDS)
+
+
+
+                     INTERNATIONAL EXCHANGE GRIDS
+
+      VALUE  RESOLUTION      AREA              GRID          GRID
+             (degrees)     COVERAGE            SHAPE        POINTS
+             lon x lat     (degrees)        cols  rows
+
+      21    5.0 x 2.5   0-180E, 0-90N         37   36 + pole  1333
+      22    5.0 x 2.5   180W-0, 0-90N         37   36 + pole  1333
+      23    5.0 x 2.5   0-180E, 90S-0  pole + 37   36         1333
+      24    5.0 x 2.5   180W-0, 90S-0  pole + 37   36         1333
+      25    5.0 x 5.0   0-355E, 0-90N         72   18 + pole  1297
+      26    5.0 x 5.0   0-355E, 90S-0  pole + 72   18         1297
+      61    2.0 x 2.0   0-180E, 0-90N         91   45 + pole  4096
+      62    2.0 x 2.0   180W-0, 0-90N         91   45 + pole  4096
+      63    2.0 x 2.0   0-180E, 90S-0  pole + 91   45         4096
+      64    2.0 x 2.0   180W-0, 90S-0  pole + 91   45         4096
+
+     255         (non-standard grid - defined in the GDS)
+
+NOTES ON INTERNATIONAL EXCHANGE/FOS GRIDS:
+
+     (i)    The grid points are laid out in a linear array such that
+the longitude index (the columns) is the most rapidly varying.  For the
+northern hemisphere grids the first point in the record is at the
+intersection of the western-most meridian and southern-most circle of
+latitude; the last point is the single polar value (see note iii,
+below).  For the southern hemisphere grids the first point in the
+record is the single polar value (see note iii, below); the last point
+is at the intersection of the eastern-most meridian and northern-most
+circle of latitude.  For those familiar with FORTRAN subscripting
+conventions, longitude is the first subscript, latitude the second.
+
+      (ii)   In grids 21 through 26, and 61 through 64, the values on
+the shared boundaries are included in each area.
+
+      (iii)  The datum for the pole point is given only once in each
+grid.  The user must expand, if desired, the single pole point value to
+all the pole &quot;points&quot; at the pole row of a latitude-longitude grid.
+Scalar quantity values are the same for all pole points on a the grid.
+Wind components at the poles are given by the formulae:
+
+            u = -speed * sin(dd)   &amp;   v = -speed * cos(dd)
+
+where dd is the direction of the wind as reported according to the
+specification of wind direction at the poles (refer to WMO Manual
+on Codes &lt;1&gt;, code table 878).
+
+     The WMO convention can be given this operational definition:  At
+the North Pole, face into the wind and report the value of the west
+longitude meridian along which the wind is coming at you; at the South
+Pole do likewise but report the east longitude meridian value. This is
+equivalent to placing the origin of a right-handed Cartesian coordinate
+system on the North Pole with the y-axis pointing to the prime (0
+degree) meridian and the x-axis pointing to the 90 degrees west
+meridian, and then resolving any vector wind at the pole point into
+components along those axes.  At the South Pole the coordinate axes are
+oriented such that the y-axis points toward 180 degrees west.  Those
+components are the u- and v-values given as the single pair of pole
+point winds in the GRIB format.
+
+     In terms of a longitude/latitude grid these are the wind
+components for the pole point at the 180 degree meridian.  For example,
+on a 2.5x2.5 degree northern hemisphere grid (145x37 points), with the
+abscissa along the equator and the ordinate along the prime meridian,
+the transmitted north pole wind components are those that belong at the
+gridpoint (73,37).  The wind components at the other grid points along
+the pole row may be obtained through suitable rotation of the
+coordinate system.  All the components at the pole row are, of course,
+simply representations of the same vector wind viewed from differing
+(rotated) coordinate systems.  In the southern hemisphere the analogous
+situation holds; the single set of transmitted pole point wind
+components belong at the gridpoint (73,1).
+
+
+
+              WAFS/ICAO/INTERNATIONAL EXCHANGE/FOS GRIDS
+
+                            (Grids 37 - 44)
+
+
+
+
+                       Global Coverage of Grids
+                         Octants of the Globe
+
+     In the figure the boxes indicate the location of the octants of
+the globe, the numbers are the corresponding grid identification
+numbers (PDS Octet 7), and the letters are the grid identification used
+in the WMO Abbreviated Heading.
+
+     The left and right meridional columns of each octant/grid are
+shared with the neighbors.
+
+      The basic grid point separation is 1.25x1.25 deg. on a
+latitude/longitude array, but the grid is &quot;thinned&quot; by reducing the
+number of points in each row as one goes northward (or southward) away
+from the equator.  In GRIB terms, this is referred to as a &quot;quasi-
+regular&quot; grid.
+
+     The latitudinal increment is always 1.25 deg.; this results in 73
+rows where the pole is included as a &quot;row&quot;, not a single gridpoint.
+
+     The longitudinal spacing at the equator is also 1.25 deg.; thus
+there will be 73 gridpoints at the equator in each octant.
+
+     The number of points on each latitudinal row, other than the
+equator, is given by (using FORTRAN notation):
+
+           NPOINTS = IFIX(2.0 + (90.0/1.25) * COS(LATITUDE))
+
+Thus at the pole there will be two gridpoints, one each at the
+meridians that delineate the edges of the octant.  The formula was
+worked out so that there is (approximately) equal geographic separation
+between the grid points uniformly across the globe.
+
+     Because of variations in precision and roundoff error in different
+computers, the value of NPOINTS may vary by 1 at &quot;critical&quot; latitudes
+when calculated on various hardware platforms.  Here is a table of the
+exact values of NPOINTS as a function of latitude as used in the
+internationally exchanged grids.  These numbers will, of course, be
+found in the Grid Description Section of each GRIB bulletin.
+
+Latitude Range     NPOINTS                 17.50 - 18.75  70
+inclusive                                  20.00 - 21.25  69
+(north or south)                           22.50     68
+                                           23.75 - 25.00  67
+  0.00 -  8.75      73                     26.25     66
+ 10.00 - 12.50      72                     27.50 - 28.75  65
+ 13.75 - 16.25      71                     30.00     64
+ 31.25              63                Latitude Range NPOINTS
+ 32.50              62                inclusive
+ 33.75              61                (north or south)
+ 35.00 - 36.25      60
+ 37.50              59                   55.00             43
+ 38.75              58                   56.25             42
+ 40.00              57                   57.50             40
+ 41.25              56                   58.75             39
+ 42.50              55                   60.00             38
+ 43.75              54                   61.25             36
+ 45.00              52                   62.50             35
+ 46.25              51                   63.75             33
+ 47.50              50                   65.00             32
+ 48.75              49                   66.25             30
+ 50.00              48                   67.50             29
+ 51.25              47                   68.75             28
+ 52.50              45                   70.00             26
+ 53.75              44                   71.25             25
+                                         72.50             23
+                                         73.75             22
+                                         75.00             20
+                                         76.25             19
+                                         77.50             17
+                                         78.75             16
+                                         80.00             14
+                                         81.25             12
+                                         82.50             11
+                                         83.75              9
+                                         85.00              8
+                                         86.25              6
+                                         87.50              5
+                                         88.75              3
+                                         90.00              2
+
+
+     When all this is put together the result is that there are 3447
+points of data actually transmitted in any individual GRIB bulletin
+containing one octant of the globe.
+
+     In the GRIB bulletins all of this information will be included in
+the Grid Description Section (GDS); the GDS must be included in order
+to describe the thinned or &quot;quasi-regular&quot; grid structure. See Section
+2 and Table C for the general description of the GDS; what follows are
+the specific values of the variables in the GDS that describe these
+eight grids.
+
+                             GDS Contents
+
+                           Octets         Value or variable
+
+                          1-3            178 (length of GDS)
+                  4              0 (or 255, either indicating no PV)
+                   5              33 (pointer to start of PL list)
+                                   6              0
+
+               7-32           Grid description - see below
+               33-178         number of points in each of 73 rows
+                              (2 octets per point)
+
+
+               Details of Octets 7-32 - Grid Description
+
+  Octets            Variable &amp; Value
+
+  7-8               Ni = all bits set to 1 (missing)
+  9-10              Nj = 73
+
+
+
+      GRID:   37     38    39     40     41    42     43    44
+11-13 La1 =    0      0     0      0    90S    90S    90S   90S
+14-16 Lo1 =   330    60    150    240   330    60     150   240
+
+
+  17           Resolution &amp; Component Flag = [10000000] (binary)
+
+
+
+      GRID:   37    38     39     40    41     42    43     44
+18-20 La2 =   90N   90N    90N   90N     0      0     0      0
+21-23 Lo2 =   60    150    240   330    60     150   240    330
+
+
+  24-25                  Di = all bits set to 1 (missing)
+  26-27                  Dj = 1.25 deg
+  28                     Scan Mode = [01000000] (binary)
+  29-32                  Set to 0 (unused)
+
+     Note that the scanning direction is from the bottom (south edge)
+to the top of the octant grids, regardless of the hemisphere.  Thus in
+the northern hemisphere the first 73 data points (in the BDS) will be
+the equatorial values and the last two will be the polar values.  The
+PL counts in the GDS octets 33-178 will, of course, indicate contain
+these numbers.
+
+     In the southern hemisphere, the first two data points will be the
+south pole values, and the last 73 points will be the equatorial
+values.  Octets 33-34 in the GDS will contain &quot;2&quot;, octets 35-36 will
+contain a &quot;3&quot;, and so on to octets 177-178 which will contain &quot;73&quot;.
+
+
+
+                     TABLE 1.  FLAG FOR GDS OR BMS
+                             (PDS Octet 8)
+
+     The bit flag indicates the omission or inclusion of the Grid
+                 Description and/or Bit Map Sections.
+
+
+                    BIT       VALUE     MEANING
+
+                    1           0       GDS Omitted
+                                1       GDS Included
+
+                    2           0       BMS Omitted
+                                1       BMS Included
+
+                    3-8         0       reserved
+
+                     TABLE 2.  PARAMETERS &amp; UNITS
+                               Version 2
+                             (PDS Octet 9)
+
+     VALUE               PARAMETER                 UNITS
+
+
+      000     Reserved
+
+      001     Pressure                               Pa
+      002     Pressure reduced to MSL                Pa
+      003     Pressure tendency                      Pa/s
+      004
+      005
+      006     Geopotential                          m2/s2
+      007     Geopotential height                    gpm
+     008     Geometric height                    m
+     009     Standard deviation of height        m
+      010
+
+      011     Temperature                            deg. K
+      012     Virtual temperature                    deg. K
+      013     Potential temperature                  deg. K
+      014     Pseudo-adiabatic potential temperature deg. K
+      015     Maximum temperature                    deg. K
+      016     Minimum temperature                    deg. K
+      017     Dew point temperature                  deg. K
+      018     Dew point depression (or deficit)      deg. K
+      019     Lapse rate                           deg. K/m
+      020     Visibility                              m
+
+      021     Radar Spectra (1)                   -
+      022     Radar Spectra (2)                   -
+      023     Radar Spectra (3)                   -
+      024
+      025     Temperature anomaly                    deg. K
+      026     Pressure anomaly                    Pa
+      027     Geopotential height anomaly         gpm
+      028     Wave Spectra (1)                     -
+      029     Wave Spectra (2)                     -
+      030     Wave Spectra (3)                     -
+
+      031     Wind direction                     deg. true
+      032     Wind speed                             m/s
+      033     u-component of wind                    m/s
+      034     v-component of wind                    m/s
+      035     Stream function                        m2/s
+      036     Velocity potential                     m2/s
+      037     Montgomery stream function             m2/s2
+      038     Sigma coord. vertical velocity          /s
+      039     Pressure Vertical velocity            Pa/s
+      040     Geometric Vertical velocity            m/s
+
+      041     Absolute vorticity                     /s
+      042     Absolute divergence                    /s
+      043     Relative vorticity                     /s
+      044     Relative divergence                    /s
+      045     Vertical u-component shear             /s
+      046     Vertical v-component shear             /s
+      047     Direction of current                deg. true
+      048     Speed of current                       m/s
+      049     u-component of current                 m/s
+      050     v-component of current                 m/s
+
+      051     Specific humidity                      kg/kg
+      052     Relative humidity                      %
+      053     Humidity mixing ratio                  kg/kg
+      054     Precipitable water                     kg/m2
+      055     Vapor pressure                         Pa
+      056     Saturation deficit                     Pa
+      057     Evaporation                            kg/m2
+      058     Cloud Ice                           kg/m2
+      059     Precipitation rate                   kg/m2/s
+      060     Thunderstorm probability            %
+
+      061     Total precipitation                   kg/m2
+      062     Large scale precipitation             kg/m2
+      063     Convective precipitation              kg/m2
+      064     Snowfall rate water equivalent        kg/m2s
+      065     Water equiv. of accum. snow depth     kg/m2
+      066     Snow depth                             m
+      067     Mixed layer depth                      m
+      068     Transient thermocline depth            m
+      069     Main thermocline depth                 m
+      070     Main thermocline anomaly               m
+
+      071     Total cloud cover                      %
+      072     Convective cloud cover                 %
+      073     Low cloud cover                        %
+      074     Medium cloud cover                     %
+      075     High cloud cover                       %
+      076     Cloud water                            kg/m2
+      077
+     078     Convective snow                    kg/m2
+     079     Large scale snow                   kg/m2
+     080     Water Temperature                  deg K
+     081     Land-sea mask
+             (1=land;0=sea) (see note)          fraction
+      082     Deviation of sea level from mean       m
+      083     Surface roughness                      m
+      084     Albedo                                 %
+      085     Soil temperature                      deg. K
+      086     Soil moisture content                 kg/m2
+      087     Vegetation                             %
+      088     Salinity                              kg/kg
+      089     Density                               kg/m3
+     090      Water runoff                      kg/m2
+      091     Ice concentration                 fraction
+              (ice=1;no ice=0)(see note)
+      092     Ice thickness                          m
+      093     Direction of ice drift              deg. true
+      094     Speed of ice drift                     m/s
+      095     u-component of ice drift               m/s
+      096     v-component of ice drift               m/s
+      097     Ice growth rate                        m/s
+      098     Ice divergence                         /s
+     099     Snow melt                          kg/m2
+      100     Significant height of combined wind    m
+              waves and swell
+
+      101     Direction of wind waves             deg. true
+      102     Significant height of wind waves       m
+      103     Mean period of wind waves              s
+      104     Direction of swell waves            deg. true
+      105     Significant height of swell waves      m
+      106     Mean period of swell waves             s
+      107     Primary wave direction              deg. true
+      108     Primary wave mean period               s
+      109     Secondary wave direction            deg. true
+      110     Secondary wave mean period             s
+
+      111     Net short-wave radiation (surface)      W/m2
+      112     Net long wave radiation (surface)       W/m2
+      113     Net short-wave radiation (top of atmos.)W/m2
+      114     Net long wave radiation (top of atmos.) W/m2
+      115     Long wave radiation                    W/m2
+      116     Short wave radiation                   W/m2
+      117     Global radiation                       W/m2
+      118
+      119
+      120
+
+     121     Latent heat net flux               W/m2
+     122     Sensible heat net flux             W/m2
+     123     Boundary layer dissipation         W/m2
+     124     Momentum flux, u component         N/m2
+     125     Momentum flux, v component         N/m2
+     126     Wind mixing energy                 J
+     127     Image data
+
+   128-254    Reserved for use by originating center)
+
+      255     Missing
+
+Notes:
+
+       1) By convention, downward net fluxes of radiation or other
+               quantities are assigned negative values; upward net
+               fluxes of radiation or other quantities are
+               assigned positive values.
+
+       2) Unidirectional flux values, where the direction of flow
+               is indicated in the name of the parameter shall all
+               have positive values irrespective of the direction
+               of flow.  Net (vertical) fluxes shall be calculated
+               by subtracting the downward flux values from the
+               upward flux values.
+
+       3) The u and v components of vector quantities are defined
+               with reference to GDS Octet 17 and Table 7.
+               However, if the GDS is not included in a message,
+               then any wind components are assumed to be resolved
+               relative to the grid specified in the PDS with u
+               and v defined as positive in the direction of
+               increasing x and y (or i and j) coordinates
+               respectively.
+
+       4) Provision is made for three types of spectra:
+
+               1)   Direction and Frequency
+               2)   Direction and radial number
+               3)   Radial number and radial number
+
+       5) Parameters 81 and 91 show the units as &quot;fraction&quot;, thus
+               allowing for a range of coverage. It is up to the
+               user to employ the D (power of ten) scaling to
+               assure that the necessary precision is retained in
+               the numeric values.
+
+                   TABLE 3.  TYPE AND VALUE OF LEVEL
+                       (PDS Octets 10, 11, &amp; 12)
+
+
+       Octet Number 10            Number 11        Number 12
+
+  VALUE      MEANING                      CONTENTS
+|---------------------------+-----------------+----------------|
+| 0 - 99  special codes,    |        0        |       0        |
+|         see Table 3a      |                 |                |
+|---------------------------+-----------------+----------------|
+| 100     isobaric level    |  pressure in hectoPascals (hPa)  |
+|                           |            (2 octets)            |
+|---------------------------+-----------------+----------------|
+| 101     layer between two |  pressure of    |  pressure of   |
+|         isobaric levels   |  top (kPa)      |  bottom (kPa)  |
+|---------------------------+-----------------+----------------|
+| 102     mean sea level    |        0        |       0        |
+|---------------------------+-----------------+----------------|
+| 103     fixed height level|   height above mean sea level    |
+|                           |        (MSL) in meters           |
+|---------------------------+-----------------+----------------|
+| 104     layer between two |  height of top  |  height of     |
+|           height levels   |     (hm)        |  bottom (hm)   |
+|            above msl      |        above mean sea level      |
+|---------------------------+-----------------+----------------|
+| 105     fixed height above|         height in meters         |
+|           ground          |            (2 octets)            |
+|---------------------------+-----------------+----------------|
+| 106     layer between two |  height of top  |  height of     |
+|           height levels   |      (hm)       |  bottom (hm)   |
+|           above ground    |           above ground           |
+|---------------------------+-----------------+----------------|
+| 107     sigma level       |     sigma value in 1/10000       |
+|                           |            (2 octets)            |
+|---------------------------+-----------------+----------------|
+| 108     layer between two |  sigma value at |  sigma value   |
+|           sigma levels    |       top       |  at bottom     |
+|                           |     in 1/100    |   in 1/100     |
+|---------------------------+-----------------+----------------|
+| 109     Hybrid level      |           level number           |
+|                           |            (2 octets)            |
+|---------------------------+-----------------+----------------|
+| 110     layer between two | level number of | level number   |
+|           hybrid levels   |       top       |  of bottom     |
+|---------------------------+-----------------+----------------|
+| 111     depth below       |            centimeters           |
+|         land surface      |             (2 octets)           |
+|---------------------------+-----------------+----------------|
+| 112     layer between two |  depth of upper | depth of lower |
+|         depths below      |    surface (cm) |   surface (cm) |
+|         land surface      |                 |                |
+|---------------------------+-----------------+----------------|
+|---------------------------+-----------------+----------------|
+| 113     isentropic        |     Potential Temp. degrees K    |
+|         (theta) level     |             (2 octets)           |
+|---------------------------+-----------------+----------------|
+| 114     layer between two |    475K minus   |  475K minus    |
+|         isentropic        |   theta of top  |theta of bottom |
+|         levels            |    in Deg. K    |   in deg. K    |
+|---------------------------+-----------------+----------------|
+| 115    level at specified |                                  |
+|        pressure difference|                hPa               |
+|        from ground to     |             (2 octets)           |
+|        level              |                                  |
+|---------------------------+-----------------+----------------|
+| 116    layer between      |     pressure    |     pressure   |
+|        two levels at      | difference from | difference from|
+|        specified pressure |    ground to    |    ground to   |
+|        differences from   |    top level    |   bottom level |
+|        ground to levels   |      hPa        |       hPa      |
+|---------------------------+-----------------+----------------|
+| 121     layer between two |  1100 hPa minus | 1100 hPa minus |
+|         isobaric surfaces |  pressure of    | pressure of    |
+|         (high precision)  |  top, in hPa    | bottom, in hPa |
+|---------------------------+-----------------+----------------|
+| 125     Height level      |            centimeters           |
+|         above ground      |             (2 octets)           |
+|         (high precision)  |                                  |
+|---------------------------+-----------------+----------------|
+| 128     layer between two |  1.1 minus sigma| 1.1 minus sigma|
+|         sigma levels      |  of top, in     | of bottom, in  |
+|         (high precision)  |  1/1000 of sigma| 1/1000 of sigma|
+|---------------------------+-----------------+----------------|
+| 141     layer between two |  pressure of    | 1100hPa minus  |
+|         isobaric surfaces |  top, in kPa    | pressure of    |
+|         (mixed precision) |                 | bottom, in hPa |
+|---------------------------+-----------------+----------------|
+| 160     depth below       |               meters             |
+|         sea level         |             (2 octets)           |
+|---------------------------+-----------------+----------------|
+| 200     entire atmosphere |                 0                |
+|    considered as a single layer         (2 octets)           |
+|---------------------------+-----------------+----------------|
+| 201     entire ocean      |                 0                |
+|    considered as a single layer         (2 octets)           |
+|---------------------------+-----------------+----------------|
+
+Note: The numbering allows for additions within this framework:
+
+          100-119   normal precision
+          120-139   high precision
+          140-159   mixed precision
+
+
+
+                      TABLE 3a.   SPECIAL LEVELS
+                            (PDS Octet 10)
+
+
+
+          VALUE               LEVEL
+
+          00              reserved
+          01              surface (of the Earth, which
+                                   includes sea surface)
+          02              cloud base level
+          03              cloud top level
+          04              0 deg (C) isotherm level
+          05              adiabatic condensation level
+                          (parcel lifted from surface)
+          06              maximum wind speed level
+          07              tropopause level
+          08              Nominal top of atmosphere
+          09              Sea bottom
+          10-99           reserved
+
+
+
+                     TABLE 4.  FORECAST TIME UNIT
+                            (PDS Octet 18)
+
+
+                  VALUE            TIME UNIT
+
+                    0              minute
+                    1              hour
+                    2              day
+                    3              month
+                    4              year
+                    5              decade
+                    6              normal (30 years)
+                    7              century
+                    8-253          reserved
+                    254            second
+
+
+                               TABLE 5.
+                         TIME RANGE INDICATOR
+                            (PDS Octet 21)
+
+
+              VALUE                MEANING
+
+                0           Forecast product valid
+                            at reference time + P1 (P1&gt;0),
+                            or
+                            Uninitialized analysis product
+                            for reference time (P1=0).
+                            or
+                            Image product
+                            for reference time (P1=0)
+
+                1           Initialized analysis product
+                            for reference time (P1=0).
+
+                2           Product with a valid time ranging
+                            between reference time + P1 and
+                            reference time + P2
+
+                3           Average
+                            (reference time + P1 to
+                            reference time + P2)
+
+                4           Accumulation
+                            (reference time + P1 to
+                            reference time + P2)
+                            product considered valid at
+                            reference time + P2
+
+                5           Difference
+                            (reference time + P2 minus
+                            reference time + P1)
+                            product considered valid at
+                            reference time + P2
+
+                6-9         reserved
+
+                10          P1 occupies octets 19 and 20;
+                            product valid at reference time + P1
+
+                11-50      reserved
+
+                51         Climatological Mean Value: multiple year
+                            averages of quantities which are
+                            themselves means over some period of time
+                            (P2) less than a year.  The reference time
+                            (R) indicates the date and time of the
+                            start of a period of time, given by R to R
+                            + P2, over which a mean is formed; N
+                            indicates the number of such period-means
+                            that are averaged together to form the
+                            climatological value, assuming that the N
+                            period-mean fields are separated by one
+                            year.  The reference time indicates the
+                            start of the N-year climatology.  N is
+                            given in octets 22-23 of the PDS.
+
+                            If P1 = 0 then the data averaged in the
+                            basic interval P2 are assumed to be
+                            continuous, i.e., all available data are
+                            simply averaged together.
+
+                            If P1 = 1 (the units of time - octet 18,
+                            code table 4 - are not relevant here) then
+                            the data averaged together in the basic
+                            interval P2 are valid only at the time
+                            (hour, minute) given in the reference
+                            time, for all the days included in the P2
+                            period.  The units of P2 are given by the
+                            contents of octet 18 and Table 4.
+
+                52-112      reserved
+
+                113        Average of N forecasts (or initialized
+                           analyses); each product has forecast
+                           period of P1 (P1=0 for initialized
+                           analyses); products have reference
+                           times at intervals of P2, beginning at
+                           the given reference time.
+
+                114        Accumulation of N forecasts (or
+                           initialized analyses); each product
+                           has forecast period of P1 (P1=0 for
+                           initialized analyses); products have
+                           reference times at intervals of P2,
+                           beginning at the given reference time.
+
+                115        Average of N forecasts, all with the
+                           same reference time; the first has a
+                           forecast period of P1, the remaining
+                           forecasts follow at intervals of P2.
+
+                116         Accumulation of N forecasts, all with
+                            the same reference time; the first has
+                            a forecast period of P1, the remaining
+                            follow at intervals of P2.
+
+                117         Average of N forecasts, the first has a
+                            period of P1, the subsequent ones have
+                            forecast periods reduced from the previous
+                            one by an interval of P2; the reference
+                            time for the first is given in octets 13-
+                            17, the subsequent ones have reference
+                            times increased from the previous one by an
+                            interval of P2.  Thus all the forecasts
+                            have the same valid time, given by the
+                            initial reference time + P1.
+
+                118         Temporal variance, or covariance, of N
+                            initialized analyses; each product has
+                            forecast period P1=0; products have
+                            reference times at intervals of P2,
+                            beginning at the given reference time.
+
+                119 -122    reserved
+
+                123         Average of N uninitialized analyses,
+                            starting at the reference time,
+                            at intervals of P2.
+
+                124         Accumulation of N uninitialized
+                            analyses, starting at the reference
+                            time, at intervals of P2.
+
+
+                125-254     reserved
+
+
+NOTES:
+
+1)   For analysis products, or the first of a series of analysis
+     products, the reference time (octets 13 to 17) indicates the valid
+     time.
+
+2)   For forecast products, or the first of a series of forecast
+     products, the reference time indicates the valid time of the
+     analysis upon which the (first) forecast is based.
+
+3)   Initialized analysis products are allocated numbers distinct from
+     those allocated to uninitialized analysis products.
+
+4)   A value of 10 allows the period of a forecast to be extended over
+     two octets; this accommodates extended range forecasts.
+
+5)   Where products or a series of products are averaged or
+     accumulated, the number involved is to be represented in octets 22-
+     23 of Section 1, while any number missing is to be represented in
+     octet 24.
+
+6)   Forecasts of the accumulation or difference of some quantity (e.g.
+     quantitative precipitation forecasts), indicated by values of 4 or
+     5 in octet 21, have a product valid time given by the reference
+     time + P2; the period of accumulation, or difference, can be
+     calculated as P2 - P1.
+
+     A few examples may help to clarify the use of Table 5:
+
+     For analysis products P1 is zero and the time range indicator is
+also zero; for initialized products (sometimes called &quot;zero hour
+forecasts&quot;) P1 is zero, but octet 21 is set to 1.
+
+     For forecasts, typically, P1 contains the number of hours of the
+forecast (the unit indicator given in octet 18 would be 1) and octet 21
+contains a zero.
+
+     Value 51 allows for the identification of the most common
+climatological entities.  With P1=0, it could represent (or identify)
+the multiple year climatology of anything from daily means (or less) to
+semi-annual means (or more, up to a full year). The assumption is that
+all the available values within the basic period P2 are averaged
+together. (An &quot;annual mean climatology&quot; would just be an average over
+the total climatological period - Table 5, entry 3.)  P1=1 allows for a
+diurnal sub-stratification of the data within the P2 period, such as 30-
+year climatology of February mean 00Z temperature starting at a date
+certain, or all the 12Z surface radiation fluxes averaged for all the
+days in a season, or whatever.   If other sub-stratifications are
+appropriate they could be identified by different values of P1.  No
+others have been proposed at this time.
+
+     Value 115 would be used, typically, for multiple day mean
+forecasts, all derived from the same initial conditions.
+
+     Value 117 would be used, typically, for Monte Carlo type
+calculations: many forecasts valid at the same time from different
+initial (reference) times.
+
+      Averages, accumulations, and differences get a somewhat
+specialized treatment.  If octet 21 (Table 5) has a value between 2 and
+5 (inclusive) then the reference time + P1 is the initial date/time and
+the reference time + P2 is the final date/time of the period over which
+averaging or accumulation takes place.  If, however, octet 21 has a
+value of 113, 114, 115, 116, 117, 118, 123, or 124 then P2 specifies
+the time interval between each of the fields (or the forecast initial
+times) that have been averaged or accumulated.  These latter values of
+octet 21 require the quantities averaged to be equally separated in
+time; the former values, 3 and 4 in particular, allow for irregular or
+unspecified intervals of time between the fields that are averaged or
+accumulated.
+
+</PRE>
+Vedi anche:
+<a href="grib_refrence.html ">grib_refrence</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

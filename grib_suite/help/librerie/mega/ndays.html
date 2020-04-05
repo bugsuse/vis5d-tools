@@ -1,0 +1,35 @@
+<HTML><HEAD><TITLE>
+ NDAYS
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">ndays</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/eladata.f">/disk3/patruno/lib/mega/eladata.f</A> <HR>
+<PRE>
+	FUNCTION NDAYS(IGG,IMM,IAA)
+	restituisce  il numero di giorni dal 1/1/1
+	fornendo in input la data
+				ATTENZIONE
+		non tiene conto del riaggiustamento dell'anno non
+		bisestile ogni 100 anni
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ nota bene                   E' SICURO !!!
+	un anno e' bisestile se divisibile per 4
+       un anno rimane bisestile se divisibile per 400
+       un anno NON e' bisestile se divisibile per 100
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+	INPUT:
+	IGG	I*4	giorno
+	IMM	I*4	mese
+	IAA	I*4	anno
+
+	OUTPUT:
+	NDAYS	I*4	numero giorni dal 1/1/1
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

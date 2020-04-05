@@ -1,0 +1,30 @@
+#to_vis5d
+12 4 12 40 48
+ORO 1
+P-E 1
+PHISM 1
+PRECTMM 1
+PS 1
+PSLM 1
+T 4
+T0 1
+TS 1
+U 4
+V 4
+VMAG 4
+0.9910
+850.0000
+500.0000
+250.0000
+january 95001
+february 95032
+march 95060
+april 95091
+may 95121
+june 95152
+july 95182
+august 95213
+september 95244
+october 95274
+november 95304
+december 95334

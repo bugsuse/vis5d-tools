@@ -1,0 +1,95 @@
+<HTML><HEAD><TITLE>
+ N_GETMULTI
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">n_getmulti</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/dball.f">/disk3/patruno/lib/mega/dball.f</A> <HR>
+<PRE>
+	function N_GETMULTI(FILAC,CONTRO,PRIMO,ISTAZL,DATAL,ORAL,
+	1	ISTAZU,DATAU,ORAU,STAZE,DATAE,ORAE,rep,NREP)
+	
+	Retrieval dal METEODATAbase in sequenza dei records relativi ai reports
+	compresi nella finestra datal/oral - datau/orau e con sottochiave
+	stazl - stazu. Ogni chiamata rende un report soddisfacente ai limiti
+	impostati.
+	la ricerca viene fatta contemporaneamente su NREP archivi contenenti
+	differenti tipi di report. Essi possono essere synop metar o locali.
+	viene restituito un unico report all'interno di un'ora dando priorita`
+	secondo l'ordine di FILAC. Il tracciato record e` unico e bisogna far
+	riferimento a megainc$dir:dball.inc ; se si effettua l'include di questo
+	file bisogna passare il nome di variabile wwr al posto di rep.
+	La function effettua anche un controllo di qualita` climatico e di
+	consistenza per i report synop e metar.
+
+	filac(nrep) i/p	c*100	Nome del file da usare per il retrieval del
+				record.
+				Usato solo se NUN non ha nessun file
+				aperto su di se', in tal caso causa apertura
+				automatica, o se primo=.true., in tal caso
+				causa chiusura e riapertura automatica.
+				Se il nome non specifica il device e/o
+				directory il default e' METEO$DIR, se il nome
+				non specifica l'estensione in default e' .IND
+				Ad es. filac='SYNOP' causa l'apertura di
+				METEO$DIR:SYNOP.IND .
+
+	contro(nrep)	i/p	i*4	Unita' da utilizzare nel retrieval.
+				Se nessun file e' aperto su di essa viene
+				automaticamente aperto filac.
+
+	primo(nrep)	i/p 	l*1	Variabile logica per segnalare primo ingresso
+				(da inizializzare a .TRUE., viene
+				automaticamente	posta a .FALSE. all'interno
+				della routine).
+
+	istazl	i/p	i*4	Limite inferiore codice WMO di ricerca per
+				stazione.
+
+	datal(3)/oral(2) i/p i*4 Limite inferiore di ricerca per cronologia
+				(giorno,mese,anno,ore e minuti).
+
+	istazu	i/p	i*4	Limite superiore codice WMO di ricerca per
+				stazione.
+
+	datau(3)/orau(2) i/p i*4 Limite superiore di ricerca per cronologia
+				(giorno,mese,anno,ore e minuti).
+
+	staze	o/p	i*4	Codice WMO della stazione del report
+				reso in buf se n_getsds=0.
+
+	datae(3)	o/p	i*4	Vettore contenente rispettivamente
+				giorno,mese ed anno a quattro cifre
+				del report reso in buf se n_getsds=0.
+
+	orae(2)	o/p	i*4	Vettore con ore e minuti del report
+				reso in buf se n_getsds=0.
+
+	rep(n)  o/p	i*2	buffer che conterra' il report letto
+				dal database se n_getsds=0.
+				(Deve essere dimensionato sulla base
+				del file megainc$dir:dball.inc).
+
+	nrep	i/p	i*4	numero di report su cui si vuole fare la
+				ricerca contemporanea.
+
+	n_getmulti o/p	i*4	= 0 tutto ok - il buffer contiene
+				il primo report in sequenza ricercato
+				= 1 fine ricerca
+				=-1 errore di i/o su file
+				=-2 limiti di ricerca errati
+				=-9 stazione senza anagrafica
+				=10 tipo report non corretto
+	
+
+		common con limiti geografici di estrazione
+	common /n_getmulti/ALATMIN,ALATMAX,ALONMIN,ALONMAX
+
+				dati sessagesimali
+
+	11/01/91
+	11/04/94	revised
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

@@ -1,0 +1,119 @@
+<HTML><HEAD><TITLE>
+ QUACONSPA
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quaconspa</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quaconspa.f">/disk3/patruno/lib/mega/quaconspa.f</A> <HR>
+<PRE>
+	SUBROUTINE QUACONSPA (K,IVAL,LAT,LON,ISOGLIA,GRADMAX,
+	1	IN,IB,FLAG,IER)
+
+	Questa subroutine effettua un controllo spaziale dei dati distribuiti
+	su stazioni che devono essere il piu` possibili equidistribuite
+	nello spazio. Vengono costruiti con una routine NCAR dei triangoli
+	che uniscono tre stazioni adiacenti in maniera che essi siano il
+	piu` possibile equilateri. Questo fa in maniera che da una stazione
+	partano vari raggi (da un minimo di 2 a n) che rappresentano
+	al tempo stesso i vari orientamenti nello spazio e le stazioni
+	possibilmente piu` vicine. Vengono quindi estratti tutti i vertici
+	dei triangoli appartenenti a una stazione, ordinati per poi
+	togliere i valori doppi e considerati per calcolare i vari gradienti
+	nelle varie direzioni. SOLO SE TUTTI QUESTI GRADIENTI VERIFICANO
+	LA CONDIZIONE DI ERRORE E SONO TUTTI DELLO STESSO SEGNO IL DATO VERRA`
+	CONSIDERATO ERRATO
+
+	Il controllo e` piu` scadente sulle stazioni che appartengono
+	al poligono che racchiude tutte le stazioni in quanto il controllo
+	su di esse viene effettuato su un angolo inferiore ai 180 gradi.
+
+	Esse potrebbero eventualmente essere escluse dal controllo, opzione
+	attualmente non in uso.
+
+	Le coordinate delle stazioni vengono calcolate partendo dalle
+	coordinate geografiche espresse in gradi centesimali tramite le
+	funzioni sotto riportate:
+
+	   X(J)=COSD(LON(J))*(90.-LAT(J))/90.
+	   Y(J)=SIND(LON(J))*(90.-LAT(J))/90.
+
+	Queste funzioni lavorano ragionevolmente bene solo nell`emisfero nord .
+	L'origine delle coordinate e` il polo l'asse X e` il meridiano di
+	Greenwich mentre l'asse Y e` il meridiano a 90 E.
+
+===============================================================================
+
+	CONDIZIONE DI ERRORE
+
+	Il dato della stazione in esame e` considerato errato se il vettore dei
+	dati contiene almeno tre stazioni con dati presenti e se sono
+	verificate entrambe le condizioni:
+	
+	a) Tutte le stazioni attorno alla stazione in esame hanno, con essa,
+	un gradiente superiore a
+
+		ISOGLIA/DIST + GRADMAX
+
+	dove ISOGLIA e GRADMAX sono parametri passati in input e DIST e` la
+	distanza sulla terra tra la stazione in esame e la stazione sulla
+	poligonale che viene utilizzata.
+
+	b) I gradienti sono tutti dello stesso segno.
+	La stazione e` un massimo o un minimo.
+
+	N.B.
+	Se una stazione risulta circondata da dati mancanti nessun controllo
+	viene fatto su di essa e la flag rimane inalterata.
+
+	I dati mancanti sono definiti dalla function J_C_E per i dati o
+	dalla flag associata con la function VF (vedi:
+	COMMON /FLAGSOGLIA/IATT	
+	DATA IATT/3/				)
+
+ 23/9/1998
+
+ modificato l'algoritmo:
+ e' stata definita una soglia per la distanza, oltre la quale le stazioni
+ vengono considerate scorrelate e la coppia di stazioni non viene
+ considerata per il controllo, al pari di un dato mancante.
+
+ il parametro di soglia espresso in Km. viene definito tramite un common
+ per mantenere la comptibilita' con le versioni precedenti.
+
+	COMMON/QUACONSPA/DISCOL
+
+ DISCOL assume valore di default=100
+
+
+===============================================================================
+	INPUT
+
+	K		I*4	Numero di stazioni da testare.
+	IVAL(K)	     	I*4	Valori misurati nelle stazioni.
+	LAT(K)	     Real*4	Lat. delle stazioni in centesimali.
+	LON(K)	     Real*4	Lon. delle stazioni in centesimali.
+	ISOGLIA		I*4	Differenza orrizzontale minima tra le stazioni,
+				espressa in unita` di misura di IVAL;
+				vedi le condizioni di errore per ulteriori
+				chiarimenti.
+	GRADMAX      Real*4	Gradiente massimo orrizontale della grandezza
+				considerata, espresso in unita` di misura di
+				IVAL/Km.
+
+===============================================================================
+	OUTPUT
+
+	IN		I*4	Numero di stazioni errate.
+	IB		I*4	Numero di stazioni buone.
+	FLAG(K)	       BYTE	Vettore di flag associate ai dati da testare.
+	IER		I*4	condizione di errore della routine:
+				-80 errore allocazione virtual memory
+				-3 due o piu` stazioni con le stesse coordinate
+				   la coppia di stazioni non viene esaminata
+				-2 solo due stazioni, non si puo` triangolare
+				0  Nessuna errore dalla routine, tutto OK.
+				
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

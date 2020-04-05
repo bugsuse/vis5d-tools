@@ -1,0 +1,65 @@
+<HTML><HEAD><TITLE>
+ esempio
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">esempio</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/nerozzi/src/cluster_analysis/esempio.F">/disk3/nerozzi/src/cluster_analysis/esempio.F</A> <HR>
+<PRE>
+
+     program esempio
+
+ Description:
+     Cluster analysis
+
+ Current Code Owner: Fabrizio Nerozzi
+
+ History:
+ Version   Date     Comment
+ -------   ----     -------
+ 1.00      31.7.01  Original code. F.Nerozzi
+
+ Code Description:
+   Language:           Fortran 77.
+   Software Standards: &quot;European Standards for Writing and
+     Documenting Exchangeable Fortran 90 Code&quot;.
+
+ Declarations:
+
+ Imported Array Variables with intent (in):
+
+     include      '../grib_operations/gribio.inc'
+
+ Local parameters:
+     parameter    ( NGP    = 8255
+    $             , NEM    =   51
+    $             , NCL    =    5
+    $             , METHOD =    2
+    $             , MODE   =    3 )
+
+ Local scalars:
+
+     character*90 gfile
+     character*90 chmeth(2), chmode(3)
+
+     data 	   chmeth   /&quot; WARD'S ALGORITHM&quot;,
+    $                       ' COMPLETE LINKAGE'/
+     data         chmode   /' MINIMIZE INTERNAL DISTANCE',
+    $                       ' MAXIMIZE EXTERNAL DISTANCE',
+    $                       ' MINIMIZE INT/EXT RATIO    '/
+
+ Local arrays:
+
+     integer      ixc(NEM,NEM), nxc(NEM),    irc(NEM)
+     real         x(NGP,NEM),   xt(NEM,NGP), w(NGP)
+     real         dx(NEM,NEM),  var(NCL+1)
+
+</PRE>
+Vedi anche:
+<a href="ward-s-algorithm.html ">ward-s-algorithm</a>
+<a href="cluster-statistics.html ">cluster-statistics</a>
+<a href="complete-linkage-algorithm.html ">complete-linkage-algorithm</a>
+<a href="cluster-representative-member.html ">cluster-representative-member</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

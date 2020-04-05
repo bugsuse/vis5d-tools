@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>
+ TABSPLIMSL
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">tabsplimsl</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/tabsplimsl.f">/disk3/patruno/lib/mega/tabsplimsl.f</A> <HR>
+<PRE>
+	SUBROUTINE TABSPLIMSL (DATI,N,N1,N2,MX,MN,MD,IN,IER)
+
+	Questa ruotine valuta il valore massimo, minimo, medio di un insieme
+	di dati utilizzando un interpolazione &quot;spline&quot; dei dati.
+	Fa un controllo sui dati in maniera temporale controllando
+	che il dato considerato non sia un massimo o un minimo e che
+	contemporaneamente non differisca dai valori intorno piu` di
+	0.1 gradi C per minuto.
+	L'indice del vettore dati e` l'asse dei tempi che vengono
+	ricalcolati dalla funzione IMINUTI.
+	
+	DATI(N)	: 	I*2	VETTORE CONTENENTE TUTTI I DATI
+	N1	:	I*4	INDICE DELL' ELEMENTO DA CUI SI INIZIA
+				L'INTERPOLAZIONE
+	N2	:	I*4	INDICE DELL' ELEMENTO CON CUI SI FINISCE
+				L'INTERPOLAZIONE
+	MX	:	REAL	VALORE MASSIMO STIMATO
+	MN	:	REAL	VALORE MINIMO STIMATO
+	MD	:	REAL	VALORE MEDIO STIMATO
+	IN	:	I*4	NUMERI DI DATI BUONI TROVATI
+	IER	:	I*4	INDICATORE DI ERRORE
+
+	IER =  0    : 	TUTTO O.K.
+	IER =  1    :   L'indice N2 e' &gt; di N o e' &gt; di 100	
+	IER =  2    :	Nessun dato buono nell' intervallo N1-N2 oppure
+			fra N1 e N2 esiste un buco fra i dati superiore a 2 ore
+	IER =  3    :   Ci sono piu` di tre dati considerati errati
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

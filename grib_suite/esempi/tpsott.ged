@@ -1,0 +1,28 @@
+# sottrazione di preci cumulate dall'inizio del run
+100 open 1 r tmp_tp.grib
+105 onerrorgoto 400
+110 open 2 w tmp_sott.grib
+115 onerrorgoto 400
+116 setkey data:30,11,2002 scad:-1,12,-1,-1
+120 find 1 A
+122 onerrorgoto 500
+123 setkey data:30,11,2002 scad:-1,18,-1,-1
+124 find 1 B
+125 onerrorgoto 500
+140 let B sottrai A
+145 onerrorgoto 600
+146 let B moltiplica 1
+147 onerrorgoto 700
+150 write 2 B
+165 close 1
+170 close 2
+189 print sottratto 12 18
+190 exit 0
+400 print errore apertura
+401 exit 1
+500 print grib non trovato
+501 exit 2
+600 print errore ope1
+601 exit 3
+700 print errore ope2
+701 exit 4

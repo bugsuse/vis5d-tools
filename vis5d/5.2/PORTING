@@ -1,0 +1,75 @@
+
+			Notes on Vis5D ports
+
+
+
+As of version 4.1, Vis5D works on the following systems:
+
+	Silicon Graphics	using GL or OpenGL
+	IBM RS/6000		using GL or Mesa
+	Stellar/Stardent	using XFDI
+	Sun Sparc		using Mesa
+	HP/apollo		using Mesa or PEX
+	DECstation 5000		using VOGL
+	DEC Alpha		using Mesa
+	DEC Alpha w/ Denali	using Nth Portable GL
+
+
+The following are some notes on improving the implementation of Vis5D on
+your system.  If you make any of these enhancements please let us know so
+that we can integrate your work into the Vis5D distribution.
+
+
+
+Graphics
+--------
+
+Systems without a native graphics library such as GL use Mesa (an OpenGL
+work-alike) or VOGL (an IRIS GL work-alike) to make 3-D renderings.  3-D
+graphics in software is very compared to having rendering hardware.
+
+Sun, HP, and DEC all have 3-D graphics hardware and associated graphics
+libraries (Sun has XGL, HP has Starbase).  If you have one of these systems,
+with 3-D graphics hardware and the graphics library, you might want to try
+to modify vis5d to use it.  The basic steps are:
+
+	1. copy one of the graphics.*.c file and modify it to make
+	   calls to your graphics system
+	2. edit the Makefile and src/Makefile to add an option for
+	   your graphics system
+
+
+Parallelism
+-----------
+
+vis5d for the SGI and Stellar systems make use of multiple processors when
+present.  This is done by creating several threads of execution in the
+address space.  Thread 0 is used to handle user input and rendering.  Threads
+1 to N are used to compute isosurfaces, contour slice, trajectories, etc in
+the background.
+
+If you have a multi-CPU system you can modify vis5d to use the extra CPUs.
+First you must edit the sync.c and sync.h files to provide synchronization
+primitives.  Second, in main.c you'll have to write code to create the
+threads.  Lastly, remove the -DSINGLE_TASK flag from the src/Makefile.
+
+Even with just one CPU it is worthwhile to parallelize vis5d.  This is
+because when background threads are present the user interface won't 'freeze'
+while graphics are being computed.  The vis5d program operates much nicer
+in this mode.  Again, the requirements for this are a way to create multiple
+threads of execution in one address space and synchronization primitives.
+SunOS 5.3 in Solaris 2.3 supports this...
+
+
+
+Other misc. info
+----------------
+
+The following symbols are used in the Vis5D source code and specified 
+in the Makefiles:
+
+UNDERSCORE	- append an underscore to C function names if they
+		  are to be called from Fortran
+SINGLE_TASK	- specifies 1 thread of execution (no fork, sproc, etc)
+LITTLE		- compile for a little endian computer
+

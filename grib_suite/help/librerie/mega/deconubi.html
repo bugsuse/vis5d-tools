@@ -1,0 +1,24 @@
+<HTML><HEAD><TITLE>
+ DECONUBI
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">deconubi</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/mischia.f">/disk3/patruno/lib/mega/mischia.f</A> <HR>
+<PRE>
+	SUBROUTINE DECONUBI (CNI,TNI,CNU,TNU)
+	subroutine per la conversione dei gruppi 8 del synop regionale
+	in coperture tipo metar ordinate per livello
+	nel caso in cui i campi siano vuoti ritornano coperture =0
+
+	IN:
+	CNI(4)	INTEGER*2	sono le 4  coperture
+	TNI(4)	INTEGER*2	i 4 tipi di copertura
+
+	OUT:
+	CNU(4)	INTEGER*4	le cperture in ordine di altezza
+	TNU(4)	CHARACTER*2	i tipi di copertura decodificati tipo metar
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

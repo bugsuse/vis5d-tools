@@ -1,0 +1,42 @@
+<HTML><HEAD><TITLE>
+ xgrib2cdromseg
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">xgrib2cdromseg</H2> <HR>
+ procedura per la preparazione dei dati di XGRIB per la masterizzazione <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/xgrib_util/xgrib_util.doc">/disk3/patruno/xgrib_util/xgrib_util.doc</A> <HR>
+<PRE>
+
+  xgrib2cdrom (dataset) (nome_cdrom) (numero_segmenti)
+
+ Questa procedura permette il trasferimento dei dati presenti in
+ XGRIB preparandoli per la masterizzazione.
+
+ (dataset) 		e' il nome del dataset da scaricare
+ (nome_cdrom)           e' l'etichetta che si vuole attribuire al cdrom
+			Questa etichetta viene memorizzata in XGRIB
+			e verra' richiesta al bisogno.
+			E' il nome che dovra' essere scritto sul cdrom
+ (numero_segmenti)	E' il numero di segmenti che si vuole scaricare
+
+ La procedura tenta di scaricare il numero di segmenti specificatati
+ dall'archivio. Di fatto i dati vengono portati in ~com2666/foriso.  E'
+ FONDAMENTALE VERIFICARE CHE QUESTA AREA SIA COMPLETAMENTE VUOTA E
+ NESSUNO CI STIA LAVORANDO. SOLO IN QUESTO CASO E' POSSIBILE
+ PROCEDERE. AL TERMINE DI TUTTE LE OPERAZIONI DI SCARICO SU CDROM E SU
+ NASTRO !BISOGNA!!! CANCELLARE TUTTI I FILE NEL DIRETTORIO
+ ~com2666/foriso
+
+ Nota Bene
+ I dati vengono cancellati dall'archivio ONLINE di XGRIB e risiedono solo
+ su  ~com2666/foriso
+
+ Nel dubbio fare riferimento alla documentazione di XGRIB.
+
+</PRE>
+Vedi anche:
+<a href="xgrib.html ">xgrib</a>
+<a href="introduzione_scarico_dati_xgrib.html ">introduzione_scarico_dati_xgrib</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

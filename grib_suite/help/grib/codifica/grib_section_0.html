@@ -1,0 +1,31 @@
+<HTML><HEAD><TITLE>
+ grib_section_0
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">grib_section_0</H2> <HR>
+ documentazione codifica grib <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/cesari/helpdoc/grib/gribdoc.txt">/disk3/cesari/helpdoc/grib/gribdoc.txt</A> <HR>
+<PRE>
+
+SECTION 0: THE INDICATOR SECTION (IS)
+
+     The indicator section serves to: identify the start of the record
+in a human readable form, indicate the total length of the message, and
+indicate the Edition number of GRIB used to construct or encode the
+message.  The section is always eight octets long.
+
+     Octet no.             IS Content
+
+       1-4        'GRIB'  (Coded CCITT-ITA No. 5) (ASCII);
+
+       5-7        Total length, in octets, of GRIB message
+                    (including Sections 0 &amp; 5);
+
+       8          Edition number - currently  1
+
+</PRE>
+Vedi anche:
+<a href="grib_refrence.html ">grib_refrence</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

@@ -1,0 +1,120 @@
+include config/make.site
+
+all  : cong menogrib ged gribbo displgrib
+
+cong : cong.o comuni.o
+<<<<<<< Makefile
+	$(FC) -o cong cong.o comuni.o  -L$(LIBDIR) -lgrib_util -lhibu -lemos
+=======
+	$(FC) $(FFOPTS) -o cong cong.o comuni.o  -L$(LIBDIR) -lgrib_util -lhibu -lemos
+>>>>>>> 1.13
+#	$(EMOSLIB)
+#	$(gribexhome)/gribex.a
+
+
+cong.o : cong.f
+<<<<<<< Makefile
+	$(FC) -c cong.f
+=======
+	$(FC)  $(FFOPTS) -c cong.f
+>>>>>>> 1.13
+
+menogrib : menogrib.o
+<<<<<<< Makefile
+	$(FC) -o menogrib menogrib.o -L$(LIBDIR) -lemos
+=======
+	$(FC)  $(FFOPTS) -o menogrib menogrib.o -L$(LIBDIR) -lemos
+>>>>>>> 1.13
+#	$(EMOSLIB)
+#	 $(gribexhome)/gribex.a
+
+menogrib.o : menogrib.f
+<<<<<<< Makefile
+	$(FC) -c menogrib.f
+=======
+	$(FC)  $(FFOPTS) -c menogrib.f
+>>>>>>> 1.13
+
+
+<<<<<<< Makefile
+ged : ged.o comuni.o
+	$(FC) -o ged ged.o comuni.o -L$(LIBDIR) -lhibu -lgrib_util -lemos
+=======
+ged : ged.o comuni.o 
+	$(FC)  $(FFOPTS) -o ged ged.o comuni.o -L$(LIBDIR) -lhibu -lgrib_util -lemos
+>>>>>>> 1.13
+#		$(EMOSLIB)
+#		$(gribexhome)/gribex.a
+
+
+<<<<<<< Makefile
+comuni.o : comuni.f
+	$(FC) -c comuni.f
+=======
+comuni.o : comuni.f  comuni.h
+	$(FC)  $(FFOPTS) -c comuni.f
+>>>>>>> 1.13
+
+ged.o : ged.f
+<<<<<<< Makefile
+	$(FC) -c ged.f
+=======
+	$(FC)  $(FFOPTS) -c ged.f
+>>>>>>> 1.13
+
+gribbo : gribbo.o
+<<<<<<< Makefile
+	$(FC) -o gribbo gribbo.o -L$(LIBDIR) -lhibu -lemos
+=======
+	$(FC)  $(FFOPTS) -o gribbo gribbo.o -L$(LIBDIR) -lhibu -lemos
+>>>>>>> 1.13
+#		$(EMOSLIB)
+#		$(gribexhome)/gribex.a
+
+
+gribbo.o : gribbo.f
+<<<<<<< Makefile
+	$(FC) -c gribbo.f
+=======
+	$(FC)  $(FFOPTS) -c gribbo.f
+>>>>>>> 1.13
+
+
+displgrib : displgrib.o
+<<<<<<< Makefile
+	$(FC) -o displgrib displgrib.o -L$(LIBDIR) -lemos
+=======
+	$(FC)  $(FFOPTS) -o displgrib displgrib.o -L$(LIBDIR) -lemos
+>>>>>>> 1.13
+#	$(EMOSLIB)
+#	$(gribexhome)/gribex.a
+
+
+displgrib.o : displgrib.f
+<<<<<<< Makefile
+	$(FC) -c displgrib.f
+=======
+	$(FC)  $(FFOPTS) -c displgrib.f
+>>>>>>> 1.13
+
+<<<<<<< Makefile
+filtracrucchi : filtracrucchi.o
+	$(FC) -o filtracrucchi filtracrucchi.o -L$(LIBDIR) -lemos
+#	$(EMOSLIB)
+#	$(gribexhome)/gribex.a
+
+=======
+>>>>>>> 1.13
+
+clean :
+		rm -f cong cong.o menogrib menogrib.o ged.o ged ;
+		rm -f displgrib displgrib.o gribbo gribbo.o ;
+
+install: cong menogrib ged displgrib gribbo
+		$(INSTALLCMD) cong $(DESTDIR)
+		$(INSTALLCMD) menogrib $(DESTDIR)
+		$(INSTALLCMD) ged $(DESTDIR)
+		$(INSTALLCMD) displgrib $(DESTDIR)
+		$(INSTALLCMD) gribbo $(DESTDIR)
+
+

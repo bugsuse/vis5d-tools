@@ -1,0 +1,53 @@
+<HTML><HEAD><TITLE>
+ complete-linkage-algorithm
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">complete-linkage-algorithm</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/nerozzi/src/cluster_analysis/clink.f">/disk3/nerozzi/src/cluster_analysis/clink.f</A> <HR>
+<PRE>
+
+     subroutine clink(n,m,x,w,dx,ixc,nxc,nc)
+
+ Description:
+     Complete linkage hierarchical scheme for clustering
+
+ Method:
+     Merge two clusters who have the lowest maximum distance among members
+
+ Current Code Owner: Fabrizio Nerozzi
+
+ History:
+ Version   Date     Comment
+ -------   ----     -------
+ 1.00      31.07.01 Original code. F.Nerozzi
+
+ Code Description:
+   Language:           Fortran 77.
+   Software Standards:
+   &quot;European Standards for Writing and
+     Documenting Exchangeable Fortran 90 Code&quot;.
+
+ Declarations:
+
+ Array  arguments with intent(in):
+
+     real    x(n,m), w(m)
+
+ Array  arguments with intent(inout):
+
+     real    dx(n,m)
+
+ Array  arguments with intent(out):
+
+     integer ixc(n,n), nxc(n)
+
+</PRE>
+Vedi anche:
+<a href="ward-s-algorithm.html ">ward-s-algorithm</a>
+<a href="cluster-statistics.html ">cluster-statistics</a>
+<a href="cluster-representative-member.html ">cluster-representative-member</a>
+<a href="esempio.html ">esempio</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

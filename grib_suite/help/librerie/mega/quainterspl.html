@@ -1,0 +1,40 @@
+<HTML><HEAD><TITLE>
+ QUAINTERSPL
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quainterspl</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quainterspl.f">/disk3/patruno/lib/mega/quainterspl.f</A> <HR>
+<PRE>
+	SUBROUTINE QUAINTERSPL (IMINUTI,DATI,N1,N2,
+	1	IN,RMX,RMN,RMD,OMX,OMN,IER)
+
+	Fa un controllo sui dati in maniera temporale controllando
+	che non ci siano intervalli tra i dati superiori a INTMAX.
+	Valuta il valore massimo minimo e medio stimandoli tramiteuna spline.
+	L'asse dei tempi che viene espresso in minuti e` comtenuto in IMINUTI
+	
+	IN:
+	IMINUTI(N2) :	I*4	CONTIENE LA COORDIMATA TEMPO IN MINUTI
+	DATI(N2): 	I*4	VETTORE CONTENENTE TUTTI I DATI
+	N1	:	I*4	INDICE DELL' ELEMENTO DA CUI SI INIZIA
+				L'INTERPOLAZIONE
+	N2	:	I*4	INDICE DELL' ELEMENTO CON CUI SI FINISCE
+				L'INTERPOLAZIONE
+	OUT:
+	IN	:	I*4	NUMERI DI DATI BUONI TROVATI
+	RMX	:	REAL	VALORE MASSIMO STIMATO
+	RMN	:	REAL	VALORE MINIMO STIMATO
+	RMD	:	REAL	VALORE MEDIO STIMATO
+	OMX	:	I*4	MINUTO IN CUI SI E` VERIFICATA LA MASSIMA
+	OMN	:	I*4	MINUTO IN CUI SI E` VERIFICATA LA MINIMA
+	IER	:	I*4	INDICATORE DI ERRORE
+
+	IER =  0    : 	TUTTO O.K.
+	IER =  1    :   L'indice N1 e' &gt; di N2 o e' &gt; di 100	
+	IER =  2    :	Nessun dato buono nell' intervallo N1-N2 oppure
+			fra N1 e N2 esiste un buco fra i dati superiore a 2 ore
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

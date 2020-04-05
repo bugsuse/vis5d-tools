@@ -1,0 +1,496 @@
+
+PICOGRIB Version 1.1
+
+Applicativo di decodifica di messaggi in formato GRIB.
+
+
+Questo pacchetto software si compone di quattro elementi :
+
+- DUMPGRIB : un programma che permette di visualizzare tutte le informazioni 
+	     contenute nelle diverse sezioni dei messaggi GRIB ed i primi 
+	     dieci valori del grigliato 
+- SHOWGRIB : un programma in grado di leggere un file di dati in formato GRIB
+	     e di creare per ogni messaggio un file contenente le informazioni
+	     principali, e tutti i dati decompressi con le coordinate associate.
+- PARTGRIB : un programma che permette di suddividere un singolo file 
+	     contenente piu' messaggi GRIB in diversi files contenenti ciascuno 
+	     un singolo messaggio GRIB.
+- GRIBLIB  : una libreria di routines utilizzate da SHOWGRIB e DUMPGRIB ma
+	     capace di ulteriori funzionalita'
+
+E' stato sviluppato in C ANSI, ed e' stata testata la sua portabilita' in
+ambienti Digital VMS, Digital OSF/1, IBM AIX, Sun Solaris e DOS.
+(In ambiente DOS e' stato usato il compilatore Microsoft C/C++ versione 7.0
+ ponendo tra le caratteristiche di compilazione a 4096 bytes la dimensione 
+ dello stack)
+
+Il tipo di formato GRIB trattato e' descritto sulla pubblicazione
+WMO FM 92-IX Ext. GRIB (gridded binary) - Processed data in the form of
+grid-point values expressed in binary form. 
+Per maggiori informazioni riguardo al significato dei campi delle diverse 
+sezioni si faccia riferimento ad esso.
+
+I tipi di rappresentazione dei dati supportati dalla versione corrente
+dell'applicativo sono griglia latitudine/longitudine e griglia ruotata
+latitudine/longitudine. Non sono accettati dati in formato spherical harmonic
+ne in complex o second-order packing.
+
+I messaggi GRIB da decodificare devono essere offerti ai programmi in forma
+di files binari non blocked. Ogni file puo' contenere piu' di un messaggio
+GRIB, in questo caso, avverra' una scansione sequenziale del file alla ricerca 
+dei token di inizio ed i messaggi trovati verranno elaborati in sequenza.
+
+
+DUMPGRIB
+
+Sintassi :  DUMPGRIB  nome-file  [valore-di-nondato]
+Esempio     DUMPGRIB  grib.dat         9999999
+
+Dove nome-file e' il nome del file contenente i messaggi in formato GRIB da 
+leggere, mentre valore-di-nondato e' un parametro opzionale che se assente 
+indica che la bitmap della sezione 3 non deve essere presa in considerazione,
+se presente indica il valore da visualizzare nel caso che la bitmap indichi
+l'assenza di dato in quella posizione.
+L'output di questo programma e' a video. Se si vuole che i risultati vadano
+in un file, e' sufficiente ridirezionare l'output. In ambienti UNIX e DOS si
+puo' usare l'operatore '>', mentre per l'ambiente VMS, abbiamo scritto un file
+comandi chiamato REDIR.COM che ha la seguente sintassi:
+@REDIR "comando" file-di-output
+Quindi volendo lanciare DUMPGRIB per il file GRIB.GRB con l'output sul file
+GRIB.DMP il comando dovra' essere:
+@REDIR "DUMPGRIB GRIB.GRB" GRIB.DMP
+Il risultato sara' un serie di blocchi simili al seguente esempio:
+ 
+
+	   5280     Total length of GRIB message
+	      1     GRIB edition number
+
+S E C T I O N   1
+
+	     28     Length of section 1
+	      1     Code table 2, parameter table, Version No.
+	     97     Identification of centre
+	      4     Generating process identification number
+	      2     Grid definition
+	    192     Flag
+	     11     Indicator of parameter
+	    105     Indicator of type of level
+	      2     Heigth, pressure, etc. of levels
+	     94     Year of century
+	     12     Month
+	     22     Day
+	      0     Hour
+	      0     Minute
+	      1     Indicator of unit of time range
+	      6     P1 - Period of time
+	      0     Time range indicator
+	      0     Number included in average
+	      0     Number missing from averages or accumulations
+	     20     Century of reference
+	      0     Units decimal scale factor
+
+S E C T I O N   2
+
+	     42     Length of section 2
+	      0     Number of vertical coordinate parameters
+	     10     Data representation type
+	     93     Number of points along a parallel
+	     81     Number of points along a meridian
+	 -11000     Latitude of first grid point
+	 -11000     Longitude of first grid point
+	    128     Resolution and component flags
+	   9000     Latitude of last grid point
+	  12000     Longitude of last grid point
+	    250     Parallel direction increment
+	    250     Meridian direction increment
+	     64     Scanning mode
+	 -45000     Latitude of the southern pole in millidegrees
+	   9000     Longitude of the southern pole in millidegrees
+	      0     Angle of rotation
+
+
+
+S E C T I O N   3
+
+	    948     Length of section 3
+	      0     Predetermined bit map number
+
+S E C T I O N   4
+
+	   4250     Length of section 4
+	      9     Flag
+	     -3     Scale factor
+     253.612381     Reference value
+	      9     Number of bits containing each packed value
+	   3767     Number of packed values
+	   7533     Number of unpacked values
+     280.987366     Unpacked value 1
+ 9999999.000000     Unpacked value 2
+     280.612366     Unpacked value 3
+ 9999999.000000     Unpacked value 4
+     280.737366     Unpacked value 5
+ 9999999.000000     Unpacked value 6
+     280.862366     Unpacked value 7
+ 9999999.000000     Unpacked value 8
+     280.612366     Unpacked value 9
+ 9999999.000000     Unpacked value 10
+
+
+SHOWGRIB
+
+Sintassi :  SHOWGRIB  nome-file  [display-flag [valore-di-nondato]]
+Esempio     SHOWGRIB  grib.dat         y             9999999
+
+Dove nome-file e' il nome del file in formato GRIB da leggere, display-flag
+se presente indica che si desidera avere nel file la scrittura dei valori
+decompressi mentre valore-di-nondato e' un parametro opzionale che se presente
+indica quale valore visualizzare per le posizioni non marcate in bitmap.
+L'output di questo programma sara' verso dei files - uno per ogni messaggio di 
+dati -  che avranno un nome dipendente dalla data di scrittura dei dati. Il
+formato sara' MMGGoomm.nnn ossia mese-giorno-ore-minuti.progressivo-numerico.
+Il risultato sara' simile al seguente esempio:
+ 
+
+	     94     Year of century
+	     12     Month
+	     22     Day
+	      0     Hour
+	      0     Minute
+	      6     P1 - Period of time
+	      0     P2 - Period of time
+	      2     Heigth, pressure, etc. of levels
+	      0     
+	     11     Indicator of parameter
+	     93     Number of points along a parallel
+	     81     Number of points along a meridian
+	 -11000     Latitude of first grid point
+	 -11000     Longitude of first grid point
+	   9000     Latitude of last grid point
+	  12000     Longitude of last grid point
+	    250     Parallel direction increment
+	    250     Meridian direction increment
+	 -45000     Latitude of the southern pole in millidegrees
+	   9000     Longitude of the southern pole in millidegrees
+ Rotation parameters      9.000    -45.000      9.000     45.000
+  -11.000    -11.000     33.123     -3.923       280.987
+  -11.000    -10.750     33.162     -3.634   9999999.000
+  -11.000    -10.500     33.200     -3.344       280.612
+  -11.000    -10.250     33.238     -3.054   9999999.000
+  -11.000    -10.000     33.274     -2.764       280.737
+  -11.000     -9.750     33.310     -2.474   9999999.000
+  -11.000     -9.500     33.345     -2.183       280.862
+  -11.000     -9.250     33.378     -1.892   9999999.000
+  -11.000     -9.000     33.411     -1.601       280.612
+  -11.000     -8.750     33.444     -1.309   9999999.000
+  -11.000     -8.500     33.475     -1.017       280.112
+  -11.000     -8.250     33.505     -0.725   9999999.000
+    ...         ...         ...
+    ...         ...         ...
+    ...         ...         ...
+    ...         ...         ...
+
+
+
+PARTGRIB
+
+Sintassi :  PARTGRIB  nome-file  
+Esempio     PARTGRIB  grib.dat         
+
+Dove nome-file e' il nome del file contenente i messaggi in formato GRIB 
+da leggere.
+
+L'output di questo programma sara' verso dei files - uno per ogni messaggio di 
+dati -  che avranno un nome dipendente dalla data di scrittura dei dati. Il
+formato sara' MMGGoomm.nnn ossia mese-giorno-ore-minuti.progressivo-alfabetico.
+ 
+
+GRIBLIB
+
+GRIBLIB contiene diverse routines utilizzate da DUMPGRIB e SHOWGRIB, tra queste
+diamo una descrizione delle piu' significative.
+Gli status di ritorno delle funzioni non-void possono valere esclusivamente
+NORMAL_STATUS e ABORT_STATUS.
+
+- LOAD_GRIB_FILE
+  Carica da un file ad un buffer un messaggio in formato GRIB.
+  I dati vengono copiati in memoria senza che su di essi avvenga alcuna
+  modifica.
+  Dalla posizione corrente sul file viene ricercato il token di riconoscimento
+  di inizio messaggio GRIB, viene letta la lunghezza del messaggio restante,
+  questo viene caricato ed infine viene testato che in coda al messaggio sia
+  presente il token di fine.
+  Qualora non venga trovato il token di inizio prima della fine del file o
+  in caso che non venga trovto il token di fine file alla posizione corretta,
+  la funzione ritornerebbe uno status di errore.
+
+  Prototype:
+   long int load_grib_file(grib_file,grib_buffer)
+  Argomenti:
+   FILE *grib_file;
+   unsigned char **grib_buffer;
+  Dove :
+  - grib_file e' il puntatore ( tipo FILE * ) al file aperto per la lettura
+    del messaggio in formato dati GRIB
+  - grib_buffer e' l'indirizzo del buffer dove verra' copiato il messaggio.
+    Poiche' e' ignota a priori la lunghezza del messaggio, quest'ultimo viene
+    copiato in una zona di memoria allocata dopo la lettura della lunghezza e
+    di conseguenza questa variabile deve essere passata per riferimento
+    ( tipo char ** )
+
+
+- DEGRIB
+  Riceve un buffer contenente un messaggio di dati GRIB, lo decodifica e lo
+  scrive in una struttura dati.
+  Specificando un codice di operazione e' possibile scegliere fra tre
+  differenti tipi di decodifica:
+  - l'estrazione delle sole lunghezze delle sezioni, ( GRIB_LENGTH )
+  - la decodifca delle sezioni 0,1 e 2,              ( GRIB_INFO )
+  - e la decodifica completa.                        ( GRIB_DECODE )
+  Qualora il tipo di rappresentazione dei dati non fosse tra quelli supportati
+  dalla attuale versione dell'applicativo la funzione ritornerebbe uno status
+  di errore.
+
+  Prototype:
+   long int degrib(operation,grib_buffer,ignore_bitmap,grib_msg,no_bit_value)
+  Argomenti:
+   char operation;
+   unsigned char **grib_buffer;
+   long int ignore_bitmap;
+   struct grib_type *grib_msg;
+   float *no_bit_value;
+  Dove:
+  - operation e' il codice del tipo di decodifica da effettuare
+  - grib_buffer e' l'indirizzo del buffer dove verra' copiato il messaggio.
+    (Per maggiori informazioni vedere la descrizione dello stesso argomento
+     data precedentemente alla LOAD_GRIB_FILE)
+  - ignore_bitmap e' un flag che specifica se la bitmap debba essere
+    considerata o meno
+  - grib_msg e' la struttura dove i dati GRIB verranno scritti
+  - no_bit_value e' il valore da scrivere nella matrice di dati decompressi
+    quando la bitmap specifica che non e' stato rilevato il dato in quella
+    posizione
+
+
+- PRINT_GRIB
+  Visualizza i dati decompressi nella modalita' richiesta.
+  Specificando un codice di operazione e' possibile scegliere fra tre
+  differenti gruppi di informazioni da visualizzare:
+  - le sole lunghezze delle sezioni,           ( GRIB_LENGTH )
+  - le informazioni delle sezioni 0,1 e 2,     ( GRIB_INFO )
+  - le informazioni relative a tutte le sezioni e i primi dieci valori del
+    grigliato.                                 ( GRIB_DECODE )
+
+  Prototype:
+   void print_grib(operation,grib_msg)
+  Argomenti:
+   char operation;
+   struct grib_type grib_msg;
+  Dove:
+  - operation e' il codice del gruppo di informazioni da visualizzare
+  - grib_msg e' la struttura dove sono scritti i dati GRIB decodificati
+
+
+- SUMMARIZE_GRIB
+  Scrive in un file testo le informazioni contenute in una struttura di dati
+  GRIB decompressi.
+  Attraverso un argomento flag e' possibile richiedere la scrittura dei
+  valori del grigliato decompressi con la coordinata associata.
+
+  Prototype:
+   void summarize_grib(grib_msg,show_lat_long,no_bit_value)
+  Argomenti:
+   struct grib_type grib_msg;
+   long int show_lat_long;
+   float *no_bit_value;
+  Dove:
+  - grib_msg e' la struttura dove sono scritti i dati GRIB decodificati
+  - show_lat_long e' un flag che specifica se debbano essere scritti nel file
+    tutti i valori del grigliato con le coordinate corrispondenti
+  - no_bit_value e' il valore scritto nella matrice di dati decompressi
+    quando la bitmap specifica che non e' stato rilevato il dato in quella
+    posizione
+
+
+Esempi di chiamata delle funzioni della libreria GRIBLIB:
+
+    ...         ...         ...
+    ...         ...         ...
+    ...         ...         ...
+
+  FILE *grib_file;
+  struct grib_type  grib_msg;
+  unsigned char     **grib_buffer;
+  unsigned char     *saved_pointer;
+  float             no_bit_value;
+  long int          status;
+  long int          ignore_bitmap;
+  long int          show_lat_long;
+
+    ...         ...         ...
+    ...         ...         ...
+    ...         ...         ...
+  ignore_bitmap = FALSE;
+  no_bit_value = 99.99
+  show_lat_long = TRUE;
+  while( (status = load_grib_file(grib_file, grib_buffer)) == NORMAL_STATUS)
+  {
+    saved_pointer = *grib_buffer;
+    status = degrib(GRIB_DECODE, grib_buffer, ignore_bitmap,
+		    &grib_msg, &no_bit_value);
+    free(saved_pointer);
+    print_grib(GRIB_INFO, grib_msg);
+    print_grib(GRIB_DECODE, grib_msg);
+    summarize_grib(grib_msg,show_lat_long,no_bit_value);
+    ...         ...         ...
+    ...         ...         ...
+    ...         ...         ...
+  }
+    ...         ...         ...
+    ...         ...         ...
+    ...         ...         ...
+
+Questo programma legge in sequenza un messaggio per volta dal file
+( LOAD_GRIB_FILE ), lo decodifica ( DEGRIB ), ne visualizza le informazioni
+di tutte le sezioni ( PRINT_GRIB ) e ne crea i file di descrizione.
+E' in pratica una fusione di DUMPGRIB e SHOWGRIB.
+
+
+Struttura contenente i dati di un messaggio GRIB decompresso.
+
+struct section0_type {
+    char       word_grib[4];    /* 'GRIB' token */
+    long int   total_length;    /* Total length of GRIB message */
+    long int   grib_edition;    /* GRIB edition number */
+};
+
+struct section1_type {
+    long int   section_length;  /* Length of section 1 */
+    long int   table2_version;  /* Code table 2, parameter table, Version No. */
+    long int   centre;          /* Identification of centre */
+    long int   process;         /* Generating process identification number */
+    long int   grid_definition; /* Grid definition */
+    long int   flag;            /* Flag */
+    long int   parameter;       /* Indicator of parameter */
+    long int   level_type;      /* Indicator of type of level */
+    long int   measure1;        /* Heigth, pressure, etc. of levels */
+    long int   measure2;        /* Heigth, pressure, etc. of levels */
+    long int   year;            /* Year of century */
+    long int   month;           /* Month */
+    long int   day;             /* Day */
+    long int   hour;            /* Hour */
+    long int   minute;          /* Minute */
+    long int   time_range_unit; /* Indicator of unit of time range */
+    long int   time_period1;    /* P1 - Period of time */
+    long int   time_period2;    /* P2 - Period of time */
+    long int   time_range;      /* Time range indicator */
+    long int   number_in_average;     /* Number included in average */
+    long int   number_not_in_average; /* Number missing from averages or 
+					 accumulations */
+    long int   reference_century;     /* Century of reference */
+    long int   reserved1;             /* Reserved */
+    long int   decimal_scale_factor;  /* Units decimal scale factor */
+    long int   reserved2[12];         /* Reserved */
+    long int   local_definition;      /* Local definition number */
+    long int   class;                 /* Class */
+    long int   type;                  /* Type */
+    long int   stream;                /* Stream */
+    long int   experiment_version;    /* Experiment version */
+    long int   ensemble_forecast;     /* Ensemble forecast number */
+    long int   forecasts_total;       /* Total number of forecasts in ensemble */
+    long int   cluster;               /* Cluster number */
+    long int   clusters_total;        /* Total number of of clusters */
+    long int   reserved3;             /* Reserved */
+    long int   clustering_method;     /* Clustering method */
+				      /* The next six values are considered
+					 when clustering */
+    long int   start_time_step;       /* Start time step */
+    long int   end_time_step;         /* End time step */
+    long int   northern_latitude;     /* Northern latitude of domain */
+    long int   western_longitude;     /* Western longitude of domain */
+    long int   southern_latitude;     /* Southern latitude of domain */
+    long int   eastern_longitude;     /* Eastern longitude of domain */
+    long int   operational_cluster;   /* Number of cluster which operational 
+					 cluster belongs to */
+    long int   control_cluster;       /* Number of cluster which control 
+					 cluster belongs to */
+    long int   cluster_forecasts;     /* Number of forecasts belonging to 
+					 the cluster */
+    char       *forecasts_list;       /* Ensemble forecast list */
+};
+
+struct section2_type {
+    long int   section_length;        /* Length of section 2 */
+    long int   vertical_parameters;   /* Number of vertical coordinate 
+					 parameters */
+    long int   list_position;         /* List file offset */
+    long int   data_representation;   /* Data representation type */
+    long int   parallel_points;       /* Number of points along a parallel */
+    long int   meridian_points;       /* Number of points along a meridian */
+    long int   first_latitude;        /* Latitude of first grid point */
+    long int   first_longitude;       /* Longitude of first grid point */
+    long int   resolution_and_flags;  /* Resolution and component flags */
+    long int   last_latitude;         /* Latitude of last grid point */
+    long int   last_longitude;        /* Longitude of last grid point */
+    long int   parallel_increment;    /* Parallel direction increment */
+    long int   meridian_increment;    /* Meridian direction increment */
+    long int   scanning_mode;         /* Scanning mode */
+    long int   reserved1[3];          /* Reserved */
+    long int   southern_pole_latitude;      /* Latitude of the southern pole 
+					       in millidegrees */
+    long int   southern_pole_longitude;     /* Longitude of the southern pole 
+					       in millidegrees */
+    long int   rotation_angle;              /* Angle of rotation */
+    long int   stretching_pole_latitude;    /* Latitude of pole of stretching 
+					       in millidegrees */
+    long int   stretching_pole_longitude;   /* Longitude of pole of stretching 
+					       in millidegrees */
+    long int   stretching_factor;           /* Stretching factor */
+};
+
+struct section3_type {
+    long int   section_length;  /* Length of section 3 */
+    long int   unused_bits;     /* Unused bits at end of section 3 */
+    long int   bitmap_code;     /* Predetermined bit map number */
+    char       *bitmap;         /* Bitmap with a bit to data point 
+				   correspondence */
+};
+
+struct section4_type {
+    long int   section_length;        /* Length of section 4 */
+    long int   flag_and_unused_bits;  /* Flag */
+    long int   scale_factor;          /* Scale factor */
+    float      reference_value;       /* Reference value */
+    long int   bits_number;           /* Number of bits containing each 
+					 packed value */
+    long int   packed_values;         /* Number of packed values */
+    long int   unpacked_values;       /* Number of unpacked values */
+    long int   work_with_floats;      /* Working in floating point flag */
+    void       *binary_data;          /* Unpacked values */
+};
+
+struct section5_type {
+    char       end_of_message[4];     /* '7777' token */
+};
+
+struct grib_type {
+    struct section0_type  section0;
+    struct section1_type  section1;
+    struct section2_type  section2;
+    struct section3_type  section3;
+    struct section4_type  section4;
+    struct section5_type  section5;
+};
+
+
+Composizione del kit di distribuzione:
+STRUCT.H          include della struttura dati nella quale viene scritto
+		  il messaggio GRIB decompresso
+CONSTANT.H        include delle costanti
+GRIBLIB.H         include dei prototype della libreria GRIBLIB con descrizione
+		  di ogni argomento passato alle funzioni
+GRIBLIB.OBJ       oggetto della libreria GRIBLIB
+DUMPGRIB.EXE      eseguibile del programma DUMPGRIB
+SHOWGRIB.EXE      eseguibile del programma SHOWGRIB
+PARTGRIB.EXE      eseguibile del programma PARTGRIB
+GRIBITA.DOC       documentazione in italiano dell'applicativo PICOGRIB
+GRIBENG.DOC       documentazione in inglese dell'applicativo PICOGRIB

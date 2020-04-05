@@ -1,0 +1,110 @@
+This is an excerpt from the complete grib2v5d documentation contained
+in the directory doc, in Latex, Postscript and html formats.
+------------------------------------------------------------------------
+
+Installing and compiling
+
+The grib2v5d package requires that vis5d and the picogrib and
+grib_util libraries (provided by ARPA-SMR) be already installed.  You
+can download these libraries from SourceForge at the URLs
+http://download.sourceforge.net/gributil/grib_util.tar.gz
+and
+http://download.sourceforge.net/picogrib/picogrib.tar.gz.
+For more updated links see also the grib2v5d home page:
+http://grib2v5d.sourceforge.net/.
+
+
+Installing Vis5d
+
+In order to compile grib2v5d, Vis5d (or Vis5d+) sources should be
+correctly installed under the directory $VIS5D or $VIS5D/vis5d-last.
+If otherwise you have Vis5d+ binaries with libraries and header files
+installed, then the sources are not needed, provided the configure
+script can locate the Vis5d+ installation.
+
+
+Building grib libraries
+
+Prior to installing the libraries you should define in your .profile
+or similar file a UNIX environment variable $USOHOME pointing to the
+directory where the libraries will be installed (and where grib2v5d
+will look for them) and create the directory $USOHOME/lib.  You can
+then extract the libraries tar archives and build them with the
+commands:
+
+gzip -c gributil.tar.gz | tar xvf -; cd gributil; make
+
+and
+
+gzip -c picogrib.tar.gz | tar xvf -; cd picogrib; make
+
+if all goes the right way you should have your libraries picogrib.a
+and grib_util.a in the directory $USOHOME/lib.
+
+
+Building grib2v5d
+
+Extract the tar archive grib2v5d.tar and enter the newly created
+directory grib2v5d.  Since version 2 of grib2v5d an autoconfiguration
+script has been created, dealing with most of the system-dependent
+problems you may encounter.  However you may still have to modify
+something in the file Configure.set according to the instructions
+inside it, in particular, if you have Vis5d+ correctly installed, you
+should unset the environment variable VIS5D in order to link with the
+installed libraries, unless you want to compile the Vis5d sources
+required in grib2v5d and link them statically.  Moreover, if your
+operating system is not one of those that have already been tested
+with the configuration script, you may have to create a
+configure.`uname` file based on configure.template, containing
+OS-specific compiler invocation, command line parameters, etc.  Type
+then ./configure to perform the configuration: a Make.set file will be
+created to be included by the makefiles; type make to compile and,
+optionally make install to install grib2v5d executable and
+documentation.  The autoconfiguration procedure has been tested under
+AIX-IBM, OSF-Alpha, Linux-i386, Irix-SGI and SUNOS; options for other
+Unix flavours from users are welcome.
+
+------------------------------------------------------------------------
+
+Running grib2v5d - quick guide
+
+Use one of the namelists already provided with the package:
+
+-hybht.naml for converting fields from Lokal Modell vertical hybrid
+coordinate system to Vis5d height system
+
+-hybhyb.naml for viewing Lokal Modell hybrid vertical coordinate
+surfaces directly into Vis5d
+
+-sigmaht.naml for converting fields in sigma vertical coordinate
+system to Vis5d height system
+
+-etaht.naml for converting fields from Mesinger-Eta vertical
+coordinate system to Vis5d height system
+
+-prespres.naml for viewing Lokal Modell pressure coordinate data
+directly into Vis5d
+
+-prespresec.naml for viewing ECMWF pressure coordinate data directly
+into Vis5d
+
+-complete.naml is a version of hybht.naml which, in addition,
+explicitly contains all the variables that do not need to be changed
+from their default value for a standard use
+
+For Lokal Modell hybht.naml should be the best one, so copy it to
+another file named v5d.naml, edit this file in the following way:
+
+-insert into tabfth the list of forecast times (in hours) expected in
+the grib file
+
+-set the character variable inname to the name of the grib input file
+available
+
+-set the character variable outname to the name of the vis5d output
+file desired
+
+and execute grib2v5d.  After some time and many lines of information
+from the program you should get your Vis5d data in the output file
+previously specified.
+

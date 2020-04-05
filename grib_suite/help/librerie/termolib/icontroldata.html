@@ -1,0 +1,29 @@
+<HTML><HEAD><TITLE>
+ ICONTROLDATA
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">icontroldata</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk4/salop/lib/eladata.f">/disk4/salop/lib/eladata.f</A> <HR>
+<PRE>
+	SUBROUTINE ICONTROLDATA(IDAY1,IMONTH1,IYEAR1,IER)
+
+	controlla che la data sia una data fattibile
+	variabili integer*2
+
+	INPUT:
+	IDAY1		I*2	giorno da controllare
+	IMONTH1		I*2	mese da controllare
+	IYEAR1		I*2	anno da controllare
+
+	OUTPUT:
+	IER		I*4
+
+	IER=1		errore giorno
+	IER=2		errore mese
+	IER=3		errore anno
+	IER=-1		data del futuro
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

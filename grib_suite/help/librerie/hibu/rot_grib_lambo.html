@@ -1,0 +1,45 @@
+<HTML><HEAD><TITLE>
+ rot_grib_LAMBO
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">rot_grib_lambo</H2> <HR>
+ converte i parametri di rotazione espressi nel grib a quelli necessari in lambo <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/hibu/rot_grib_lambo.f">/disk3/patruno/lib/hibu/rot_grib_lambo.f</A> <HR>
+<PRE>
+
+      SUBROUTINE rot_grib_LAMBO(ALO2,ALA2,TLM0D,TPH0D)
+
+ Converte i parametri di rotazione come da specifiche grib a quelli necessari
+ nella libreria di utilita' di lambo. Il grib infatti esprime i parametri di
+ rotazione in riferimento al Polo Nord mentre lambo utilizza l'intersezione
+ del meridiano di greenwich con l'equatore. Il terzo parametro di rotazione
+ presente nel grib non viene considerato e deve essere pari a zero.
+
+ input:
+  alo2      real       longitudine del Polo Nord del sistema ruotato, nel
+                       sistema geografico come da specifiche grib
+                       (rapp. decimale)
+
+  ala2      real       latitudine del Polo Nord del sistema
+                       ruotato nel sistema geografico come da specifiche
+                       grib (rapp. decimale)
+
+
+ output:
+  TLM0D      real      longitudine del punto intercetto del meridiano di
+                       Greenwich con l'equatore del sistema ruotato, nel
+                       sistema geografico (rapp. decimale)
+
+  TPH0      real       latitudine del punto intercetto del
+                       meridiano di Greenwich con l'equatore del sistema
+                       ruotato nel sistema geografico (rapp. decimale)
+
+</PRE>
+Vedi anche:
+<a href="tlld.html ">tlld</a>
+<a href="rtlld.html ">rtlld</a>
+<a href="ltlwd.html ">ltlwd</a>
+<a href="rltlwd.html ">rltlwd</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

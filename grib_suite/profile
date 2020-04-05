@@ -1,0 +1,2 @@
+export USOHOME=$PWD
+export PATH=$PATH:$PWD/ugrib

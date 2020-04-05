@@ -1,0 +1,18 @@
+&config
+ typel = 100,
+ redfact = 2,
+ varname  =   "T",  "U",  "V", "RH", "OM", "GP","SFC","SLP", "TP","CSN","LSN",
+ tabvar   =    11,   33,   34,   52,   39,    6,    1,    2,   61,   78,   79,
+ lowlev   =     0,    0,    0,    1,    1,    1,    0,    0,    0,    0,    0,
+ nl       =    11,   11,   11,   10,   10,   10,    1,    1,    1,    1,    1,
+ gridtype =     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+ output   =     T,    T,    T,    T,    T,    T,    T,    T,    T,    T,    T,
+ tablev   = 0, 1000, 950, 850, 700, 600, 500, 400, 300, 250, 200,
+ tabfth =  0,
+/
+
+&names
+ inname = 'pres.grib'
+ outname = 'pres.v5d'
+/
+

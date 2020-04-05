@@ -1,0 +1,140 @@
+<HTML><HEAD><TITLE>
+ QUACONSPAPRE
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quaconspapre</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quaconspapre.f">/disk3/patruno/lib/mega/quaconspapre.f</A> <HR>
+<PRE>
+
+	SUBROUTINE QUACONSPAPRE (K,IVAL,LAT,LON,HSTAZ,
+	1	DISTMAX,DIFHMAX,ISOGLIA,PERC,
+	1	IN,IB,FLAG,IER)
+
+	Questa subroutine effettua un controllo spaziale dei dati di
+	precipitazione, anche oraria, distribuiti su stazioni che devono
+	essere il piu` possibili equidistribuite nello spazio.
+
+	Vengono costruiti con una routine NCAR dei triangoli
+	che uniscono tre stazioni adiacenti in maniera che essi siano il
+	piu` possibile equilateri. Questo fa in maniera che da una stazione
+	partano vari raggi (da un minimo di 3 a n) che rappresentano
+	al tempo stesso i vari orientamenti nello spazio e le stazioni
+	possibilmente piu` vicine.
+
+	Vengono quindi estratti tutti i vertici dei triangoli appartenenti
+	a una stazione, ordinati per poi togliere i valori doppi.
+	I dati corrispondenti a questi vertici vengono utilizzati
+	per controllare il dato al centro di questa poligonale.
+
+	Le stazioni appartenenti poligonale vengono utilizzate solo se:
+
+	a) controllo sull'altezza della stazione
+		-10.&lt; HSTAZ &lt; 4000.
+	dove HSTAZ (espresso in metri) &egrave; l'atezza della stazione
+
+	b) la distanza tra la stazione in esame e qualsiasi altra stazione
+	della poligonale &egrave; inferiore a DISTMAX
+
+	c) la differenza in altezza tra la stazione in esame e qualsiasi
+	altra stazione della poligonale &egrave; inferiore a DIFHMAX
+
+	d) il dato e` considerato presente dalla funzione j_c_e
+
+	e) la flag associata non ha superato la soglia stabilita nella function vf
+
+===============================================================================
+
+	CONDIZIONE DI ERRORE
+
+	La flag e` incrementata di 1 per la stazione in esame se si
+	verificato entrambe le seguenti condizioni:
+
+	a) la poligonale &egrave; composta da almeno 3 stazioni + la stazione in esame
+
+	b) la stazione in esame differisce da tutte le stazioni della
+	poligonale di piu` di
+
+		| val1 - val2 | &gt; ISOGLIA+PERC*(MAX(val1,val2))
+
+	dove ISOGLIA e PERC sono valori in input e val1 e` il valore di
+	precipitazione nella stazione in esame, val2 il dato
+	della stazione in uso della poligonale.
+
+	La flag viene decrementata solo se la stazione in esame appartiene  ad
+	una poligonale con almeno 3 stazioni.
+	N.B.
+	(l'incremento e` effettuato solo sulla stazione anomala)
+	(stazione con precipitazione = prec maggiore di 0.)
+
+	Il controllo e` piu` scadente sulle stazioni che appartengono
+	al poligono che racchiude tutte le stazioni in quanto il controllo
+	su di esse viene effettuato su un angolo inferiore ai 180 gradi.
+	Esse potrebbero eventualmente essere escluse dal controllo.
+
+===============================================================================
+	INPUT:
+
+	K	       I*4	Numero di stazioni da testare.
+	IVAL(K)	       I*4	valori misurati nelle stazioni.
+	LAT(K)	    REAL*4	Latitudine delle stazioni in centesimali.
+	LON(K)	    REAL*4	Longitudine delle stazioni in centesimali.
+	HSTAZ(K)    REAL*4	Altezze delle stazioni in metri.
+	DISTMAX     REAL*4	Distanza massima tra due stazioni perche`
+				queste possano essere utilizzate all'interno
+				della stessa poligonale di controllo di dati;
+				&egrave; espressa in Km.
+	DIFHMAX	    REAL*4	Differenza massima consentita tra le altezze
+				di due stazioni perch&egrave; queste possano essere
+				utilizzate all'interno della stessa poligonale
+				di controllo dei dati; &egrave; espressa in metri.
+	ISOGLIA        I*4	Differenza sempre accettata tra stazioni
+				espressa nella stessa unita` di misura di IVAL
+	PERC	    REAL*4	PERCENTUALE DELLA PRECIPITAZIONE MASSIMA
+				TRA DUE STAZIONI CHE SI STANNO CONFRONTANDO
+				DA SOMMARE A ISOGLIA
+
+===============================================================================
+	OUTPUT :
+
+	IN	I*4		numero di stazioni errate
+	IB	I*4		numero di stazioni buone
+	FLAG(K)	byte		flag associata al dato da testare
+	IER	I*4		condizione di errore della routine
+				0=tutto O.K.  (non utilizzata)
+===============================================================================
+
+	per liberare la virtual memory utilizzata ad ogni chiamata
+	dalla routine bisogna chiamare la routine con k=1.
+			
+===============================================================================
+
+		opzioni:
+
+                   REP  FLAG INDICATING THE USE OF THE SAME DATA, BUT
+                        A NEW EXECUTION.  THE DEFAULT VALUE IS SET TO
+                        OFF.
+
+                        TO TURN ON:    CALL CONOP1(6HREP=ON)
+
+                        TO TURN OFF:   CALL CONOP1(7HREP=OFF)
+
+                        NOTE: IF REP=ON, THE SAME DATA AND TRIANGULA-
+                        TION  ARE  TO  BE  USED BUT IT IS ASSUMED THE
+                        USER HAS CHANGED CONTOUR VALUES OR RESOLUTION
+                        FOR THIS RUN.  SCRATCH ARRAYS WK AND IWK MUST
+                        REMAIN UNCHANGED.C                   TFR  FLAG TO ADVANCE FRAME  BEFORE  TRIANGULATION.
+                        THE DEFAULT VALUE IS TFR=ON.
+
+                        IF PROGRAM SET:   CALL CONOP1(6HTFR=ON)
+
+                        TO TURN OFF:      CALL CONOP1(7HTFR=OFF)
+
+                        NOTE: TRIANGLES ARE PLOTTED  AFTER  THE  CON-
+                        TOURING  IS COMPLETED.  IF THE USER WISHED TO
+                        SEE THE TRIANGLES  OVER  THE  CONTOURS,  TURN
+                        THIS SWITCH OFF.
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

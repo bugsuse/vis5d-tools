@@ -1,0 +1,40 @@
+<HTML><HEAD><TITLE>
+ RADMAX
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">radmax</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/radmax.f">/disk3/patruno/lib/mega/radmax.f</A> <HR>
+<PRE>
+	SUBROUTINE RADMAX(GG,MM,AA,ORAI,MINI,ORAF,MINF,
+			ALAT,ALON,SITE_HEIGHT,VALMAX,VALMIN,ier)
+	Valuta la radiazione integrale a cielo sereno in un intervallo
+	di tempo richiesto in funzione della data e della latitudine.
+	Nel periodo che va` dalla mezzanotte a mezza ora prima del sorgere
+	del sole la radiazione viene considerata prossima a zero; cosi` pure
+	nel periodo successivo a mezza ora dopo il tramonto. Se il periodo
+	inizia nell'ora intorno al tramonto o termina nell'ora intorno
+	all'alba viene sempre considerato un periodo che inizia mezza ora
+	prima del tramonto o finisce mezza ora dopo l'alba.
+	Negli altri possibili periodi di misura
+	viene calcolato il valore integrale di radiazione globale.
+	Viene consigliato un intervallo minimo di un'ora.
+
+	IN:
+		GG,MM,AA	I*4	GIORNO MESE E ANNO
+		ORAI,MINI	I*4	ORA E MINUTI INIZIO MISURA ('Z')
+		ORAF,MINF	I*4	ORA E MINUTI FINE MISURA   ('Z')
+		ALAT		R*4	LATITUDINE SESSAGESIMALE
+		ALON		R*4	LONGITUDINE SESSAGESIMALE
+		SITE_HEIGHT     R*4     ALTEZZA STAZIONE
+	OUT:
+		VALMAX		R*4	RADIAZIONE GLOBALE MAX
+					INTEGRALE IN cal/cm2
+		VALMIN		R*4	RADIAZIONE GLOBALE MAX
+					INTEGRALE IN cal/cm2
+					A CIELO COPERTO
+		IER		I*4	&gt;0 CONDIZIONE DI ERRORE
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

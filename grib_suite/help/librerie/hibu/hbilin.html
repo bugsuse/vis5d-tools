@@ -1,0 +1,32 @@
+<HTML><HEAD><TITLE>
+ HBILIN
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">hbilin</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/hibu/ngetpoint.f">/disk3/patruno/lib/hibu/ngetpoint.f</A> <HR>
+<PRE>
+	subroutine hbilin (z1,z2,z3,z4,x1,y1,x3,y3,xp,yp,zp)
+
+	effettua interpolazione bilineare dati i valori nei punti
+	1,2,3,4 e le coordinate dei punti 1 e 3 oltre a quelle
+	del punto p dove viene valutato il campo.
+ _____________________________________________________________
+				disposizione punti
+	4	3
+
+	  p
+
+	1	2
+ _____________________________________________________________
+
+	common /pesir/p1,p2,p3,p4,repeat
+       real p1,p2,p3,p4
+       logical repeat
+       riporta i pesi utilizzati per l'interpolazione
+       repeat segnala una ripetizione con i pesi gia' calcolati
+
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

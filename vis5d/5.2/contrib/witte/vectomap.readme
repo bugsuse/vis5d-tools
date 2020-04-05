@@ -1,0 +1,25 @@
+Program to convert a vector file to the MacIdas map format used by
+Vis5D.
+
+This program was written for my own use only, NO WARRANTY whatsoever
+is made.
+
+Henk Witte
+Hugo de Vries Laboratory
+University of Amsterdam
+Kruislaan 318
+1098 SM Amsterdam                           email: henk_witte @ sara.nl
+The Netherlands
+  
+ usage:
+ vec_to_map vectordata McIdasmap
+   vectordata: ascii file with vector map data.
+   McIdasmap: result map.
+
+the vector file follows normal convention, i.e. east is negative.
+Longtitudes are sign changed before they are written to McIdas
+format. The vector file is a sequence of lines, each line starts
+with a linenumber (which is ignored) and number of vertices in the
+line. Following are the specified number of vertices as pairs of
+longtitudes and latitudes. Longtitudes and latitudes are integers
+of lon (or lat) * 10000 (i.e. 180.00 should be given as 1800000)

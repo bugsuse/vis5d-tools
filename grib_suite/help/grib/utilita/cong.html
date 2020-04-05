@@ -1,0 +1,85 @@
+<HTML><HEAD><TITLE>
+ cong
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">cong</H2> <HR>
+ Programma per la modifica di alcuni semplici parametri del grib <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/ugrib/cong.f">/disk3/patruno/ugrib/cong.f</A> <HR>
+<PRE>
+
+
+
+ $Date: 2002/10/08 17:29:16 $    $Revision: 1.21 $
+ $Id: cong.f,v 1.21 2002/10/08 17:29:16 patruno Exp $
+
+ usage:
+
+ cong &lt;nomefilein&gt; &lt;nomefileout&gt; [-piii] [-ejjj] [-akkk] [-blll]
+      [-step] [-cfm] [-c2a] [-a2c] [-uv2h] [-destag] [-rnnn] [-v]
+
+ &lt;filein&gt;  file input
+ &lt;gribout&gt; file output
+ -piii     forcing iii generating process
+ -ejjj     forcing jjj emission centre
+ -akkk     forcing kkk grid definition
+ -blll     forcing lll predetermined bit map
+ -step     recalculate step grid from extreme
+ -cfm      set component flag to m (0/1)
+ -c2a      positioning u,v on H grid when C grid
+ -a2c      repositioning of u,v from H grid when C grid
+ -uv2h     interpolate U/V point variables on H points
+           to use sometimes in conjunction with -c2a
+ -destag   destag grid
+ -rnnn     rigriglia il campo mediando su nnnXnnn punti
+ -comp     comprimi i dati ricalcolando il numero di bit significativi
+ -/+&quot;setkey &lt;sintassi comando ged&gt;&quot;  esegue il comando setkey del GED (grib editor)
+                        ed elabora solo i grib corrispndenti a tale chiave
+                        escludendoli o includendoli
+               [data:d1,d2,d3] [ora:o1,o2] [scadenza:s1,s2,s3,s4]
+               [livello:l1,l2,l3] [variabile:v1,v2,v3]
+  Imposta la chiave per la selezione dei grib.
+  Tutti i parametri sono opzionali e le virgole possono essere sostituite
+  da spazi.
+  Tutti i campi non definiti assumono valore &quot;giolli&quot;. I campi a sinistra
+  dei due punti possono essere abbreviati fino ad essere rappresentati
+  con un solo carattere; i campi a destra dei due punti sono definiti come
+  segue:
+
+        d1      giorno          )
+        d2      mese            )
+        d3      anno                    )  emissione
+        o1      ora             )
+        o2      minuti          )
+        s1      indicator of unit of time range (table 4)
+        s2      periodo di tempo 1
+        s3      periodo di tempo 2
+        s4      time range indicator            (table 5)
+        l1      indicator of type of level      (table 3)
+        l2      height, pressure etc. of levels
+        l3      height, pressure etc. of levels
+        v1      identification of originating/generating
+                                         centre (table 0)
+        v2      table 2 version number
+        v3      parameter                       (table 2)
+
+                valore negativo assume significato di &quot;giolli&quot;
+
+        si ppossono inserire commenti facendoli precedere dai
+        caratteri speciali # e !
+
+    Vengono eseguiti prima i test di esclusione (-) (se presenti)
+    e poi quelli di inclusione (+) (se presenti).
+
+
+ -f&lt;nome file&gt;  legge le opzione della funzione setkey dal file
+           specificato
+ -afa      set formatted output AFA standard (ascii)
+ -v        set verbose mode
+
+</PRE>
+Vedi anche:
+<a href="displgrib.html ">displgrib</a>
+<a href="ged.html ">ged</a>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

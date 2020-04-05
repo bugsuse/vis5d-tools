@@ -1,0 +1,127 @@
+<HTML><HEAD><TITLE>
+ AFA
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">afa</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/cesari/helpdoc/afa.doc">/disk3/cesari/helpdoc/afa.doc</A> <HR>
+<PRE>
+
+	documentazione formato AFA per scrittura campi bidimensionali
+	-------------------------------------------------------------
+
+ Il formato AFA (ASCII File Arpa) si presta alla scrittura di campi
+ bidimensionali (analisi o previsioni) in un tipo di rappresentazione
+ previsto dalla codifica grib, con la possibilita` di avere grigliati
+ predefiniti e la possibilita` di inserire anche dati mancanti.
+ Si presta bene a una quasi immediata conversione in formato grib.
+
+ I dati devono essere scritti in formato libero fortran.
+
+ Forma simbolica ogni riga rappresenta un record:
+
+
+	simbolo			tipo variabile
+
+ dataset				character
+ anno mese giorno ora minuti	int int int int  int
+ utr p1 p2 tri			int int int int
+ tl l1 l2			int int int
+ ogc t2v para 0 0 0		int int int int int int
+ drt				int
+ ipcf lov alat1 alat2		int real real real  !presente solo se drt=3
+ ipcf lov			int real            !presente solo se drt=5
+ tph0d tlm0d rot		real real real	    !presente solo se drt=10
+ la1 la2 dj nj			real real real int
+ lo1 lo2 di ni			real real real int
+ imjm ija tipo rmis imis igrid	int int int real int int
+ (vet(i),i=1,imjm)
+ ......
+
+
+ Descrizione forma simbolica:
+ ----------------------------
+
+			direzione i: da Owest a Est lungo un parallelo
+			direzione j: da Sud a Nord lungo un meridiano
+
+ dataset		descrizione provenienza dati: se numerico indica il
+		generating process identification number
+		se codice operativo determina automaticamente:
+		generating process identification number
+		identification of originating/generating centre	(table 0)
+
+ anno mese giorno ora e minuti
+		data e ora di emissione dei dati
+
+ utr		indicator of unit of time range	(table 4)
+ p1 		periodo di tempo 1 come definito da tri
+ p2 		periodo di tempo 2 come definito da tri
+ tri		time range indicator 		(table 5)
+
+ tl		indicator of type of level	(table 3)
+ l1		height, pressure etc. of levels
+ l2		height, pressure etc. of levels
+
+ ogc		identification of originating/generating centre  (table 0)
+ t2v 		table 2 version number
+ para 		parameter			(table 2)
+ 0 0 0		tre zeri (per compatibilita` ensamble forecast
+
+ drt		data representation type	(table 6)
+		se negativo imposta in valore assoluto un'area predefinita
+
+ tph0d tlm0d rot	
+		latitudine longitudine e rotazione dell'equatore di rotazione
+		espresso in gradi.decimi......
+ ipcf lov 	projection centre flag, orientation of the grid
+
+ alat1 alat2	first secant latitude from the pole,
+		second secant latitude
+
+ la1		latitudine del primo punto di vet
+ la2 		latitudine dell'ultimo punto di vet (la2=0 se drt=3,5)
+ dj 		passo di griglia in latitudine	    (metri se drt=3,5)
+ nj		numero di punti lungo un meridiano
+
+ lo1 		longitudine del primo punto di vet
+ lo2 		longitudine dell'ultimo punto di vet (lo2=0 se drt=3,5)
+ di 		passo di griglia in longitudine	     (metri se drt=3,5)
+ ni		numero di punti lungo un parallelo
+	
+ imjm 		numero di dati di vet che seguono
+ ija		indicatore del modo di scansione
+		puo` essere espresso :
+		1) tre cifre binarie (0/1) indicanti il bit 1,2,3
+			 (es. ija=110)
+		2) numero decimale che imposta correttamente i bit
+			della variabile (es. ija=128)
+		bit 1	0	scansione dei punti nella direzione +i
+			1	scansione dei punti nella direzione -i
+		bit 2	0	scansione dei punti nella direzione -j
+			1	scansione dei punti nella direzione +j
+		bit 3	0	i punti adiacenti nella direzione i
+				sono consecutivi
+		bit 3	1	i punti adiacenti nella direzione j
+				sono consecutivi
+ tipo 		tipo dato
+		0 =  seguono dati reali
+		1 =  seguono dati interi
+ rmis 		valore manca dato reale in vet
+ imis  		valore manca dato intero in vet
+ igrid		tipo di griglia
+		0 = regolare (sono presenti in vet tutti i nodi del grigliato
+				anche se eventualmente a manca dato)
+		1 = grigliato E staggherato punti H
+		2 = grigliato E staggherato punti V
+
+ N.B.
+ Le componenti del vento devono essere espresse in riferimento al
+ sistema geografico. Per il data rappresentation type = 10 il sistema
+ di riferimento e' quello ruotato.
+
+ La terra e' assunta sferica.
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

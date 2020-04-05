@@ -1,0 +1,59 @@
+#!/bin/sh
+
+# Make a library file for Beos
+
+#--identification------------------------------------------------------
+
+# $Id: mklib.beos,v 1.2 1998/01/06 01:38:12 brianp Exp $
+
+# $Log: mklib.beos,v $
+# Revision 1.2  1998/01/06 01:38:12  brianp
+# updated for Mesa 2.6
+#
+# Revision 1.1  1997/10/22 00:02:43  brianp
+# Initial revision
+#
+
+#--common--------------------------------------------------------------
+
+# Usage:  mklib libname major minor file.o ...
+#
+# First argument is name of output library (LIBRARY)
+# Second arg is major version number (MAJOR)
+# Third arg is minor version number (MINOR)
+# Rest of arguments are object files (OBJECTS)
+
+LIBRARY=$1
+shift 1
+
+MAJOR=$1
+shift 1
+
+MINOR=$1
+shift 1
+
+OBJECTS=$*
+
+#--platform-------------------------------------------------------------
+
+# build system library pathnames
+SYSLIBNAMES="libroot.so libbe.so libdll.a lib3DfxGlide2X.so"
+
+for i in `echo $BELIBRARIES | sed "s/;/ /g"`
+do
+	for j in $SYSLIBNAMES
+	do
+		if [ -e $i/$j ] ; then SYSLIBS="$SYSLIBS $i/$j" ; fi
+	done
+done
+
+# remove previous library before linking to avoid duplicate symbols
+rm ../lib/$LIBRARY 2>/dev/null
+
+# Other libraries which we may be dependent on.  Since we make the libraries
+# in the order libMesaGL.a, libMesaGLU.a, libMesatk.a, libMesaaux.a each
+# just depends on its predecessor.
+# (code picked up from mklib.aix)
+OTHERLIBS=`ls ../lib/*.so 2>/dev/null`
+
+mwcc -sharedlibrary -export pragma -term '' -init '' $SYSLIBS $OTHERLIBS -o $LIBRARY $OBJECTS

@@ -1,0 +1,9 @@
+
+
+It should also be noted that Simon Baas and Hans de Jong were responsible
+for porting VIS-5D to HP workstations.  Most significantly, this involved
+enhancing the VOGL library to do the 3-D rendering required by VIS-5D.
+While it is much slower than graphics done in hardware, the results look
+very nearly the same (with 24-bit color).  Rendering to an 8-bit display
+is possible but not highly recommended.
+

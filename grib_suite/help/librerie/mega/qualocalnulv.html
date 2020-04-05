@@ -1,0 +1,35 @@
+<HTML><HEAD><TITLE>
+ QUALOCALNULV
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">qualocalnulv</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/qualocalnulv.f">/disk3/patruno/lib/mega/qualocalnulv.f</A> <HR>
+<PRE>
+	SUBROUTINE QUALOCALNULV(FLAG,IATT,IER)
+
+	Routine per annullare i valori ritenuti errati in quanto hanno
+	superato nel contatore di errore quella che viene ritenuta la
+	soglia di accettabilita` del dato.
+	IATT e` questa soglia e il dato viene restituito mancante (32767)
+	se FLAG &gt;= IATT.
+
+	INPUT:
+	FLAG(46)	BYTE	contatore di errore associato alle
+				46 variabili locali
+	IATT		I*4	solglia di attendibilita` richiesta per dato
+				considerato errato (solitamente 2)
+	OUTPUT:
+	FLAG(46)	BYTE	azzerato se inizialmente uguale o superiore
+				a IATT per le 46 variabili locali
+	IER		I*4	condizione di errore
+			IER=0	tutto O.K.
+			IER=1	tipo messaggio errato
+
+	COMMON /RRW/RRW
+	RRW(89)		I*2	RRW(89) per passare i dati local come dichiarato
+				in met$inc:local.inc
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

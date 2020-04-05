@@ -1,0 +1,80 @@
+<HTML><HEAD><TITLE>
+ QUACONCLUPRE
+</TITLE></HEAD><BODY>
+<H2 ALIGN="center">quaconclupre</H2> <HR>
+ <P>
+Il sorgente si trova in: <A HREF="file:/automount/nfs/disk3/patruno/lib/mega/quaconclupre.f">/disk3/patruno/lib/mega/quaconclupre.f</A> <HR>
+<PRE>
+	SUBROUTINE QUACONCLUPRE(ICLUS,IDATI,FLAG,NUM,ISOGLIA,PERC,IER)
+
+	Questa subroutine controlla la consistenza della precipitazione
+	per stazioni che appartengano a cluster percedentementi definiti.
+	
+	Se il cluster di una stazione viene definito zero la stazione
+	non e` controllata.
+
+###############################################################################
+	NOTA BENE SOLO PER L'EMILIA ROMAGNA
+
+	CONTROLLO DI QUALITA` PER LA PRECIPITAZIONE CUMULATA IN 24 ORE
+	PER SETTARE I RELATIVI CLUSTER UTILIZZARE LA ROUTINE SET_CLUSTER.
+###############################################################################
+
+===============================================================================
+	input:
+
+	ICLUS(num)	i*4	cluster per ogni stazione
+				i cluster sono numerati da 1 a 5.
+				se cluster=0 la stazione non e` da considerare
+
+	IDATI(num)	i*4	valori di precipitazione cumulata in 24 ore
+				su ogni stazione espressa in mm/10
+
+	FLAG(num)	byte	vettore delle flag di qualita` del dato
+
+	NUM		I*4	numero delle stazioni da controllare
+
+	ISOGLIA		I*4	differenza sempre accettata tra stazioni
+				espressa in mm/10
+
+	PERC		R*4	PERCENTUALE DELLA PRECIPITAZIONE MASSIMA
+				TRA DUE STAZIONI CHE SI STANNO CONFRONTANDO
+				DA SOMMARE A ISOGLIA
+
+===============================================================================
+	output :
+
+	FLAG(num)	byte	vettore delle flag di qualita` del dato
+
+	IER		I*4	condizione di errore
+				0=tutto O.K.  (non utilizzata)
+
+===============================================================================
+	CONDIZIONE DI ERRORE
+
+	La flag e` incrementata di 1 se sono verificate le seguenti condizioni:
+
+	a) Il cluster deve contenere piu` di 3 stazioni valide
+	   il dato valido viene definito dalla function j_c_e (dato mncante)
+	   e dalla function vf (testa se flag ha superato soglia di
+	   attendibilita`)
+
+	b) la stazione in esame differisce da tutte le altre dello stesso
+	cluster di piu` di
+
+		| val1 - val2 | &gt; ISOGLIA+PERC*(MAX(val1,val2))
+
+	dove ISOGLIA e PERC sono valori in input e val1 e` il valore di
+	precipitazione nella stazione in esame, val2 il dato
+	di una stazione dello stesso cluster.
+
+	La flag viene decrementata solo nelle stazioni appartenenti ad un
+	cluster con piu` di 3 stazioni.
+	N.B.
+	(l'incremento e` effettuato solo sulla stazione anomala)
+	(stazione con precipitazione = prec maggiore di 0.)
+</PRE>
+<P>
+<A HREF="index.html">Torna all'indice</A><P>
+<A HREF="../index.html">Torna alla voce superiore</A><P>
+</BODY></HTML>

@@ -1,0 +1,271 @@
+
+
+				v5dimport
+
+
+1. Introduction
+
+The goals of the Vis5D Data Import program (v5dimport) are:
+
+    1. Convert various grid file formats to Vis5D format.
+    2. Resample data to new coordinate systems.
+    3. Combine data from multiple source files.
+    4. Catagorically select grids for resampling and output.
+
+As an example, you may use v5dimport to read 2 McIDAS GR3D files and a
+2-D McIDAS GRID file, resample all the data to a Lambert Conformal proj-
+ection, omit the CWAT and VORT variables and then write the data to a
+Vis5D file called lambert1.v5d.
+
+
+The basic order of events when using v5dimport is:
+
+    1. Read the input file(s).
+    2. Select grids for output according to timestep, physical variable,
+       map projection or vertical coordinate system.
+    3. Setup a map projection and vertical coordinate system for the
+       output file.
+    4. Write the output file, doing resampling as needed.
+    5. Optionally, start Vis5D on the output file.
+
+
+If you have any problems or questions about v5dimport contact Brian Paul
+(brianp@ssec.wisc.edu) or Bill Hibbard (whibbard@macc.wisc.edu) for help.
+
+
+
+2. Using v5dimport
+
+v5dimport has both an X-based graphical interface and a text (type-in)
+interface.  The command line syntax is:
+
+	v5dimport [-t] [-path pathname] [files]
+
+The X interface is the default.  To run v5dimport in text mode use the -t
+option.  You may specify a list if input files on the command line.
+
+Using the text interface it's possible to run v5dimport with a script by
+using your shell's import redirection feature:
+
+	v5dimport -t <script
+
+An optional directory name may be specified with the -path parameter.
+This directory is used as the default, in place of the current directory,
+for the input file browser and for making output files.
+
+The next sections describe how to use v5dimport in each mode.
+
+
+
+
+3. Using v5dimport's graphical interface
+
+3.1 Reading input files
+
+After v5dimport has started you can read input files by clicking on the
+"Read file..." button.
+
+A summary of all 3-D grids sorted by time and variable name will be shown
+in the main window.  You can scroll through the list to inspect the grids.
+The columns in this list are:
+
+	Grid - grid number (no significant meaning)
+	YYDDD - the year and date of the grid
+	HHMMSS - the time of the grid in hours, minutes, and seconds
+	Variable - the variable name
+	Nr - number of grid rows
+	Nc - number of grid columns
+	Nl - number of grid levels
+	Proj# - the projection number (see "Select by projection..." window)
+	VCS# - the vertical coordinate system number (see "Select by VCS...")
+	Filename - name of file the grid was found in
+
+
+3.2 Select grids for output
+
+It's often the case that one wants to omit certain variables or timesteps
+from the output file.  By default, all grids are selected for output.
+
+To select physical variables, click on the "Select by variable..." button.
+A window will appear in which you can click on variable names to select or
+deselect them.
+
+Similarly, you can select timesteps via the "Select by time..." button.
+
+You can also select grids according to their map projection or vertical
+coordinate system via the "Select by projection..." and "Select by VCS..."
+buttons.
+
+As you select/deselect timesteps, variables, projections, or VCSs the
+effected grids will be high-lighted/unhigh-lighted in the main grid list.
+
+The "Discard all grids" button is used to restart you v5dimport session
+with exiting and restarting.
+
+
+3.3 Define the output file
+
+v5dimport will try to find reasonable defaults for the output file's
+grid size, map projection, and vertical coordinate system but you will
+often have to change them yourself.
+
+The number of rows, columns, and levels for the output file is specified
+by the type-in fields on the main window.
+
+The map projection for the output file can be viewed and changed by clicking
+on the "Map projection..." button.  In this pop-up window you'll be able
+to choose a map projection type then enter the specific projection parameters.
+There is also a "Guess" button which will attempt to find a reasonable
+output projection given the currently selected grid list.
+
+The vertical coordinate system for the output file can be viewed and changed
+by clicking on the "Vertical Coord System..." button.  In this pop-up window
+you'll be able to choose a vertical coordinate system type and enter the
+specific parameters.  This window also has a "Guess" button to try to find
+a reasonable default.
+
+
+3.4 Make the output file
+
+Type a filename for the output file in the type-in field at the bottom of
+the main window then click on "Make".  Messages will be printed as the
+file conversion takes place.
+
+Click on the "Exit" button when you're all done.
+
+
+3.5 Visualize the output file
+
+Click on "Visualize".  This will make the file and then start up Vis5D
+on that file (i.e., you don't need to click on "Make" first).  If you
+type a filename in the type-in field, it wil use that name.  Otherwise,
+it will use your login name followed by ".v5d".
+
+If you want command line options on the Vis5D command, put them in a
+file named "vis5d_options".  For example, "-mbs 64".
+
+
+3.6 Miscellaneous
+
+An options window is available by clicking on the "Options..." button.
+
+The first item controls the "combining of co-located data".  It may be the
+case that several 3-D grids, selected for output, are co-located in space
+and time.  When computing the value to put in the output file you can either
+choose the data value from the higher resolution grid at that location, or
+take the average of all grid values at that grid location.
+
+The second item controls how grid data is compressed in the output file.
+By default, grid values are scaled down to 1-byte integers.  Alternately,
+you can scale down to 2-byte integers for better resolution, or perform no
+compression/scaling by selecting 4-byte floating point values.  This option
+respresents a tradeoff in file size and precision.
+
+
+
+
+4. Using v5dimport's text interface
+
+The text/type-in interface to v5dimport is useful when X is not available
+or when you want to run v5dimport with a script.
+
+4.1 Interactive use
+
+After you've invoked v5dimport with the -t option you'll see a >> prompt
+at which you can issue any of these commands:
+
+    exit       - exit v5dimport
+    help       - online help
+    list       - show lists of grids, timesteps, variables, map projections,
+                 or vertical coordinate systems.
+    read       - read an input file
+    keep/omit  - used to select which grids, according to timestep, variable,
+                 map projection or vcs, are to be included in or omitted from
+                 the output file.
+    info       - display parameters of output file
+    rows       - specify number of grid rows for output file
+    columns    - specify number of grid columns for output file
+    levels     - specify max number of grid levels for output file
+    projection - specify the output file's map projection
+    vertical   - specify the output file's vertical coordinate system
+    make       - make the output file
+    visualize  - make the output file and start Vis5D
+
+Using the text interface to v5dimport is similar in strategy to the graphical
+interface:
+    1. Read input files
+    2. Select grids by timestep, variable, projection, and/or VCS:
+          This is typically done by a series of list, omit, and keep
+          commands.
+    3. Set/adjust output file parameters:
+          Typically a series of info, rows, columns, levels, projection,
+          and vertical commands.
+    4. Make the output file, OR ...
+       Make the output file and start Vis5D.
+
+Use the help command to learn the exact syntax for each command.
+
+*** More details to come... ***
+
+
+4.2 Scripts
+
+You can operate v5dimport with a script using your shell's input redirection
+operator:
+
+    v5dimport -t <script [files]
+
+where "script" is an ASCII file of v5dimport commands and [files] is an
+optional list of input files.
+
+As v5dimport executes a script it prints each command and its result.
+
+Script lines which start with a # are considered comments and ignored.
+
+
+
+
+APPENDIX A:  Implementation Notes (for programmers only)
+
+Look for the comment /*** ADD NEW FORMATS HERE ***/ to see where code
+has to be added to support a new file format.
+
+
+The symbol EPA is defined on the cc command line with -DEPA only on
+systems which can read EPA files.  Currently, only Cray systems can
+read EPA files because the EPA-provided file reading functions only
+work on Cray computers.
+
+The symbol MCIDAS is defined on the cc command line with -DMCIDAS only on
+systems which can use the libmcidas.a file.  Only SGI's in 32-bit mode
+are supported now.
+
+
+The basic order of operations is:
+
+Read input files:
+    FOREACH input file DO
+	Read file header
+	FOREACH grid in the file DO
+	    Construct a grid_info struct for the grid
+	    Add the grid_info to the gridlist
+	ENDDO
+    ENDDO
+
+Build a grid table from the grid list.  The grid table is a 2-D table
+indexed by timestep and variable number which points to grid_info structs.
+
+Enter GUI loop:
+    User selects timesteps, variable, sets projection parameters, etc.
+
+Write output file:
+    Examine the grid table to determine which timesteps, variables, etc
+       are selected for output.
+    FOREACH grid selected for output DO
+        Resample the grid to the output file's coordinate system if necessary
+        write the grid to the v5d file
+    ENDDO
+
+
+
+File last modified:  September 6, 1995

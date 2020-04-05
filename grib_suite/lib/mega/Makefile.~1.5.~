@@ -1,0 +1,15 @@
+include $(USOHOME)/lib/config/make.site
+
+objects = eladata.o
+
+$(libdir)/libmega.a : $(objects)
+	ar -r $(libdir)/libmega.a $(objects) 
+
+clean : 
+	rm $(libdir)/libmega.a $(objects)
+
+dist :
+	tar cvf $(libdir)/mega.tar  *.f *.c Makefile
+
+install : $(libdir)/libmega.a
+	 install $(libdir)/libmega.a $(DESTDIR)/lib
